@@ -1,0 +1,7 @@
+referencias a iconos
+
+<a href="https://www.flaticon.es/iconos-gratis/gerente" title="gerente iconos">Gerente iconos creados por kerismaker - Flaticon</a>
+<a href="https://www.flaticon.es/iconos-gratis/paciente" title="paciente iconos">Paciente iconos creados por Freepik - Flaticon</a>
+<a href="https://www.flaticon.es/iconos-gratis/doctor-en-medicina" title="doctor en medicina iconos">Doctor en medicina iconos creados por kerismaker - Flaticon</a>
+<a href="https://www.flaticon.es/iconos-gratis/hospital" title="hospital iconos">Hospital iconos creados por kerismaker - Flaticon</a>
+<a href="https://www.flaticon.es/iconos-gratis/enfermera" title="enfermera iconos">Enfermera iconos creados por kerismaker - Flaticon</a>

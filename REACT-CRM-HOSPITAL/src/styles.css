@@ -1,0 +1,156 @@
+/* Estilos para navbar general */
+
+@font-face {
+  font-family: "OswaldFont";
+  src: url("../fonts/oswald/Oswald/Oswald-Bold.otf");
+}
+
+.navbar {
+  background-color: #293241;
+  height: 148px;
+}
+
+.navbar .img {
+  width: 110px;
+  justify-content: start;
+}
+
+.navbar .navbar-font {
+  font-family: "OswaldFont", sans-serif;
+}
+
+.navbar > .container-layout {
+  justify-content: center;
+}
+
+/* Fin Estilos para navbar general */
+
+/* Estilos para tarjetas de acceso */
+
+@font-face {
+  font-family: "MontserratFont";
+  src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf");
+}
+
+.container-cards {
+  width: 1244px;
+  margin: 32px auto;
+}
+
+.container-img {
+  width: 604px;
+  height: 339px;
+  border-radius: 25px;
+  text-align: center;
+  font-family: "MontserratFont", sans-serif;
+  box-shadow: 20px 20px 20px 6px rgba(0, 0, 0, 0.25);
+}
+
+.admins {
+  background-color: #948686;
+}
+
+.secretarias {
+  background-color: #4d70ee;
+}
+
+.doctors {
+  background-color: #ee4d4d;
+}
+
+.patients {
+  background-color: #4deeaa;
+}
+
+.container-img .img {
+  padding-top: 35px;
+  width: 185px;
+  margin: auto;
+}
+
+.container-img:hover {
+  opacity: 0.75;
+}
+
+/* Fin Estilos para tarjetas de acceso */
+
+/* Estilos para form login */
+
+.container-form-login {
+  background-color: #98c1d9;
+  width: 690px;
+  box-shadow: 20px 20px 20px 10px rgba(0, 0, 0, 0.25);
+}
+
+.container-form {
+  width: 550px;
+  margin: auto;
+}
+
+.container-form-login label {
+  font-family: "OswaldFont", sans-serif;
+}
+
+.button-login {
+  background-color: #ee6c4d;
+  width: 250px;
+  height: 80px;
+  border-radius: 10px;
+  font-family: "OswaldFont", sans-serif;
+}
+
+/* Fin Estilos para form login */
+
+/* Estilos para navbar panel */
+
+.navbar-panel {
+  height: 85px;
+}
+
+.navbar .font-panel {
+  font-family: "OswaldFont", sans-serif;
+}
+
+.navbar-panel .img-panel {
+  width: 60px;
+  justify-content: start;
+}
+
+/* Fin Estilos para navbar panel */
+
+/* Estilos sidebar */
+/* 
+.sidebar {
+  width: 300px;
+} */
+
+.container-panel .font-panel {
+  font-family: "OswaldFont", sans-serif;
+}
+
+.container-panel .img-panel {
+  width: 110px;
+  margin: auto;
+}
+
+.side-navbar {
+  background-color: #3d5a80;
+  /* height: 100vh; */
+}
+
+/* .side-navbar a {
+  color: white;
+} */
+
+.font-panel-sidebar {
+  font-family: "Montserrat", sans-serif;
+}
+
+.side-navbar-options a:hover {
+  background-color: #e0fbfc;
+}
+
+.option-selected {
+  background-color: #e0fbfc;
+}
+/* Fin Estilos sidebar */
