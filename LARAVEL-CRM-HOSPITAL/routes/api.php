@@ -39,7 +39,7 @@ Route::delete('/hospital_information/${id}', [HospitalInformationController::cla
 Route::get('/medical_speciality_information', [MedicalSpecialityInformationController::class, 'index']);
 Route::post('/medical_speciality_information', [MedicalSpecialityInformationController::class, 'store']);
 Route::put('/medical_speciality_information/${id}', [MedicalSpecialityInformationController::class, 'update']);
-Route::delet('/medical_speciality_information/${id}', [MedicalSpecialityInformationController::class, 'destroy']);
+Route::delete('/medical_speciality_information/${id}', [MedicalSpecialityInformationController::class, 'destroy']);
 
 Route::get('/appointment_information', [AppointmentInformationController::class, 'index']);
 Route::post('/appointment_information', [AppointmentInformationController::class, 'store']);
