@@ -142,7 +142,8 @@
   color: white;
 } */
 
-.font-panel-sidebar {
+.font-panel-sidebar,
+.info-container {
   font-family: "Montserrat", sans-serif;
 }
 
@@ -154,3 +155,9 @@
   background-color: #e0fbfc;
 }
 /* Fin Estilos sidebar */
+
+/*Estilos Container Info Citas CRM Pacientes */
+
+.container-info-citas {
+  max-height: 89vh;
+}

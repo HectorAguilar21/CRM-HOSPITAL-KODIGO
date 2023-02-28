@@ -6,7 +6,7 @@ export default function InicioLayout() {
 
   return (
     <div className="md:flex md:min-h-screen">
-      <aside className="side-navbar md:w-1/6">
+      <aside className="side-navbar w-2/6">
         <div className="container container-panel">
           <Link className="navbar-brand flex justify-center py-3" to="/">
             <img
@@ -68,7 +68,7 @@ export default function InicioLayout() {
           </div>
         </nav>
       </aside>
-      <main className="mx-auto w-2/3">
+      <main className="mx-10 w5/6 w-full">
         <Outlet />
       </main>
     </div>
