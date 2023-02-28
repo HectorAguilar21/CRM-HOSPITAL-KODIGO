@@ -41,7 +41,7 @@ export default function SecretaryRegisterPanel() {
 
   return (
     <div className="">
-      <div className="bg-white shadow-xl rounded-md mt-10 px-5 py-10">
+      <div className="bg-white shadow-xl rounded-md mt-10 px-5 py-10 mx-20">
         <h1 className="text-4xl font-black text-center mb-10">
           Añade nueva Secretaria
         </h1>
@@ -183,6 +183,44 @@ export default function SecretaryRegisterPanel() {
             className="button-login text-3xl text-center text-white mt-4 font-bold cursor-pointer"
           />
         </form>
+      </div>
+      <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
+        <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
+          Secretarias:
+        </h1>
+        <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
+          <table class="table text-center align-middle">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Hospital</th>
+                <th colSpan="2">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <tr>
+                <th scope="row">1</th>
+                <td>Secretaria Name</td>
+                <td>Secretaria Correo</td>
+                <td>Secretaria Usuario</td>
+                <td>Secretaria hospital</td>
+                <td>
+                  <button type="button" class="btn btn-primary bg-indigo-500">
+                    Editar
+                  </button>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-primary bg-indigo-500">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

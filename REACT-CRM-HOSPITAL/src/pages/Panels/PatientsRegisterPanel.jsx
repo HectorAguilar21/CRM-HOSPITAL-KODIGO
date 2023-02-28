@@ -55,7 +55,7 @@ export default function PatientsRegisterPanel() {
 
   return (
     <div className="">
-      <div className="bg-white shadow-xl rounded-md mt-10 px-5 py-10">
+      <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
         <h1 className="text-4xl font-black text-center mb-10">
           Añade nuevo Paciente
         </h1>
@@ -335,6 +335,139 @@ export default function PatientsRegisterPanel() {
             className="button-login text-3xl text-center text-white mt-4 font-bold cursor-pointer"
           />
         </form>
+      </div>
+      <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
+        <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
+          Pacientes:
+        </h1>
+        <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
+          <table class="table text-center align-middle">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Usuario</th>
+
+                <th colSpan="3">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <tr>
+                <th scope="row">1</th>
+                <td>Paciente Name</td>
+                <td>Paciente Correo</td>
+                <td>Paciente Usuario</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-primary bg-indigo-500"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoPersonalDoctor"
+                  >
+                    Ver mas
+                  </button>
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+                    <div
+                      class="modal fade"
+                      id="infoPersonalDoctor"
+                      data-bs-backdrop="static"
+                      data-bs-keyboard="false"
+                      tabindex="-1"
+                      aria-labelledby="staticBackdropLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1
+                              class="modal-title fs-5 font-bold text-indigo-700"
+                              id="staticBackdropLabel"
+                            >
+                              Informacion Paciente (Nombre)
+                            </h1>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <div className="py-2">
+                              <p className="font-normal text-indigo-700 text-lg">
+                                Numero de Telefono:
+                              </p>
+                              <p className="text-2xl">76360002</p>
+                            </div>{" "}
+                            <div className="py-2">
+                              <p className="font-normal text-indigo-700 text-lg">
+                                Contacto de Emergencia:
+                              </p>
+                              <p className="text-2xl">454351651</p>
+                            </div>{" "}
+                            <div className="py-2">
+                              <p className="font-normal text-indigo-700 text-lg">
+                                Fecha de Nacimiento:
+                              </p>
+                              <p className="text-2xl">1997-08-23</p>
+                            </div>{" "}
+                            <div className="py-2">
+                              <p className="font-normal text-indigo-700 text-lg">
+                                Direccion de Residencia:
+                              </p>
+                              <p className="text-2xl">
+                                calle principal a Radio Vea, pasaje 1 Poligono A
+                                casa #2
+                              </p>
+                            </div>{" "}
+                            <div className="py-2">
+                              <p className="font-normal text-indigo-700 text-lg">
+                                Ciudad:
+                              </p>
+                              <p className="text-2xl">San Martin</p>
+                            </div>{" "}
+                            <div className="py-2">
+                              <p className="font-normal text-indigo-700 text-lg">
+                                Departamento:
+                              </p>
+                              <p className="text-2xl">San Salvador</p>
+                            </div>{" "}
+                            <div className="py-2">
+                              <p className="font-normal text-indigo-700 text-lg">
+                                Pais:
+                              </p>
+                              <p className="text-2xl">El Salvador</p>
+                            </div>{" "}
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-primary bg-indigo-500"
+                              data-bs-dismiss="modal"
+                            >
+                              Cerrar
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-primary bg-indigo-500">
+                    Editar
+                  </button>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-primary bg-indigo-500">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ export default function SpecialtiesPanel() {
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
                   <div
                     class="modal fade"
-                    id="infoDoctorea"
+                    id="infoDoctores"
                     data-bs-backdrop="static"
                     data-bs-keyboard="false"
                     tabindex="-1"

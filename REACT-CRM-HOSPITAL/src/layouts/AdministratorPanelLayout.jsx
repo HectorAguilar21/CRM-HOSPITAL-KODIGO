@@ -7,7 +7,7 @@ export default function AdministratorPanelLayout() {
 
   return (
     <div className="md:flex md:min-h-screen">
-      <aside className="side-navbar md:w-1/6">
+      <aside className="side-navbar md:w-1/5">
         <div className="container container-panel">
           <Link
             className="navbar-brand flex justify-center py-3"
@@ -28,7 +28,7 @@ export default function AdministratorPanelLayout() {
         </div>
         <hr />
         <nav className="side-navbar-options pt-4">
-          <div className="grid grid-cols-1 pb-96">
+          <div className="grid grid-cols-1">
             <Link
               className={`${
                 location.pathname === "/administrator/general_panel"
@@ -109,31 +109,10 @@ export default function AdministratorPanelLayout() {
             >
               Panel Especialidades
             </Link>
-            <Link
-              className={`${
-                location.pathname ===
-                "/administrator/appointment_register_panel"
-                  ? "text-black font-panel-sidebar option-selected"
-                  : "text-white font-panel-sidebar"
-              } text-2xl py-2 pl-4`}
-              to="/administrator/appointment_register_panel"
-            >
-              Panel Registro Citas
-            </Link>
-            <Link
-              className={`${
-                location.pathname === "/administrator/appoinment_comments_panel"
-                  ? "text-black font-panel-sidebar option-selected"
-                  : "text-white font-panel-sidebar"
-              } text-2xl py-2 pl-4`}
-              to="/administrator/appoinment_comments_panel"
-            >
-              Panel Registro Comentarios Citas
-            </Link>
           </div>
         </nav>
       </aside>
-      <main className="mx-auto w-2/3">
+      <main className="mx-auto w-full max-h-screen overflow-auto">
         <Outlet />
       </main>
     </div>

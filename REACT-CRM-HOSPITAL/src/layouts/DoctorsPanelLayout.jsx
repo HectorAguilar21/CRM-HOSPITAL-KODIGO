@@ -8,7 +8,7 @@ export default function DoctorsPanelLayout() {
 
   return (
     <div className="md:flex md:min-h-screen">
-      <aside className="side-navbar md:w-1/6">
+      <aside className="side-navbar md:w-1/5">
         <div className="container container-panel">
           <Link className="navbar-brand flex justify-center py-3" to="/doctor">
             <img
@@ -39,6 +39,16 @@ export default function DoctorsPanelLayout() {
             </Link>
             <Link
               className={`${
+                location.pathname === "/doctor/doctors_panel"
+                  ? "text-black font-panel-sidebar option-selected"
+                  : "text-white font-panel-sidebar"
+              } text-2xl py-2 pl-4`}
+              to="/doctor/doctors_panel"
+            >
+              Doctores
+            </Link>
+            <Link
+              className={`${
                 location.pathname === "/doctor/patients_panel"
                   ? "text-black font-panel-sidebar option-selected"
                   : "text-white font-panel-sidebar"
@@ -59,28 +69,28 @@ export default function DoctorsPanelLayout() {
             </Link>
             <Link
               className={`${
-                location.pathname === "/doctor/appointment_register_panel"
+                location.pathname === "/doctor/hospital_panel"
                   ? "text-black font-panel-sidebar option-selected"
                   : "text-white font-panel-sidebar"
               } text-2xl py-2 pl-4`}
-              to="/doctor/appointment_register_panel"
+              to="/doctor/hospital_panel"
             >
-              Panel Registro Citas
+              Panel Hospitales
             </Link>
             <Link
               className={`${
-                location.pathname === "/doctor/appoinment_comments_panel"
+                location.pathname === "/doctor/specialties_panel"
                   ? "text-black font-panel-sidebar option-selected"
                   : "text-white font-panel-sidebar"
               } text-2xl py-2 pl-4`}
-              to="/doctor/appoinment_comments_panel"
+              to="/doctor/specialties_panel"
             >
-              Panel Registro Comentarios Citas
+              Panel Especialidades
             </Link>
           </div>
         </nav>
       </aside>
-      <main className="mx-auto w-2/3">
+      <main className="mx-auto w-full max-h-screen overflow-auto">
         <Outlet />
       </main>
     </div>

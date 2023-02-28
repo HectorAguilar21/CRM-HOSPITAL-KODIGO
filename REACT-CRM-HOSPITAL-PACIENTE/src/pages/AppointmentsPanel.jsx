@@ -122,7 +122,7 @@ export default function AppointmentsPanel() {
                             class="modal-title fs-5 font-bold text-indigo-700"
                             id="staticBackdropLabel"
                           >
-                            Informcacion de la cita
+                            Informacion de la cita
                           </h1>
                           <button
                             type="button"

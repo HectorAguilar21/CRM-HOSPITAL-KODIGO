@@ -14,8 +14,7 @@ import SecretaryRegisterPanel from "./pages/Panels/SecretaryRegisterPanel";
 import AppointmentsPanel from "./pages/Panels/AppointmentsPanel";
 import HospitalRegisterPanel from "./pages/Panels/HospitalsRegisterPanel";
 import SpecialtiesRegisterPanel from "./pages/Panels/SpecialtiesRegisterPanel";
-import AppointmentRegisterPanel from "./pages/Panels/AppointmentRegisterPanel";
-import AppointmentCommentRegisterPanel from "./pages/Panels/AppointmentCommentRegisterPanel";
+import AppointmentCommentRegisterModal from "./pages/Panels/AppointmentCommentRegisterModal";
 
 import Inicio from "./views/Inicio";
 import Login from "./views/Login";
@@ -91,14 +90,6 @@ const router = createBrowserRouter([
         path: "/administrator/specialties_panel",
         element: <SpecialtiesRegisterPanel />,
       },
-      {
-        path: "/administrator/appointment_register_panel",
-        element: <AppointmentRegisterPanel />,
-      },
-      {
-        path: "/administrator/appoinment_comments_panel",
-        element: <AppointmentCommentRegisterPanel />,
-      },
     ],
   },
   //endopoint para la pagina principal del rol doctor
@@ -116,6 +107,10 @@ const router = createBrowserRouter([
         element: <GeneralPanel />,
       },
       {
+        path: "/doctor/doctors_panel",
+        element: <DoctorsRegisterPanel />,
+      },
+      {
         path: "/doctor/patients_panel",
         element: <PatientsRegisterPanel />,
       },
@@ -124,12 +119,12 @@ const router = createBrowserRouter([
         element: <AppointmentsPanel />,
       },
       {
-        path: "/doctor/appointment_register_panel",
-        element: <AppointmentRegisterPanel />,
+        path: "/doctor/hospital_panel",
+        element: <HospitalRegisterPanel />,
       },
       {
-        path: "/doctor/appoinment_comments_panel",
-        element: <AppointmentCommentRegisterPanel />,
+        path: "/doctor/specialties_panel",
+        element: <SpecialtiesRegisterPanel />,
       },
     ],
   },
@@ -148,6 +143,10 @@ const router = createBrowserRouter([
         element: <GeneralPanel />,
       },
       {
+        path: "/secretary/doctors_panel",
+        element: <DoctorsRegisterPanel />,
+      },
+      {
         path: "/secretary/patients_panel",
         element: <PatientsRegisterPanel />,
       },
@@ -156,12 +155,12 @@ const router = createBrowserRouter([
         element: <AppointmentsPanel />,
       },
       {
-        path: "/secretary/appointment_register_panel",
-        element: <AppointmentRegisterPanel />,
+        path: "/secretary/hospital_panel",
+        element: <HospitalRegisterPanel />,
       },
       {
-        path: "/secretary/appoinment_comments_panel",
-        element: <AppointmentCommentRegisterPanel />,
+        path: "/secretary/specialties_panel",
+        element: <SpecialtiesRegisterPanel />,
       },
     ],
   },

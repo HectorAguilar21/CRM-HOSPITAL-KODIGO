@@ -8,7 +8,7 @@ export default function SecretaryPanelLayout() {
 
   return (
     <div className="md:flex md:min-h-screen">
-      <aside className="side-navbar md:w-1/6">
+      <aside className="side-navbar md:w-1/5">
         <div className="container container-panel">
           <Link
             className="navbar-brand flex justify-center py-3"
@@ -42,6 +42,16 @@ export default function SecretaryPanelLayout() {
             </Link>
             <Link
               className={`${
+                location.pathname === "/secretary/doctors_panel"
+                  ? "text-black font-panel-sidebar option-selected"
+                  : "text-white font-panel-sidebar"
+              } text-2xl py-2 pl-4`}
+              to="/secretary/doctors_panel"
+            >
+              Doctores
+            </Link>
+            <Link
+              className={`${
                 location.pathname === "/secretary/patients_panel"
                   ? "text-black font-panel-sidebar option-selected"
                   : "text-white font-panel-sidebar"
@@ -62,28 +72,28 @@ export default function SecretaryPanelLayout() {
             </Link>
             <Link
               className={`${
-                location.pathname === "/secretary/appointment_register_panel"
+                location.pathname === "/secretary/hospital_panel"
                   ? "text-black font-panel-sidebar option-selected"
                   : "text-white font-panel-sidebar"
               } text-2xl py-2 pl-4`}
-              to="/secretary/appointment_register_panel"
+              to="/secretary/hospital_panel"
             >
-              Panel Registro Citas
+              Panel Hospitales
             </Link>
             <Link
               className={`${
-                location.pathname === "/secretary/appoinment_comments_panel"
+                location.pathname === "/secretary/specialties_panel"
                   ? "text-black font-panel-sidebar option-selected"
                   : "text-white font-panel-sidebar"
               } text-2xl py-2 pl-4`}
-              to="/secretary/appoinment_comments_panel"
+              to="/secretary/specialties_panel"
             >
-              Panel Registro Comentarios Citas
+              Panel Especialidades
             </Link>
           </div>
         </nav>
       </aside>
-      <main className="mx-auto w-2/3">
+      <main className="mx-auto w-full max-h-screen overflow-auto">
         <Outlet />
       </main>
     </div>
