@@ -5,13 +5,11 @@ export default function AppointmentsResultsTable(props) {
     <tr>
       {/* Informacion la tabla */}
       <th scope="row">{props.appointment.id}</th>
-      <td>{props.appointment.appointment_doctor_id}</td>
-      <td>{props.appointment.appointment_speciality_id}</td>
-      <td>{props.appointment.appointment_hospital_id}</td>
-      <td>{props.appointment.appointment_patient_id}</td>
-      <td>{props.appointment.appointment_date}</td>
-      <td>{props.appointment.appointment_hour}</td>
-      <td>{props.appointment.appointment_status}</td>
+      <td>{props.appointment.doctor.name}</td>
+      <td>{props.appointment.speciality.speciality_name}</td>
+      <td>{props.appointment.hospital.hospital_name}</td>
+      <td>{props.appointment.patient.name}</td>
+      <td>{props.appointment.status.status_type_name}</td>
       <td>
         <button type="button" class="btn btn-primary bg-indigo-500">
           Editar Estado

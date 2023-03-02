@@ -19,4 +19,25 @@ class AppointmentInformation extends Model
         'appointment_description',
         'appointment_status'
     ];
+
+    public function doctor()
+    {
+        return $this->belongsTo(DoctorInformation::class, 'appointment_doctor_id');
+    }
+    public function speciality()
+    {
+        return $this->belongsTo(MedicalSpecialityInformation::class, 'appointment_speciality_id');
+    }
+    public function hospital()
+    {
+        return $this->belongsTo(HospitalInformation::class, 'appointment_hospital_id');
+    }
+    public function patient()
+    {
+        return $this->belongsTo(PatientInformation::class, 'appointment_patient_id');
+    }
+    public function status()
+    {
+        return $this->belongsTo(StatusTypeInformation::class, 'appointment_status');
+    }
 }

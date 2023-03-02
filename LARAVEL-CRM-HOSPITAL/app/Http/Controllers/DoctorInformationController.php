@@ -10,7 +10,8 @@ class DoctorInformationController extends Controller
     //Recuperando informacion de DoctorInformation
     public function index()
     {
-        $doctor = DoctorInformation::all();
+        // $doctor = DoctorInformation::all();
+        $doctor = DoctorInformation::with(['hospital', 'speciality'])->get();
         return response()->json($doctor);
     }
 

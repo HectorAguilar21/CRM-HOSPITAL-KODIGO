@@ -1,0 +1,537 @@
+Especialidades:
+
+DB::table('medical_specialties')->insert([
+            'specialty_id' => 'OFT',
+            'specialty_name' => 'Oftalmologia',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('medical_specialties')->insert([
+            'specialty_id' => 'NEU',
+            'specialty_name' => 'Neurologia',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('medical_specialties')->insert([
+            'specialty_id' => 'PED',
+            'specialty_name' => 'Pediatria',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('medical_specialties')->insert([
+            'specialty_id' => 'CAR',
+            'specialty_name' => 'Cardiologia',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('medical_specialties')->insert([
+            'specialty_id' => 'NEF',
+            'specialty_name' => 'Nefrologia',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('medical_specialties')->insert([
+            'specialty_id' => 'END',
+            'specialty_name' => 'Endocrinologia',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('medical_specialties')->insert([
+            'specialty_id' => 'ORT',
+            'specialty_name' => 'Ortopedia',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('medical_specialties')->insert([
+            'specialty_id' => 'PSI',
+            'specialty_name' => 'Psiquiatria',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('medical_specialties')->insert([
+            'specialty_id' => 'GAS',
+            'specialty_name' => 'Gastroenterologia',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('medical_specialties')->insert([
+            'specialty_id' => 'URO',
+            'specialty_name' => 'Urologia',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('medical_specialties')->insert([
+            'specialty_id' => 'GIN',
+            'specialty_name' => 'Ginecologia',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('medical_specialties')->insert([
+            'specialty_id' => 'NUT',
+            'specialty_name' => 'Nutricion',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+Doctores:
+
+DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'AMLG',
+            'doctor_name' => 'Ana María',
+            'doctor_last_name' => 'López García',
+            'doctor_specialty_id' => 1,
+            'doctor_hospital_id' => 1,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'CAPS',
+            'doctor_name' => 'Carlos Andrés',
+            'doctor_last_name' => 'Pérez Sánchez',
+            'doctor_specialty_id' => 1,
+            'doctor_hospital_id' => 1,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'SARM',
+            'doctor_name' => 'Sofía Alejandra',
+            'doctor_last_name' => 'Ramírez Martínez',
+            'doctor_specialty_id' => 2,
+            'doctor_hospital_id' => 1,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'JMGT',
+            'doctor_name' => 'Juan Manuel',
+            'doctor_last_name' => 'González Torres',
+            'doctor_specialty_id' => 2,
+            'doctor_hospital_id' => 1,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'NPRM',
+            'doctor_name' => 'Natalia Paola',
+            'doctor_last_name' => 'Rodríguez Medina',
+            'doctor_specialty_id' => 3,
+            'doctor_hospital_id' => 2,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'LFJV',
+            'doctor_name' => 'Luis Fernando',
+            'doctor_last_name' => 'Jiménez Vargas',
+            'doctor_specialty_id' => 3,
+            'doctor_hospital_id' => 2,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'VACG',
+            'doctor_name' => 'Verónica Andrea',
+            'doctor_last_name' => 'Castro Gómez',
+            'doctor_specialty_id' => 4,
+            'doctor_hospital_id' => 2,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'SARH',
+            'doctor_name' => 'Santiago Antonio',
+            'doctor_last_name' => 'Reyes Hernández',
+            'doctor_specialty_id' => 4,
+            'doctor_hospital_id' => 2,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'CVAR',
+            'doctor_name' => 'Camila Valentina',
+            'doctor_last_name' => 'Álvarez Ríos',
+            'doctor_specialty_id' => 5,
+            'doctor_hospital_id' => 3,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'EJOM',
+            'doctor_name' => 'Eduardo José',
+            'doctor_last_name' => 'Ortiz Mendoza',
+            'doctor_specialty_id' => 5,
+            'doctor_hospital_id' => 3,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'ACFV',
+            'doctor_name' => 'Andrea Carolina',
+            'doctor_last_name' => 'Franco Villa',
+            'doctor_specialty_id' => 6,
+            'doctor_hospital_id' => 3,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'GAPT',
+            'doctor_name' => 'Gabriel Alejandro',
+            'doctor_last_name' => 'Pineda Montes',
+            'doctor_specialty_id' => 6,
+            'doctor_hospital_id' => 3,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'PAGR',
+            'doctor_name' => 'Paula Andrea',
+            'doctor_last_name' => 'González Rojas',
+            'doctor_specialty_id' => 7,
+            'doctor_hospital_id' => 4,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'DFNG',
+            'doctor_name' => 'David Felipe',
+            'doctor_last_name' => 'Núñez Guerrero',
+            'doctor_specialty_id' => 7,
+            'doctor_hospital_id' => 4,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'MIDG',
+            'doctor_name' => 'Marcela Isabel',
+            'doctor_last_name' => 'Duarte González',
+            'doctor_specialty_id' => 8,
+            'doctor_hospital_id' => 4,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'OMRM',
+            'doctor_name' => 'Oscar Mauricio',
+            'doctor_last_name' => 'Ramírez Morales',
+            'doctor_specialty_id' => 8,
+            'doctor_hospital_id' => 4,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'LDAR',
+            'doctor_name' => 'Laura Daniela',
+            'doctor_last_name' => 'Aguilar Rivas',
+            'doctor_specialty_id' => 9,
+            'doctor_hospital_id' => 5,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'LEMG',
+            'doctor_name' => 'Luis Eduardo',
+            'doctor_last_name' => 'Montoya García',
+            'doctor_specialty_id' => 9,
+            'doctor_hospital_id' => 5,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'ALVQ',
+            'doctor_name' => 'Ana Lucía',
+            'doctor_last_name' => 'Vargas Quintero',
+            'doctor_specialty_id' => 10,
+            'doctor_hospital_id' => 5,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'AJSC',
+            'doctor_name' => 'Antonio José',
+            'doctor_last_name' => 'Salazar Cruz',
+            'doctor_specialty_id' => 10,
+            'doctor_hospital_id' => 5,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'CAVS',
+            'doctor_name' => 'Carolina Alejandra',
+            'doctor_last_name' => 'Valencia Suárez',
+            'doctor_specialty_id' => 11,
+            'doctor_hospital_id' => 6,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'JADC',
+            'doctor_name' => 'Javier Alejandro',
+            'doctor_last_name' => 'Durán Contreras',
+            'doctor_specialty_id' => 11,
+            'doctor_hospital_id' => 6,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'VIPG',
+            'doctor_name' => 'Valentina Isabel',
+            'doctor_last_name' => 'Palacio Gómez',
+            'doctor_specialty_id' => 12,
+            'doctor_hospital_id' => 6,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('doctors_credencials')->insert([
+            'role_id' => 2,
+            'doctor_id' => 'DARO',
+            'doctor_name' => 'Diego Alejandro',
+            'doctor_last_name' => 'Rueda Ortiz',
+            'doctor_specialty_id' => 12,
+            'doctor_hospital_id' => 6,
+            'doctor_email' => '',
+            'doctor_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+Hospitales:
+
+DB::table('hospitals')->insert([
+            'hospital_id' => 'HNZ',
+            'hospital_name' => 'Hospital Nacional "Dr. Juan José Fernández", Zacamil',
+            'address' => 'Calle la Ermita y Avenida Castro Moran, Urbanización José Simeón Cañas, Colonia Zacamil',
+            'location_city' => 'Mejicanos',
+            'department' => 'San Salvador',
+            'country' => 'El Salvador',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('hospitals')->insert([
+            'hospital_id' => 'HNNBB',
+            'hospital_name' => 'Hospital Nacional Especializado de Niños "Benjamín Bloom"',
+            'address' => 'Final 25 Avenida Norte y Final 29 Calle Poniente',
+            'location_city' => 'San Salvador',
+            'department' => 'San Salvador',
+            'country' => 'El Salvador',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('hospitals')->insert([
+            'hospital_id' => 'HNSB',
+            'hospital_name' => ' Hospital Nacional General "Enfermera Angélica Vidal de Najarro", San Bartolo',
+            'address' => 'Centro Urbano San Bartolo Septima Etapa, Boulevard San Bartolo y Calle Meléndez, Contiguo a Zona Franca, San Bartolo',
+            'location_city' => 'Ilopango',
+            'department' => 'San Salvador',
+            'country' => 'El Salvador',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('hospitals')->insert([
+            'hospital_id' => 'HNSR',
+            'hospital_name' => 'Hospital Nacional General "San Rafael", La Libertad',
+            'address' => 'Final 4° Calle Oriente 9-2 ',
+            'location_city' => 'Santa Tecla',
+            'department' => 'La Libertad',
+            'country' => 'El Salvador',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('hospitals')->insert([
+            'hospital_id' => 'HNSJDSA',
+            'hospital_name' => 'Hospital Nacional Regional "San Juan de Dios", Santa Ana',
+            'address' => 'Final 13 avenida sur, No. 1',
+            'location_city' => 'Santa Ana',
+            'department' => 'Santa Ana',
+            'country' => 'El Salvador',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('hospitals')->insert([
+            'hospital_id' => 'HNNSFC',
+            'hospital_name' => 'Hospital Nacional "Nuestra Señora de Fátima" de Cojutepeque.',
+            'address' => 'Bo. El Calvario, km.33 Antigua Carretera Panamericana',
+            'location_city' => 'Cojutepeque',
+            'department' => 'Cuscatlan',
+            'country' => 'El Salvador',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+Secretarias:
+
+        DB::table('general_credencials')->insert([
+            'role_id' => 4,
+            'general_id' => 'DESA',
+            'general_name' => 'Daniel Esteban',
+            'general_last_name' => 'Sánchez Alzate',
+            'general_email' => "",
+            'general_password' => "",
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('general_credencials')->insert([
+            'role_id' => 4,
+            'general_id' => 'ACMV',
+            'general_name' => 'Adriana Camila',
+            'general_last_name' => 'Mendoza Velasco',
+            'general_email' => "",
+            'general_password' => "",
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+Administradores:
+
+        DB::table('administrators_credencials')->insert([
+            'role_id' => 1,
+            'admin_id' => 'MITA',
+            'admin_name' => 'Mariana Isabel',
+            'admin_last_name' => 'Torres Alvarado',
+            'admin_email' => '',
+            'admin_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('administrators_credencials')->insert([
+            'role_id' => 1,
+            'admin_id' => 'SAVM',
+            'admin_name' => 'Sebastián Alejandro',
+            'admin_last_name' => 'Vega Montenegro',
+            'admin_email' => '',
+            'admin_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('administrators_credencials')->insert([
+            'role_id' => 1,
+            'admin_id' => 'LGSC',
+            'admin_name' => 'Lucía Gabriela',
+            'admin_last_name' => 'Soto Cárdenas',
+            'admin_email' => '',
+            'admin_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('administrators_credencials')->insert([
+            'role_id' => 1,
+            'admin_id' => 'MAGO',
+            'admin_name' => 'Manuel Antonio',
+            'admin_last_name' => 'Gómez Ortega',
+            'admin_email' => '',
+            'admin_password' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);

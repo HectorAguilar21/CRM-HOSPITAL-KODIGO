@@ -240,11 +240,11 @@ export default function AdministratorsRegisterPanel() {
             <tbody className="table-group-divider">
               {administrators.map((administrator) => (
                 <tr key={administrator.id}>
-                  <th scope="row">{administrator.id}</th>
+                  <th scope="row">{administrator.user_id}</th>
                   <td>{`${administrator.name} ${administrator.last_name}`}</td>
                   <td>{administrator.email}</td>
                   <td>{administrator.user}</td>
-                  <td>{administrator.hospital_id}</td>
+                  <td>{administrator.hospital.hospital_name}</td>
                   <td>
                     <button
                       type="button"

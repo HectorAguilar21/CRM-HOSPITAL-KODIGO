@@ -46,4 +46,14 @@ class DoctorInformation extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function hospital()
+    {
+        return $this->belongsTo(HospitalInformation::class);
+    }
+
+    public function speciality()
+    {
+        return $this->belongsTo(MedicalSpecialityInformation::class);
+    }
 }

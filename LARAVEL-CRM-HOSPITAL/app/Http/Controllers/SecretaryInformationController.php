@@ -10,7 +10,8 @@ class SecretaryInformationController extends Controller
     //Recuperando informacion de SecretaryInformation
     public function index()
     {
-        $secretary = SecretaryInformation::all();
+        // $secretary = SecretaryInformation::all();
+        $secretary = SecretaryInformation::with(['hospital'])->get();
         return response()->json($secretary);
     }
 

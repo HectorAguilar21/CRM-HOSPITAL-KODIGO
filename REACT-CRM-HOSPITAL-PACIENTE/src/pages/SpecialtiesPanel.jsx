@@ -1,6 +1,27 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 export default function SpecialtiesPanel() {
+  //States para guardar los datos de "obtenerEspecialidades" Axios
+  const [specialities, setSpecialities] = useState([]);
+
+  //Funcion para solicitar la info a la API
+  const obtenerEspecialidades = async () => {
+    try {
+      const { data } = await axios(
+        "http://localhost:8000/api/medical_speciality_information"
+      );
+      setSpecialities(data);
+    } catch (error) {
+      console.log(Object.values(error.response.data.errors));
+    }
+  };
+
+  //useEffect para ejecutar al menos una vez la solicitud a la API, cada vez que se visita la pagina
+  useEffect(() => {
+    obtenerEspecialidades();
+  }, []);
+
   return (
     <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto">
       <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
@@ -25,134 +46,137 @@ export default function SpecialtiesPanel() {
             </tr>
           </thead>
           <tbody class="table-group-divider">
-            <tr>
-              <th scope="row">HNSB</th>
-              <td>Nefrologia</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary bg-indigo-500"
-                  data-bs-toggle="modal"
-                  data-bs-target="#infoDoctores"
-                >
-                  Listado Doctores
-                </button>
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-                  <div
-                    class="modal fade"
-                    id="infoDoctores"
-                    data-bs-backdrop="static"
-                    data-bs-keyboard="false"
-                    tabindex="-1"
-                    aria-labelledby="infoDoctores"
-                    aria-hidden="true"
+            {specialities.map((specialities) => (
+              <tr>
+                <th scope="row">{specialities.speciality_id}</th>
+                <td>{specialities.speciality_name}</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-primary bg-indigo-500"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoDoctores"
                   >
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h1
-                            class="modal-title fs-5 font-bold text-indigo-700"
-                            id="infoDoctores"
-                          >
-                            Doctores Disponibles
-                          </h1>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div class="modal-body">
-                          <div className="py-2">
-                            <p className="font-normal text-indigo-700 text-lg">
-                              Doctores disponibles para esta especialidad
-                            </p>
-                            <p className="text-2xl py-3">
-                              <ul>
-                                <li>Doctor uno</li>
-                                <li>Doctor dos</li>
-                              </ul>
-                            </p>
+                    Listado Doctores
+                  </button>
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+                    <div
+                      class="modal fade"
+                      id="infoDoctores"
+                      data-bs-backdrop="static"
+                      data-bs-keyboard="false"
+                      tabindex="-1"
+                      aria-labelledby="infoDoctores"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1
+                              class="modal-title fs-5 font-bold text-indigo-700"
+                              id="infoDoctores"
+                            >
+                              Doctores Disponibles
+                            </h1>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
                           </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-primary bg-indigo-500"
-                            data-bs-dismiss="modal"
-                          >
-                            Cerrar
-                          </button>
+                          <div class="modal-body">
+                            <div className="py-2">
+                              <p className="font-normal text-indigo-700 text-lg">
+                                Doctores disponibles para esta especialidad
+                              </p>
+                              <p className="text-2xl py-3">
+                                <ul>
+                                  <li>Doctor uno</li>
+                                  <li>Doctor dos</li>
+                                </ul>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-primary bg-indigo-500"
+                              data-bs-dismiss="modal"
+                            >
+                              Cerrar
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary bg-indigo-500"
-                  data-bs-toggle="modal"
-                  data-bs-target="#infoHospitals"
-                >
-                  Listado Hospitales
-                </button>
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-                  <div
-                    class="modal fade"
-                    id="infoHospitals"
-                    data-bs-backdrop="static"
-                    data-bs-keyboard="false"
-                    tabindex="-1"
-                    aria-labelledby="infoHospitals"
-                    aria-hidden="true"
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-primary bg-indigo-500"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoHospitals"
                   >
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h1
-                            class="modal-title fs-5 font-bold text-indigo-700"
-                            id="infoHospitals"
-                          >
-                            Hospitales Disponibles
-                          </h1>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div class="modal-body">
-                          <div className="py-2">
-                            <p className="font-normal text-indigo-700 text-lg">
-                              Hospitales que tienen la especialidad disponible:
-                            </p>
-                            <p className="text-2xl py-3">
-                              <ul>
-                                <li>Hospital uno</li>
-                                <li>Hospital dos</li>
-                              </ul>
-                            </p>
+                    Listado Hospitales
+                  </button>
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+                    <div
+                      class="modal fade"
+                      id="infoHospitals"
+                      data-bs-backdrop="static"
+                      data-bs-keyboard="false"
+                      tabindex="-1"
+                      aria-labelledby="infoHospitals"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1
+                              class="modal-title fs-5 font-bold text-indigo-700"
+                              id="infoHospitals"
+                            >
+                              Hospitales Disponibles
+                            </h1>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
                           </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-primary bg-indigo-500"
-                            data-bs-dismiss="modal"
-                          >
-                            Cerrar
-                          </button>
+                          <div class="modal-body">
+                            <div className="py-2">
+                              <p className="font-normal text-indigo-700 text-lg">
+                                Hospitales que tienen la especialidad
+                                disponible:
+                              </p>
+                              <p className="text-2xl py-3">
+                                <ul>
+                                  <li>Hospital uno</li>
+                                  <li>Hospital dos</li>
+                                </ul>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-primary bg-indigo-500"
+                              data-bs-dismiss="modal"
+                            >
+                              Cerrar
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </td>
-            </tr>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

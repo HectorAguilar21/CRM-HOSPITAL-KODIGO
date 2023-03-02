@@ -10,8 +10,9 @@ class AppointmentInformationController extends Controller
     //Recuperando informacion de AppointmentInformation
     public function index()
     {
-        $appoiments = AppointmentInformation::all();
-        return $appoiments;
+        // $appoiments = AppointmentInformation::all();
+        $appoiments = AppointmentInformation::with(['doctor', 'speciality', 'hospital', 'patient', 'status'])->get();
+        return response()->json($appoiments);
     }
 
     //Creando los recursos en la tabla
@@ -28,7 +29,7 @@ class AppointmentInformationController extends Controller
         $appoiments->appointment_status = $request->appointment_status;
 
         $appoiments->save();
-        return $appoiments;
+        return response()->json($appoiments);
     }
 
     // public function show(AppointmentInformation $appointment)    // {
@@ -48,7 +49,7 @@ class AppointmentInformationController extends Controller
         $appoiments->appointment_status = $request->appointment_status;
 
         $appoiments->save();
-        return $appoiments;
+        return response()->json($appoiments);
     }
 
     //Eliminando los recursos de la tabla

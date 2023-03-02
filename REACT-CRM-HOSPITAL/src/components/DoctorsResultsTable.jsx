@@ -8,14 +8,14 @@ export default function DoctorsResultsTable(props) {
   return (
     <tr>
       {/* ID y Nombre, correo, usuario y especialidad en la tabla */}
-      <th scope="row">{props.doctor.id}</th>
+      <th scope="row">{props.doctor.user_id}</th>
       <td>{`${props.doctor.name} ${props.doctor.last_name}`}</td>
       <td>{props.doctor.email}</td>
       {location.pathname === "/administrator/doctors_panel" && (
         <td>{props.doctor.user}</td>
       )}
-      <td>{props.doctor.speciality_id}</td>
-      <td>{props.doctor.hospital_id}</td>
+      <td>{props.doctor.speciality.speciality_name}</td>
+      <td>{props.doctor.hospital.hospital_name}</td>
       {/* Fin ID y Nombre, correo, usuario y especialidad en la tabla */}
       {/* Validacion con ternario para saber en que locacion estamos con useLocation y asi decidir que contenido se muestra */}
       {location.pathname === "/administrator/doctors_panel" && (

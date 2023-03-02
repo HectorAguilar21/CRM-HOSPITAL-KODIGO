@@ -237,11 +237,11 @@ export default function SecretaryRegisterPanel() {
             <tbody class="table-group-divider">
               {secretaries.map((secretary) => (
                 <tr>
-                  <th scope="row">{secretary.id}</th>
+                  <th scope="row">{secretary.user_id}</th>
                   <td>{`${secretary.name} ${secretary.last_name}`}</td>
                   <td>{secretary.email}</td>
                   <td>{secretary.user}</td>
-                  <td>{secretary.hospital_id}</td>
+                  <td>{secretary.hospital.hospital_name}</td>
                   <td>
                     <button type="button" class="btn btn-primary bg-indigo-500">
                       Editar

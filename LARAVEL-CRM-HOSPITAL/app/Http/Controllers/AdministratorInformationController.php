@@ -8,9 +8,10 @@ use Illuminate\Http\Request;
 class AdministratorInformationController extends Controller
 {
     //Recuperando informacion de AdministratorInformation
-    public function index()
+    public function index(Request $request)
     {
-        $administrator = AdministratorInformation::all();
+        // $administrator = AdministratorInformation::all();
+        $administrator = AdministratorInformation::with(['hospital'])->get();
         return response()->json($administrator);
     }
 

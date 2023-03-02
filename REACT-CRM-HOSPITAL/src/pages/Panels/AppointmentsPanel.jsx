@@ -284,8 +284,6 @@ export default function AppointmentsRegisterPanel() {
                 <th scope="col">Especialidad</th>
                 <th scope="col">Hospital</th>
                 <th scope="col">Paciente</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Hora</th>
                 <th colSpan="2">Estado</th>
                 <th colSpan="2">Acciones</th>
               </tr>
