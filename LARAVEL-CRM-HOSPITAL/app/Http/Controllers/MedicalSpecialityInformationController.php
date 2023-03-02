@@ -7,55 +7,44 @@ use Illuminate\Http\Request;
 
 class MedicalSpecialityInformationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    //Recuperando informacion de MedicalSpecialityInformation
     public function index()
     {
-        $speciality = MedicalSpecialityInformation::all();
-        return $speciality;
+        $specialities = MedicalSpecialityInformation::all();
+        return response()->json($specialities);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    //Creando los recursos en la tabla
     public function store(Request $request)
     {
-        $speciality = new MedicalSpecialityInformation;
-        $speciality->speciality_id = $request->speciality_id;
-        $speciality->speciality_name = $request->speciality_name;
+        $specialities = new MedicalSpecialityInformation;
+        $specialities->speciality_id = $request->speciality_id;
+        $specialities->speciality_name = $request->speciality_name;
 
-        $speciality->save();
-        return $speciality;
+        $specialities->save();
+        return response()->json($specialities, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(MedicalSpecialityInformation $medicalSpecialityInformation)
+    // public function show(string $id)
+    // {
+    //     //
+    // }
+
+    //Actualizando los recursos de la tabla
+    public function update(Request $request, string $id)
     {
-        //
+        $specialities = MedicalSpecialityInformation::findOrFail($request->id);
+        $specialities->speciality_id = $request->speciality_id;
+        $specialities->speciality_name = $request->speciality_name;
+
+        $specialities->save();
+        return response()->json($specialities, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        $speciality = MedicalSpecialityInformation::findOrFail($request->id);
-        $speciality->speciality_id = $request->speciality_id;
-        $speciality->speciality_name = $request->speciality_name;
-
-        $speciality->save();
-        return $speciality;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+    //Eliminando los recursos de la tabla
+    public function destroy(string $id)
     {
         MedicalSpecialityInformation::destroy($id);
-        return "Delete Successfully";
+        return response()->json(['message' => 'Medical speciality deleted'], 200);
     }
 }

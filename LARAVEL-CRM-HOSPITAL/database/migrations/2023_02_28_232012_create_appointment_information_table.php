@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('appointment_information', function (Blueprint $table) {
             $table->id();
             $table->foreignId('appointment_doctor_id')
-                ->constrained('users', 'id')
+                ->constrained('doctor_information', 'id')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->foreignId('appointment_speciality_id')
@@ -22,7 +22,7 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->foreignId('appointment_patient_id')
-                ->constrained('users', 'id')
+                ->constrained('patient_information', 'id')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->foreignId('appointment_hospital_id')
@@ -32,7 +32,10 @@ return new class extends Migration
             $table->string('appointment_date');
             $table->string('appointment_hour');
             $table->string('appointment_description');
-            $table->string('appointment_status');
+            $table->foreignId('appointment_status')
+                ->constrained('status_type_information', 'id')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

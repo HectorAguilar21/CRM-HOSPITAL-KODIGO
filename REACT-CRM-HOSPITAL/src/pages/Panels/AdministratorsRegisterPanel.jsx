@@ -1,54 +1,91 @@
-import { createRef, useState } from "react";
-import Alerta from "../../components/Alerta";
+import { useEffect, useState } from "react";
+
 import clienteAxios from "../../config/axios";
 
 export default function AdministratorsRegisterPanel() {
-  const typeIdRef = createRef();
-  const userIdRef = createRef();
-  const nameRef = createRef();
-  const lastNameRef = createRef();
-  const hospitalIdRef = createRef();
-  const userRef = createRef();
-  const emailRef = createRef();
-  const passwordRef = createRef();
-  const confirmatonPasswordRef = createRef();
+  //States para recoger la informacion de los inputs
+  const [typeIdRef, setTypeIdRef] = useState("1");
+  const [userIdRef, setUserIdRef] = useState("");
+  const [nameRef, setNameRef] = useState("");
+  const [lastNameRef, setLastNameRef] = useState("");
+  const [hospitalIdRef, setHospitalIdRef] = useState("");
+  const [userRef, setUserRef] = useState("");
+  const [emailRef, setEmailRef] = useState("");
+  const [passwordRef, setPasswordRef] = useState("");
 
-  const [errores, setErrores] = useState([]);
+  //States para guardar los datos de "obtenerEspecialidades" Axios
+  const [hospitals, setHospitals] = useState([]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  //States para guardar los datos de "obtenerAdministradores" Axios
+  const [administrators, setAdministrators] = useState([]);
 
-    const datos = {
-      type_id: typeIdRef.current.value,
-      user_id: userIdRef.current.value,
-      name: nameRef.current.value,
-      last_name: lastNameRef.current.value,
-      hospital_id: hospitalIdRef.current.value,
-      user: userRef.current.value,
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-      password_confirmation: confirmatonPasswordRef.current.value,
-    };
-
-    console.log(datos);
+  //Funcion para solicitar la info a la API
+  const obtenerHospitales = async () => {
     try {
-      const respuesta = await clienteAxios.post("/api/users", datos);
-      console.log(respuesta);
+      const { data } = await clienteAxios("/api/hospital_information");
+      setHospitals(data);
+      // console.log(data);
     } catch (error) {
-      setErrores(error.response.data.errors);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
+  //Funcion para solicitar la info a la API
+  const obtenerAdministradores = async () => {
+    try {
+      const { data } = await clienteAxios("/api/administrator_information");
+      setAdministrators(data);
+      // console.log(data);
+    } catch (error) {
+      console.log(Object.values(error.response.data.errors));
+    }
+  };
+
+  //useEffect para ejecutar al menos una vez la solicitud a la API, cada vez que se visita la pagina
+  useEffect(() => {
+    obtenerHospitales();
+    obtenerAdministradores();
+  }, []);
+
+  //Funcion para enviar el Formulario a traves de un boton y no por el form directamente
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    //Se guardan los datos que se recogieron en los states, y se pasan a objetos
+    const datos = {
+      type_id: typeIdRef,
+      user_id: userIdRef,
+      name: nameRef,
+      last_name: lastNameRef,
+      hospital_id: hospitalIdRef,
+      user: userRef,
+      email: emailRef,
+      password: passwordRef,
+    };
+
+    //Try Catch para realizar la peticion y recoger los errores si los hubiese
+    try {
+      const respuesta = await clienteAxios.post(
+        "/api/administrator_information",
+        datos
+      );
+      console.log(respuesta);
+    } catch (error) {
+      console.log(Object.values(error.response.data.errors));
+    }
+  };
+
+  //Return del HTML a mostrar
   return (
     <div className="">
+      {/* Contenedor de Form Registro Hospitales */}
       <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
         <h1 className="text-4xl font-black text-center mb-10">
           Añade nuevo Administrador
         </h1>
-        <form className="grid grid-cols-2" onSubmit={handleSubmit}>
-          {errores
-            ? errores.map((error) => <Alerta key={error}>{error}</Alerta>)
-            : null}
+        {/* Form Registro Administradores */}
+        <form className="grid grid-cols-2" onSubmit={handleSubmit} noValidate>
+          {/* Input para escribir el rol del Usuario */}
           <div className="mb-4 mx-3">
             <label htmlFor="type_id">Role:</label>
             <input
@@ -57,11 +94,12 @@ export default function AdministratorsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="type_id"
               placeholder="Ingresa el Rol del Usuario"
-              value="1"
-              ref={typeIdRef}
+              value={typeIdRef}
               required
             />
           </div>
+          {/* Fin Input para escribir el rol del Usuario */}
+          {/* Input para escribir el ID del usuario */}
           <div className="mb-4 mx-3">
             <label htmlFor="user_id">Administrador ID:</label>
             <input
@@ -70,10 +108,13 @@ export default function AdministratorsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="user_id"
               placeholder="Ingresa el ID del Administrador"
-              ref={userIdRef}
+              value={userIdRef}
+              onChange={(e) => setUserIdRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir el ID del usuario */}
+          {/* Input para escribir los nombres del usuario */}
           <div className="mb-4 mx-3">
             <label htmlFor="name">Nombres:</label>
             <input
@@ -82,10 +123,13 @@ export default function AdministratorsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="name"
               placeholder="Ingresa los nombres del Administrador"
-              ref={nameRef}
+              value={nameRef}
+              onChange={(e) => setNameRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir los nombres del usuario */}
+          {/* Input para escribir los apellidos del usuario */}
           <div className="mb-4 mx-3">
             <label htmlFor="last_name">Apellidos:</label>
             <input
@@ -94,42 +138,34 @@ export default function AdministratorsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="last_name"
               placeholder="Ingresa los apellidos del Administrador"
-              ref={lastNameRef}
+              value={lastNameRef}
+              onChange={(e) => setLastNameRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir los apellidos del usuario */}
+          {/* Input para escribir el ID del hospital */}
           <div className="mb-4 mx-3">
             <label htmlFor="hospital_id">Hospital ID:</label>
             <select
               id="hospital_id"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-              ref={hospitalIdRef}
+              value={hospitalIdRef}
+              onChange={(e) => setHospitalIdRef(e.target.value)}
               required
             >
               <option value="--Default--" selected>
                 --Seleccione una opcion--
               </option>
-              <option value="1" name="hospital_id">
-                Hospital Nacional "Dr. Juan José Fernández", Zacamil
-              </option>
-              <option value="2" name="hospital_id">
-                Hospital Nacional Especializado de Niños "Benjamín Bloom
-              </option>
-              <option value="3" name="hospital_id">
-                Hospital Nacional General "Enfermera Angélica Vidal de Najarro",
-                San Bartolo
-              </option>
-              <option value="4" name="hospital_id">
-                Hospital Nacional General "San Rafael", La Libertad
-              </option>
-              <option value="5" name="hospital_id">
-                Hospital Nacional Regional "San Juan de Dios", Santa Ana
-              </option>
-              <option value="6" name="hospital_id">
-                Hospital Nacional "Nuestra Señora de Fátima" de Cojutepeque.
-              </option>
+              {hospitals.map((hospital) => (
+                <option key={hospital.id} value={hospital.id}>
+                  {hospital.hospital_name}
+                </option>
+              ))}
             </select>
           </div>
+          {/* Fin Input para escribir el ID del hospital */}
+          {/* Input para escribir el usuario */}
           <div className="mb-4 mx-3">
             <label htmlFor="user">Usuario:</label>
             <input
@@ -138,10 +174,13 @@ export default function AdministratorsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="user"
               placeholder="Ingresa el usuario del Administrador"
-              ref={userRef}
+              value={userRef}
+              onChange={(e) => setUserRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir el usuario */}
+          {/* Input para escribir el correo */}
           <div className="mb-4 mx-3">
             <label htmlFor="email">Email:</label>
             <input
@@ -150,10 +189,13 @@ export default function AdministratorsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="email"
               placeholder="Ingresa el correo del Administrador"
-              ref={emailRef}
+              value={emailRef}
+              onChange={(e) => setEmailRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir el correo */}
+          {/* Input para escribir la contraseña */}
           <div className="mb-4 mx-3">
             <label htmlFor="password">Password:</label>
             <input
@@ -162,34 +204,29 @@ export default function AdministratorsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="password"
               placeholder="Ingresa la contraseña del Administrador"
-              ref={passwordRef}
+              value={passwordRef}
+              onChange={(e) => setPasswordRef(e.target.value)}
               required
             />
           </div>
-          <div className="mb-4 mx-3">
-            <label htmlFor="password_confirmation">Repetir Password:</label>
-            <input
-              type="password"
-              id="password_confirmation"
-              className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-              name="password_confirmation"
-              placeholder="Repite la contraseña del Administrador"
-              ref={confirmatonPasswordRef}
-            />
-          </div>
+          {/* FinInput para escribir la contraseña */}
           <input
             type="submit"
             value="Crear Usuario"
             className="button-login text-3xl text-center text-white mt-4 font-bold cursor-pointer"
           />
         </form>
+        {/* Fin Form Registro Administradores */}
       </div>
+      {/* Fin Contenedor de Form Registro Administradores */}
+      {/* Contendor de la tabla */}
       <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
         <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
           Administradores:
         </h1>
         <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
-          <table class="table text-center align-middle">
+          {/* Tabla */}
+          <table className="table text-center align-middle">
             <thead>
               <tr>
                 <th scope="col">ID</th>
@@ -200,26 +237,35 @@ export default function AdministratorsRegisterPanel() {
                 <th colSpan="2">Acciones</th>
               </tr>
             </thead>
-            <tbody class="table-group-divider">
-              <tr>
-                <th scope="row">1</th>
-                <td>Administrador Name</td>
-                <td>Administrador Correo</td>
-                <td>Administrador Usuario</td>
-                <td>Administrador hospital</td>
-                <td>
-                  <button type="button" class="btn btn-primary bg-indigo-500">
-                    Editar
-                  </button>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-primary bg-indigo-500">
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
+            <tbody className="table-group-divider">
+              {administrators.map((administrator) => (
+                <tr key={administrator.id}>
+                  <th scope="row">{administrator.id}</th>
+                  <td>{`${administrator.name} ${administrator.last_name}`}</td>
+                  <td>{administrator.email}</td>
+                  <td>{administrator.user}</td>
+                  <td>{administrator.hospital_id}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-primary bg-indigo-500"
+                    >
+                      Editar
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-primary bg-indigo-500"
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
+          {/* Fin Tabla */}
         </div>
       </div>
     </div>

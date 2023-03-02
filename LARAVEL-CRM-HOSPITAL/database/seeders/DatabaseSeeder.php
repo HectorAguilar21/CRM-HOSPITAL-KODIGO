@@ -7,11 +7,10 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
+    //Recuperando el seed y enviandolo a la BD
     public function run(): void
     {
         $this->call(UserTypeInformationSeeder::class);
+        $this->call(StatusTypeInformationSeeder::class);
     }
 }

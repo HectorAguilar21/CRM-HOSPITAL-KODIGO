@@ -19,6 +19,7 @@ import AppointmentCommentRegisterModal from "./pages/Panels/AppointmentCommentRe
 import Inicio from "./views/Inicio";
 import Login from "./views/Login";
 import AuthInicio from "./views/AuthInicio";
+import HospitalEspecialidadRegisterPanel from "./pages/Panels/HospitalEspecialidadRegisterPanel";
 
 const router = createBrowserRouter([
   //endpoint para la pagina principal con botones para inicio sesion segun el rol
@@ -89,6 +90,10 @@ const router = createBrowserRouter([
       {
         path: "/administrator/specialties_panel",
         element: <SpecialtiesRegisterPanel />,
+      },
+      {
+        path: "/administrator/hospital_specialties_panel",
+        element: <HospitalEspecialidadRegisterPanel />,
       },
     ],
   },

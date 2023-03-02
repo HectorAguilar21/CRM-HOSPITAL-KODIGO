@@ -1,68 +1,105 @@
-import { createRef, useState } from "react";
-import Alerta from "../../components/Alerta";
+import { useEffect, useState } from "react";
+import PatientsResultsTable from "../../components/PatientsResultsTable";
 import clienteAxios from "../../config/axios";
 
 export default function PatientsRegisterPanel() {
-  const typeIdRef = createRef();
-  const userIdRef = createRef();
-  const nameRef = createRef();
-  const lastNameRef = createRef();
-  const hospitalRef = createRef();
-  const numberPhoneRef = createRef();
-  const dateOfBirthRef = createRef();
-  const genderRef = createRef();
-  const addressRef = createRef();
-  const cityRef = createRef();
-  const departmentRef = createRef();
-  const countryRef = createRef();
-  const userRef = createRef();
-  const emailRef = createRef();
-  const passwordRef = createRef();
-  const confirmatonPasswordRef = createRef();
+  const [typeIdRef, setTypeIdRef] = useState("3");
+  const [userIdRef, setUserIdRef] = useState("");
+  const [nameRef, setNameRef] = useState("");
+  const [lastNameRef, setLastNameRef] = useState("");
+  const [hospitalRef, setHospitalRef] = useState("");
+  const [numberPhoneRef, setNumberPhoneRef] = useState("");
+  const [emergencyNumberPhoneRef, setEmergencyNumberPhoneRef] = useState("");
+  const [dateOfBirthRef, setDateOfBirthRef] = useState("");
+  const [genderRef, setGenderRef] = useState("");
+  const [addressRef, setAddressRef] = useState("");
+  const [cityRef, setCityRef] = useState("");
+  const [departmentRef, setDeparmentRef] = useState("");
+  const [countryRef, setCountryRef] = useState("");
+  const [userRef, setUserRef] = useState("");
+  const [emailRef, setEmailRef] = useState("");
+  const [passwordRef, setPasswordRef] = useState("");
 
-  const [errores, setErrores] = useState([]);
+  //States para guardar los datos de "obtenerHospitales" Axios
+  const [hospitals, setHospitals] = useState([]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  //States para guardar los datos de "obtenerPacientes" Axios
+  const [patients, setPatients] = useState([]);
 
-    const datos = {
-      type_id: typeIdRef.current.value,
-      user_id: userIdRef.current.value,
-      name: nameRef.current.value,
-      last_name: lastNameRef.current.value,
-      hospital_id: hospitalRef.current.value,
-      number_phone: numberPhoneRef.current.value,
-      date_of_birth: dateOfBirthRef.current.value,
-      gender: genderRef.current.value,
-      address: addressRef.current.value,
-      city: cityRef.current.value,
-      department: departmentRef.current.value,
-      country: countryRef.current.value,
-      user: userRef.current.value,
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-      password_confirmation: confirmatonPasswordRef.current.value,
-    };
-
-    console.log(datos);
+  //Funcion para solicitar la info a la API
+  const obtenerHospitales = async () => {
     try {
-      const respuesta = await clienteAxios.post("/api/users", datos);
-      console.log(respuesta);
+      const { data } = await clienteAxios("/api/hospital_information");
+      setHospitals(data);
     } catch (error) {
-      setErrores(error.response.data.errors);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
+  //Funcion para solicitar la info a la API
+  const obtenerPacientes = async () => {
+    try {
+      const { data } = await clienteAxios("/api/patient_information");
+      setPatients(data);
+    } catch (error) {
+      console.log(Object.values(error.response.data.errors));
+    }
+  };
+
+  //useEffect para ejecutar al menos una vez la solicitud a la API, cada vez que se visita la pagina
+  useEffect(() => {
+    obtenerHospitales();
+    obtenerPacientes();
+  }, []);
+
+  //Funcion para enviar el Formulario a traves de un boton y no por el form directamente
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    //Se guardan los datos que se recogieron en los states, y se pasan a objetos
+    const datos = {
+      type_id: typeIdRef,
+      user_id: userIdRef,
+      name: nameRef,
+      last_name: lastNameRef,
+      hospital_id: hospitalRef,
+      number_phone: numberPhoneRef,
+      emergency_number_phone: emergencyNumberPhoneRef,
+      date_of_birth: dateOfBirthRef,
+      gender: genderRef,
+      address: addressRef,
+      city: cityRef,
+      department: departmentRef,
+      country: countryRef,
+      user: userRef,
+      email: emailRef,
+      password: passwordRef,
+    };
+    console.log(datos);
+
+    //Try Catch para realizar la peticion y recoger los errores si los hubiese
+    try {
+      const respuesta = await clienteAxios.post(
+        "/api/patient_information",
+        datos
+      );
+      console.log(respuesta);
+    } catch (error) {
+      console.log(Object.keys(error.response.data.errors));
+    }
+  };
+
+  //Return del HTML a mostrar
   return (
     <div className="">
+      {/* Contenedor de Form Registro Pacientes */}
       <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
         <h1 className="text-4xl font-black text-center mb-10">
           Añade nuevo Paciente
         </h1>
+        {/* Form Registro Pacientes */}
         <form className="grid grid-cols-2" onSubmit={handleSubmit}>
-          {errores
-            ? errores.map((error) => <Alerta key={error}>{error}</Alerta>)
-            : null}
+          {/* Input para escribir el Rol */}
           <div className="mb-4 mx-3">
             <label htmlFor="type_id">Role:</label>
             <input
@@ -71,11 +108,13 @@ export default function PatientsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="type_id"
               placeholder="Ingresa el Rol del Usuario"
-              value="3"
-              ref={typeIdRef}
+              value={typeIdRef}
+              onChange={(e) => setTypeIdRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir el Rol */}
+          {/* Input para escribir el Id del paciente */}
           <div className="mb-4 mx-3">
             <label htmlFor="user_id">Paciente ID:</label>
             <input
@@ -84,10 +123,13 @@ export default function PatientsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="user_id"
               placeholder="Ingresa el ID del Paciente"
-              ref={userIdRef}
+              value={userIdRef}
+              onChange={(e) => setUserIdRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir el Id del paciente */}
+          {/* Input para escribir el Nombre del paciente */}
           <div className="mb-4 mx-3">
             <label htmlFor="name">Nombres:</label>
             <input
@@ -96,10 +138,13 @@ export default function PatientsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="name"
               placeholder="Ingresa los nombres del Paciente"
-              ref={nameRef}
+              value={nameRef}
+              onChange={(e) => setNameRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir el Nombre del paciente */}
+          {/* Input para escribir el Apellido del paciente */}
           <div className="mb-4 mx-3">
             <label htmlFor="last_name">Apellidos:</label>
             <input
@@ -108,42 +153,32 @@ export default function PatientsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="last_name"
               placeholder="Ingresa los apellidos del Paciente"
-              ref={lastNameRef}
+              value={lastNameRef}
+              onChange={(e) => setLastNameRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir el Apellido del paciente */}
+          {/* Input para escribir el Hospital de Registro */}
           <div className="mb-4 mx-3">
             <label htmlFor="hospital_id">Hospital que se registro ID:</label>
             <select
               id="hospital_id"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-              ref={hospitalRef}
+              value={hospitalRef}
+              onChange={(e) => setHospitalRef(e.target.value)}
               required
             >
               <option value="--Default--" selected>
                 --Seleccione una opcion--
               </option>
-              <option value="1" name="hospital_id">
-                Hospital Nacional "Dr. Juan José Fernández", Zacamil
-              </option>
-              <option value="2" name="hospital_id">
-                Hospital Nacional Especializado de Niños "Benjamín Bloom
-              </option>
-              <option value="3" name="hospital_id">
-                Hospital Nacional General "Enfermera Angélica Vidal de Najarro",
-                San Bartolo
-              </option>
-              <option value="4" name="hospital_id">
-                Hospital Nacional General "San Rafael", La Libertad
-              </option>
-              <option value="5" name="hospital_id">
-                Hospital Nacional Regional "San Juan de Dios", Santa Ana
-              </option>
-              <option value="6" name="hospital_id">
-                Hospital Nacional "Nuestra Señora de Fátima" de Cojutepeque.
-              </option>
+              {hospitals.map((hospital) => (
+                <option value={hospital.id}>{hospital.hospital_name}</option>
+              ))}
             </select>
           </div>
+          {/* Fin Input para escribir el Hospital de Registro */}
+          {/* Input para escribir el numero de telefono */}
           <div className="mb-4 mx-3">
             <label htmlFor="number_phone">Numero de telefono:</label>
             <input
@@ -152,10 +187,30 @@ export default function PatientsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="number_phone"
               placeholder="Ingresa el numero de telefono del paciente"
-              ref={numberPhoneRef}
+              value={numberPhoneRef}
+              onChange={(e) => setNumberPhoneRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir el numero de telefono */}
+          {/* Input para escribir el numero de emergencia */}
+          <div className="mb-4 mx-3">
+            <label htmlFor="emergency_number_phone">
+              Numero de emergencia:
+            </label>
+            <input
+              type="number"
+              id="emergency_number_phone"
+              className="mt-2 w-full p-2 bg-slate-100 rounded-md"
+              name="emergency_number_phone"
+              placeholder="Ingresa el numero de telefono del paciente"
+              value={emergencyNumberPhoneRef}
+              onChange={(e) => setEmergencyNumberPhoneRef(e.target.value)}
+              required
+            />
+          </div>
+          {/* Fin Input para escribir el numero de emergencia */}
+          {/* Input para escribir la fecha de nacimiento */}
           <div className="mb-4 mx-3">
             <label htmlFor="date_of_birth">Fecha de Nacimiento:</label>
             <input
@@ -164,16 +219,20 @@ export default function PatientsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="date_of_birth"
               placeholder="Ingresa la fecha de naciemiento del Paciente"
-              ref={dateOfBirthRef}
+              value={dateOfBirthRef}
+              onChange={(e) => setDateOfBirthRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir la fecha de nacimiento */}
+          {/* Input para escribir genero */}
           <div className="mb-4 mx-3">
             <label htmlFor="gender">Genero:</label>
             <select
               id="gender"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-              ref={genderRef}
+              value={genderRef}
+              onChange={(e) => setGenderRef(e.target.value)}
               required
             >
               <option value="--Default--" selected>
@@ -187,6 +246,8 @@ export default function PatientsRegisterPanel() {
               </option>
             </select>
           </div>
+          {/* Fin Input para escribir genero */}
+          {/* Input para escribir la direccion de Residencia */}
           <div className="mb-4 mx-3">
             <label htmlFor="address">Direccion Residencia:</label>
             <input
@@ -195,10 +256,13 @@ export default function PatientsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="address"
               placeholder="Ingresa la dirección de residencia del Paciente, sin ciudad, sin departamento, ni pais"
-              ref={addressRef}
+              value={addressRef}
+              onChange={(e) => setAddressRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir la direccion de Residencia */}
+          {/* Input para escribir la ciudad de Residencia */}
           <div className="mb-4 mx-3">
             <label htmlFor="ciudad">ciudad:</label>
             <input
@@ -207,16 +271,20 @@ export default function PatientsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="ciudad"
               placeholder="Ingresa la ciudad"
-              ref={cityRef}
+              value={cityRef}
+              onChange={(e) => setCityRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir la ciudad de Residencia */}
+          {/* Input para escribir el departamento de Residencia */}
           <div className="mb-4 mx-3">
             <label htmlFor="hospital_department">Departamento:</label>
             <select
               id="hospital_department"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-              ref={departmentRef}
+              value={departmentRef}
+              onChange={(e) => setDeparmentRef(e.target.value)}
               required
             >
               <option value="--Default--" selected>
@@ -266,12 +334,15 @@ export default function PatientsRegisterPanel() {
               </option>
             </select>
           </div>
+          {/* Fin Input para escribir el departamento de Residencia */}
+          {/* Input para escribir el Pais de Residencia */}
           <div className="mb-4 mx-3">
             <label htmlFor="hospital_country">Pais:</label>
             <select
               id="hospital_country"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-              ref={countryRef}
+              value={countryRef}
+              onChange={(e) => setCountryRef(e.target.value)}
               required
             >
               <option value="--Default--" selected>
@@ -282,6 +353,8 @@ export default function PatientsRegisterPanel() {
               </option>
             </select>
           </div>
+          {/* Fin Input para escribir el Pais de Residencia */}
+          {/* Input para escribir el Usuario*/}
           <div className="mb-4 mx-3">
             <label htmlFor="user">Usuario:</label>
             <input
@@ -290,10 +363,13 @@ export default function PatientsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="user"
               placeholder="Ingresa el usuario del Paciente"
-              ref={userRef}
+              value={userRef}
+              onChange={(e) => setUserRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir el Usuario*/}
+          {/* Input para escribir el Correo*/}
           <div className="mb-4 mx-3">
             <label htmlFor="email">Email:</label>
             <input
@@ -302,10 +378,13 @@ export default function PatientsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="email"
               placeholder="Ingresa el correo del Paciente"
-              ref={emailRef}
+              value={emailRef}
+              onChange={(e) => setEmailRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para escribir el Correo*/}
+          {/* Input para escribir la Contraseña*/}
           <div className="mb-4 mx-3">
             <label htmlFor="password">Password:</label>
             <input
@@ -314,33 +393,28 @@ export default function PatientsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="password"
               placeholder="Ingresa la contraseña del Paciente"
-              ref={passwordRef}
+              value={passwordRef}
+              onChange={(e) => setPasswordRef(e.target.value)}
               required
             />
           </div>
-          <div className="mb-4 mx-3">
-            <label htmlFor="password_confirmation">Repetir Password:</label>
-            <input
-              type="password"
-              id="password_confirmation"
-              className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-              name="password_confirmation"
-              placeholder="Repite la contraseña del Paciente"
-              ref={confirmatonPasswordRef}
-            />
-          </div>
+          {/* Fin Input para escribir la Contraseña*/}
           <input
             type="submit"
             value="Crear Usuario"
             className="button-login text-3xl text-center text-white mt-4 font-bold cursor-pointer"
           />
         </form>
+        {/* Fin Form Registro Pacientes */}
       </div>
+      {/* Fin Contenedor de Form Registro Pacientes */}
+      {/* Contendor de la tabla */}
       <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
         <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
           Pacientes:
         </h1>
         <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
+          {/* Tabla */}
           <table class="table text-center align-middle">
             <thead>
               <tr>
@@ -353,118 +427,9 @@ export default function PatientsRegisterPanel() {
               </tr>
             </thead>
             <tbody class="table-group-divider">
-              <tr>
-                <th scope="row">1</th>
-                <td>Paciente Name</td>
-                <td>Paciente Correo</td>
-                <td>Paciente Usuario</td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-primary bg-indigo-500"
-                    data-bs-toggle="modal"
-                    data-bs-target="#infoPersonalDoctor"
-                  >
-                    Ver mas
-                  </button>
-                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-                    <div
-                      class="modal fade"
-                      id="infoPersonalDoctor"
-                      data-bs-backdrop="static"
-                      data-bs-keyboard="false"
-                      tabindex="-1"
-                      aria-labelledby="staticBackdropLabel"
-                      aria-hidden="true"
-                    >
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h1
-                              class="modal-title fs-5 font-bold text-indigo-700"
-                              id="staticBackdropLabel"
-                            >
-                              Informacion Paciente (Nombre)
-                            </h1>
-                            <button
-                              type="button"
-                              class="btn-close"
-                              data-bs-dismiss="modal"
-                              aria-label="Close"
-                            ></button>
-                          </div>
-                          <div class="modal-body">
-                            <div className="py-2">
-                              <p className="font-normal text-indigo-700 text-lg">
-                                Numero de Telefono:
-                              </p>
-                              <p className="text-2xl">76360002</p>
-                            </div>{" "}
-                            <div className="py-2">
-                              <p className="font-normal text-indigo-700 text-lg">
-                                Contacto de Emergencia:
-                              </p>
-                              <p className="text-2xl">454351651</p>
-                            </div>{" "}
-                            <div className="py-2">
-                              <p className="font-normal text-indigo-700 text-lg">
-                                Fecha de Nacimiento:
-                              </p>
-                              <p className="text-2xl">1997-08-23</p>
-                            </div>{" "}
-                            <div className="py-2">
-                              <p className="font-normal text-indigo-700 text-lg">
-                                Direccion de Residencia:
-                              </p>
-                              <p className="text-2xl">
-                                calle principal a Radio Vea, pasaje 1 Poligono A
-                                casa #2
-                              </p>
-                            </div>{" "}
-                            <div className="py-2">
-                              <p className="font-normal text-indigo-700 text-lg">
-                                Ciudad:
-                              </p>
-                              <p className="text-2xl">San Martin</p>
-                            </div>{" "}
-                            <div className="py-2">
-                              <p className="font-normal text-indigo-700 text-lg">
-                                Departamento:
-                              </p>
-                              <p className="text-2xl">San Salvador</p>
-                            </div>{" "}
-                            <div className="py-2">
-                              <p className="font-normal text-indigo-700 text-lg">
-                                Pais:
-                              </p>
-                              <p className="text-2xl">El Salvador</p>
-                            </div>{" "}
-                          </div>
-                          <div class="modal-footer">
-                            <button
-                              type="button"
-                              class="btn btn-primary bg-indigo-500"
-                              data-bs-dismiss="modal"
-                            >
-                              Cerrar
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-primary bg-indigo-500">
-                    Editar
-                  </button>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-primary bg-indigo-500">
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
+              {patients.map((patient) => (
+                <PatientsResultsTable key={patient.id} patient={patient} />
+              ))}
             </tbody>
           </table>
         </div>

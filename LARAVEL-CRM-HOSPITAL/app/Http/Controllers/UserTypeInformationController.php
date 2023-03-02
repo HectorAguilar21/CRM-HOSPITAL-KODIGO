@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 
 class UserTypeInformationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    //Recuperando informacion de UserTypeInformation
     public function index()
     {
         $user_type = UserTypeInformation::all();
-        return $user_type;
+        return response()->json($user_type);
     }
+
+    //Se eliminan los otros metodos debido a que no son necesarios para esta tabla
 }

@@ -18,7 +18,7 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->foreignId('comment_doctor_id')
-                ->constrained('users', 'id')
+                ->constrained('doctor_information', 'id')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->string('comment_appointment');

@@ -7,18 +7,14 @@ use Illuminate\Http\Request;
 
 class CommentAppointmentInformationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    //Recuperando informacion de CommentAppointmentInformation
     public function index()
     {
         $comment = CommentAppointmentInformation::all();
         return $comment;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    //Creando los recursos en la tabla
     public function store(Request $request)
     {
         $comment = new CommentAppointmentInformation();
@@ -30,18 +26,16 @@ class CommentAppointmentInformationController extends Controller
         return $comment;
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(CommentAppointmentInformation $commentAppointmentInformation)
-    {
-        //
-    }
+
+    // public function show(CommentAppointmentInformation $commentAppointmentInformation)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, CommentAppointmentInformation $commentAppointmentInformation)
     {
         $comment = CommentAppointmentInformation::findOrFail($request->id);
         $comment->comment_appointment_id = $request->comment_appointment_id;

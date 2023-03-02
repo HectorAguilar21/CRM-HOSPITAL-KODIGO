@@ -7,18 +7,14 @@ use Illuminate\Http\Request;
 
 class HospitalInformationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    //Recuperando informacion de HospitalInformation
     public function index()
     {
         $hospital = HospitalInformation::all();
-        return $hospital;
+        return response()->json($hospital);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    //Creando los recursos en la tabla
     public function store(Request $request)
     {
         $hospital = new HospitalInformation;
@@ -30,21 +26,18 @@ class HospitalInformationController extends Controller
         $hospital->hospital_country = $request->hospital_country;
 
         $hospital->save();
-        return $hospital;
+        return response()->json($hospital, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(HospitalInformation $hospitalInformation)
+    public function show(Request $request)
     {
-        //
+        $hospital = HospitalInformation::findOrFail($request->id);
+
+        return response()->json($hospital);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, HospitalInformation $hospitalInformation)
+    //Actualizando los recursos de la tabla
+    public function update(Request $request, string $id)
     {
         $hospital = HospitalInformation::findOrFail($request->id);
         $hospital->hospital_id = $request->hospital_id;
@@ -55,15 +48,13 @@ class HospitalInformationController extends Controller
         $hospital->hospital_country = $request->hospital_country;
 
         $hospital->save();
-        return $hospital;
+        return response()->json($hospital, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    //Eliminando los recursos de la tabla
     public function destroy($id)
     {
         HospitalInformation::destroy($id);
-        return "Delete Successfully";
+        return response()->json(['message' => 'Hospital deleted'], 200);
     }
 }

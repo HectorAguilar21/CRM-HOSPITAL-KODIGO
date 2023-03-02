@@ -109,6 +109,17 @@ export default function AdministratorPanelLayout() {
             >
               Panel Especialidades
             </Link>
+            <Link
+              className={`${
+                location.pathname ===
+                "/administrator/hospital_specialties_panel"
+                  ? "text-black font-panel-sidebar option-selected"
+                  : "text-white font-panel-sidebar"
+              } text-2xl py-2 pl-4`}
+              to="/administrator/hospital_specialties_panel"
+            >
+              Registro Hospital-Especialidad
+            </Link>
           </div>
         </nav>
       </aside>

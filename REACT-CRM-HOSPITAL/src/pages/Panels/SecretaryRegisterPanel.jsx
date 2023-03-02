@@ -1,54 +1,87 @@
-import { createRef, useState } from "react";
-import Alerta from "../../components/Alerta";
+import { useEffect, useState } from "react";
 import clienteAxios from "../../config/axios";
 
 export default function SecretaryRegisterPanel() {
-  const typeIdRef = createRef();
-  const userIdRef = createRef();
-  const nameRef = createRef();
-  const lastNameRef = createRef();
-  const hospitalRef = createRef();
-  const userRef = createRef();
-  const emailRef = createRef();
-  const passwordRef = createRef();
-  const confirmatonPasswordRef = createRef();
+  //States para recoger la informacion de los inputs
+  const [typeIdRef, setTypeIdRef] = useState("4");
+  const [userIdRef, setUserIdRef] = useState("");
+  const [nameRef, setNameRef] = useState("");
+  const [lastNameRef, setLastNameRef] = useState("");
+  const [hospitalRef, setHospitalIdRef] = useState("");
+  const [userRef, setUserRef] = useState("");
+  const [emailRef, setEmialRef] = useState("");
+  const [passwordRef, setPasswordRef] = useState("");
 
-  const [errores, setErrores] = useState([]);
+  //States para guardar los datos de "obtenerHospitales" axions
+  const [hospitals, setHospitals] = useState([]);
+  const [secretaries, setSecretaries] = useState([]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const datos = {
-      type_id: typeIdRef.current.value,
-      user_id: userIdRef.current.value,
-      name: nameRef.current.value,
-      last_name: lastNameRef.current.value,
-      hospital_id: hospitalRef.current.value,
-      user: userRef.current.value,
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-      password_confirmation: confirmatonPasswordRef.current.value,
-    };
-
-    console.log(datos);
+  //Funcion para solicitar la info a la API
+  const obtenerHospitales = async () => {
     try {
-      const respuesta = await clienteAxios.post("/api/users", datos);
-      console.log(respuesta);
+      const { data } = await clienteAxios("/api/hospital_information");
+      setHospitals(data);
     } catch (error) {
-      setErrores(error.response.data.errors);
+      console.log(error);
     }
   };
 
+  //Funcion para solicitar la info a la API
+  const obtenerSecretarias = async () => {
+    try {
+      const { data } = await clienteAxios("/api/secretary_information");
+      setSecretaries(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //useEffect para ejecutar al menos una vez las solicitudes a la API, cada vez que se visita la pagina
+  useEffect(() => {
+    obtenerHospitales();
+    obtenerSecretarias();
+  }, []);
+
+  //Funcion para enviar el Formulario a traves de un boton y no por el form directamente
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    //Se guardan los datos que se recogieron en los states, y se pasan a objetos
+    const datos = {
+      type_id: typeIdRef,
+      user_id: userIdRef,
+      name: nameRef,
+      last_name: lastNameRef,
+      hospital_id: hospitalRef,
+      user: userRef,
+      email: emailRef,
+      password: passwordRef,
+    };
+    console.log(datos);
+
+    //Try Catch para realizar la peticion y recoger los errores si los hubiese
+    try {
+      const respuesta = await clienteAxios.post(
+        "/api/secretary_information",
+        datos
+      );
+      console.log(respuesta);
+    } catch (error) {
+      console.log(Object.keys(error.response.data.errors));
+    }
+  };
+
+  //Return del HTML a mostrar
   return (
     <div className="">
+      {/* Contenedor de Form Registro Secretarias */}
       <div className="bg-white shadow-xl rounded-md mt-10 px-5 py-10 mx-20">
         <h1 className="text-4xl font-black text-center mb-10">
           Añade nueva Secretaria
         </h1>
+        {/* Form Registro Secretaria */}
         <form className="grid grid-cols-2" onSubmit={handleSubmit}>
-          {errores
-            ? errores.map((error) => <Alerta key={error}>{error}</Alerta>)
-            : null}
+          {/* Input para seleccionar el rol */}
           <div className="mb-4 mx-3">
             <label htmlFor="type_id">Role:</label>
             <input
@@ -57,11 +90,13 @@ export default function SecretaryRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="type_id"
               placeholder="Ingresa el Rol del Usuario"
-              value="4"
-              ref={typeIdRef}
+              value={typeIdRef}
+              onChange={(e) => setTypeIdRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para seleccionar el hospital */}
+          {/* Input para el Id de la Secretaria */}
           <div className="mb-4 mx-3">
             <label htmlFor="user_id">Secretaria ID:</label>
             <input
@@ -70,10 +105,13 @@ export default function SecretaryRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="user_id"
               placeholder="Ingresa el ID de la Secretaria"
-              ref={userIdRef}
+              value={userIdRef}
+              onChange={(e) => setUserIdRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para el Id de la Secretaria */}
+          {/* Input para el Nombre de la Secretaria */}
           <div className="mb-4 mx-3">
             <label htmlFor="name">Nombres:</label>
             <input
@@ -82,10 +120,13 @@ export default function SecretaryRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="name"
               placeholder="Ingresa los nombres de la Secretaria"
-              ref={nameRef}
+              value={nameRef}
+              onChange={(e) => setNameRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para el Nombre de la Secretaria */}
+          {/* Input para los Apellidos de la Secretaria */}
           <div className="mb-4 mx-3">
             <label htmlFor="last_name">Apellidos:</label>
             <input
@@ -94,42 +135,34 @@ export default function SecretaryRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="last_name"
               placeholder="Ingresa los apellidos de la Secretaria"
-              ref={lastNameRef}
+              value={lastNameRef}
+              onChange={(e) => setLastNameRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para los Apellidos de la Secretaria */}
+          {/* Input para seleccionar el hospital */}
           <div className="mb-4 mx-3">
             <label htmlFor="hospital_id">Hospital donde laboral ID:</label>
             <select
               id="hospital_id"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-              ref={hospitalRef}
+              value={hospitalRef}
+              onChange={(e) => setHospitalIdRef(e.target.value)}
               required
             >
               <option value="--Default--" selected>
                 --Seleccione una opcion--
               </option>
-              <option value="1" name="hospital_id">
-                Hospital Nacional "Dr. Juan José Fernández", Zacamil
-              </option>
-              <option value="2" name="hospital_id">
-                Hospital Nacional Especializado de Niños "Benjamín Bloom
-              </option>
-              <option value="3" name="hospital_id">
-                Hospital Nacional General "Enfermera Angélica Vidal de Najarro",
-                San Bartolo
-              </option>
-              <option value="4" name="hospital_id">
-                Hospital Nacional General "San Rafael", La Libertad
-              </option>
-              <option value="5" name="hospital_id">
-                Hospital Nacional Regional "San Juan de Dios", Santa Ana
-              </option>
-              <option value="6" name="hospital_id">
-                Hospital Nacional "Nuestra Señora de Fátima" de Cojutepeque.
-              </option>
+              {hospitals.map((hospital) => (
+                <option key={hospital.id} value={hospital.id}>
+                  {hospital.hospital_name}
+                </option>
+              ))}
             </select>
           </div>
+          {/* Fin Input para seleccionar el hospital */}
+          {/* Input para el Usuario de la Secretaria */}
           <div className="mb-4 mx-3">
             <label htmlFor="user">Usuario:</label>
             <input
@@ -138,10 +171,13 @@ export default function SecretaryRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="user"
               placeholder="Ingresa el usuario de la Secretaria"
-              ref={userRef}
+              value={userRef}
+              onChange={(e) => setUserRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para el Usuario de la Secretaria */}
+          {/* Input para el correol de la Secretaria */}
           <div className="mb-4 mx-3">
             <label htmlFor="email">Email:</label>
             <input
@@ -150,10 +186,13 @@ export default function SecretaryRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="email"
               placeholder="Ingresa el correo de la Secretaria"
-              ref={emailRef}
+              value={emailRef}
+              onChange={(e) => setEmialRef(e.target.value)}
               required
             />
           </div>
+          {/* Fin Input para el correo de la Secretaria */}
+          {/* Input para la Contraseña de la Secretaria */}
           <div className="mb-4 mx-3">
             <label htmlFor="password">Password:</label>
             <input
@@ -162,33 +201,28 @@ export default function SecretaryRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="password"
               placeholder="Ingresa la contraseña de la Secretaria"
-              ref={passwordRef}
+              value={passwordRef}
+              onChange={(e) => setPasswordRef(e.target.value)}
               required
             />
           </div>
-          <div className="mb-4 mx-3">
-            <label htmlFor="password_confirmation">Repetir Password:</label>
-            <input
-              type="password"
-              id="password_confirmation"
-              className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-              name="password_confirmation"
-              placeholder="Repite la contraseña de la Secretaria"
-              ref={confirmatonPasswordRef}
-            />
-          </div>
+          {/* Fin Input para la Contraseña de la Secretaria */}
           <input
             type="submit"
             value="Crear Usuario"
             className="button-login text-3xl text-center text-white mt-4 font-bold cursor-pointer"
           />
         </form>
+        {/* Fin Form Registro Secretarias */}
       </div>
+      {/* Fin Contenedor de Form Registro Secretarias */}
+      {/* Contendor de la tabla */}
       <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
         <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
           Secretarias:
         </h1>
         <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
+          {/* Tabla */}
           <table class="table text-center align-middle">
             <thead>
               <tr>
@@ -201,25 +235,28 @@ export default function SecretaryRegisterPanel() {
               </tr>
             </thead>
             <tbody class="table-group-divider">
-              <tr>
-                <th scope="row">1</th>
-                <td>Secretaria Name</td>
-                <td>Secretaria Correo</td>
-                <td>Secretaria Usuario</td>
-                <td>Secretaria hospital</td>
-                <td>
-                  <button type="button" class="btn btn-primary bg-indigo-500">
-                    Editar
-                  </button>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-primary bg-indigo-500">
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
+              {secretaries.map((secretary) => (
+                <tr>
+                  <th scope="row">{secretary.id}</th>
+                  <td>{`${secretary.name} ${secretary.last_name}`}</td>
+                  <td>{secretary.email}</td>
+                  <td>{secretary.user}</td>
+                  <td>{secretary.hospital_id}</td>
+                  <td>
+                    <button type="button" class="btn btn-primary bg-indigo-500">
+                      Editar
+                    </button>
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-primary bg-indigo-500">
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
+          {/* Fin Tabla */}
         </div>
       </div>
     </div>

@@ -7,18 +7,14 @@ use Illuminate\Http\Request;
 
 class AppointmentInformationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    //Recuperando informacion de AppointmentInformation
     public function index()
     {
         $appoiments = AppointmentInformation::all();
         return $appoiments;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    //Creando los recursos en la tabla
     public function store(Request $request)
     {
         $appoiments = new AppointmentInformation;
@@ -35,17 +31,10 @@ class AppointmentInformationController extends Controller
         return $appoiments;
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(AppointmentInformation $appointmentInformation)
-    {
-        //
-    }
+    // public function show(AppointmentInformation $appointment)    // {
+    //     //
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $appoiments = AppointmentInformation::findOrFail($request->id);
@@ -62,12 +51,11 @@ class AppointmentInformationController extends Controller
         return $appoiments;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    //Eliminando los recursos de la tabla
+
     public function destroy($id)
     {
         AppointmentInformation::destroy($id);
-        return "Delete Successfully";
+        return response()->json(['message' => 'Hospital deleted'], 200);
     }
 }

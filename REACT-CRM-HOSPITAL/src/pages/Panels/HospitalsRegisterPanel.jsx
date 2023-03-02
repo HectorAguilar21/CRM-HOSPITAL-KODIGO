@@ -1,30 +1,55 @@
-import { createRef, useState } from "react";
-import Alerta from "../../components/Alerta";
+import React from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import HospitalsResultsTable from "../../components/HospitalsResultsTable";
 import clienteAxios from "../../config/axios";
 
 export default function HospitalsRegisterPanel() {
-  const hospitalIdRef = createRef();
-  const hospitalNameRef = createRef();
-  const hospitalAddressRef = createRef();
-  const hospitalCityRef = createRef();
-  const hospitalDepartmentRef = createRef();
-  const hospitalCountryRef = createRef();
+  //Variable para obtener la ruta actual y realizar validaciones en las vistas
+  const location = useLocation();
 
-  const [errores, setErrores] = useState([]);
+  //States para recoger la informacion de los inputs
+  const [hospitalIdRef, setHospitalIdRef] = useState("");
+  const [hospitalNameRef, setHospitalNameRef] = useState("");
+  const [hospitalAddressRef, setHospitalAddressRef] = useState("");
+  const [hospitalCityRef, setHospitalCityRef] = useState("");
+  const [hospitalDepartmentRef, setHospitalDepartmentRef] = useState("");
+  const [hospitalCountryRef, setHospitalCountryRef] = useState("");
 
+  //States para guardar los datos de "obtenerHospitales" Axios
+  const [hospitals, setHospitals] = useState([]);
+
+  //Funcion para solicitar la info a la API
+  const obtenerHospitales = async () => {
+    try {
+      const { data } = await clienteAxios("/api/hospital_information");
+      setHospitals(data);
+    } catch (error) {
+      console.log(Object.values(error.response.data.errors));
+    }
+  };
+
+  //useEffect para ejecutar al menos una vez la solicitud a la API, cada vez que se visita la pagina
+  useEffect(() => {
+    obtenerHospitales();
+  }, []);
+
+  //Funcion para enviar el Formulario a traves de un boton y no por el form directamente
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    //Se guardan los datos que se recogieron en los states, y se pasan a objetos
     const datos = {
-      hospital_id: hospitalIdRef.current.value,
-      hospital_name: hospitalNameRef.current.value,
-      hospital_address: hospitalAddressRef.current.value,
-      hospital_city: hospitalCityRef.current.value,
-      hospital_department: hospitalDepartmentRef.current.value,
-      hospital_country: hospitalCountryRef.current.value,
+      hospital_id: hospitalIdRef,
+      hospital_name: hospitalNameRef,
+      hospital_address: hospitalAddressRef,
+      hospital_city: hospitalCityRef,
+      hospital_department: hospitalDepartmentRef,
+      hospital_country: hospitalCountryRef,
     };
-
     console.log(datos);
+
+    //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
       const respuesta = await clienteAxios.post(
         "/api/hospital_information",
@@ -36,18 +61,21 @@ export default function HospitalsRegisterPanel() {
     }
   };
 
+  //Return del HTML a mostrar
   return (
     <div className="">
+      {/* Validacion con ternario para saber en que locacion estamos con useLocation y asi decidir que contenido se muestra */}
       {location.pathname === "/administrator/hospital_panel" ? (
         <>
+          {/* Informacion que le aparece unicamente al rol de administrador */}
+          {/* Contenedor de Form Registro Hospitales */}
           <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
             <h1 className="text-4xl font-black text-center mb-10">
               Registra un nuevo Hospital
             </h1>
+            {/* Form Registro Hospitales */}
             <form className="grid grid-cols-2" onSubmit={handleSubmit}>
-              {errores
-                ? errores.map((error) => <Alerta key={error}>{error}</Alerta>)
-                : null}
+              {/* Input para escribir el ID del hospital */}
               <div className="mb-4 mx-3 mt-">
                 <label htmlFor="hospital_id">Hospital ID:</label>
                 <input
@@ -56,10 +84,13 @@ export default function HospitalsRegisterPanel() {
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   name="hospital_id"
                   placeholder="Ingresa el ID del Hospital"
-                  ref={hospitalIdRef}
+                  value={hospitalIdRef}
+                  onChange={(e) => setHospitalIdRef(e.target.value)}
                   required
                 />
               </div>
+              {/* Fin Input para escribir el ID del hospital */}
+              {/* Input para escribir el nombre del hospital */}
               <div className="mb-4 mx-3">
                 <label htmlFor="hospital_name">Nombre del Hospital:</label>
                 <input
@@ -68,10 +99,13 @@ export default function HospitalsRegisterPanel() {
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   name="hospital_name"
                   placeholder="Ingresa el nombre del Hospital"
-                  ref={hospitalNameRef}
+                  value={hospitalNameRef}
+                  onChange={(e) => setHospitalNameRef(e.target.value)}
                   required
                 />
               </div>
+              {/* Fin Input para escribir el nombre del hospital */}
+              {/* Input para escribir la direccion del hospital */}
               <div className="mb-4 mx-3">
                 <label htmlFor="hospital_address">Direccion:</label>
                 <input
@@ -80,10 +114,13 @@ export default function HospitalsRegisterPanel() {
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   name="hospital_address"
                   placeholder="Ingresa la direccion del hospital, sin ciudad, ni departamento, ni pais"
-                  ref={hospitalAddressRef}
+                  value={hospitalAddressRef}
+                  onChange={(e) => setHospitalAddressRef(e.target.value)}
                   required
                 />
               </div>
+              {/* Fin Input para escribir la direccion del hospital */}
+              {/* Input para escribir la ciudad del hospital */}
               <div className="mb-4 mx-3">
                 <label htmlFor="hospital_city">Ciudad:</label>
                 <input
@@ -92,16 +129,20 @@ export default function HospitalsRegisterPanel() {
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   name="hospital_city"
                   placeholder="Ingresa la ciudad del hospital"
-                  ref={hospitalCityRef}
+                  value={hospitalCityRef}
+                  onChange={(e) => setHospitalCityRef(e.target.value)}
                   required
                 />
               </div>
+              {/* Fin Input para escribir la ciudad del hospital */}
+              {/* Input para escribir el departamento del hospital */}
               <div className="mb-4 mx-3">
                 <label htmlFor="hospital_department">Departamento:</label>
                 <select
                   id="hospital_department"
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-                  ref={hospitalDepartmentRef}
+                  value={hospitalDepartmentRef}
+                  onChange={(e) => setHospitalDepartmentRef(e.target.value)}
                   required
                 >
                   <option value="--Default--" selected>
@@ -151,12 +192,15 @@ export default function HospitalsRegisterPanel() {
                   </option>
                 </select>
               </div>
+              {/* Fin Input para escribir el departamento del hospital */}
+              {/* Input para escribir el pais del hospital */}
               <div className="mb-4 mx-3">
                 <label htmlFor="hospital_country">Pais:</label>
                 <select
                   id="hospital_country"
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-                  ref={hospitalCountryRef}
+                  value={hospitalCountryRef}
+                  onChange={(e) => setHospitalCountryRef(e.target.value)}
                   required
                 >
                   <option value="--Default--" selected>
@@ -167,239 +211,90 @@ export default function HospitalsRegisterPanel() {
                   </option>
                 </select>
               </div>
+              {/* Fin Input para escribir el pais del hospital */}
               <input
                 type="submit"
                 value="Crear Registro"
                 className="button-login text-3xl text-center text-white mt-4 font-bold cursor-pointer uppercase"
               />
             </form>
+            {/* Fin Form Registro Hospitales */}
           </div>
+          {/* Fin Contenedor de Form Registro Hospitales */}
+          {/* Contendor de la tabla */}
           <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
             <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
               Hospitales:
             </h1>
             <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
-              <table class="table text-center align-middle">
+              {/* Tabla */}
+              <table className="table text-center align-middle">
                 <thead>
                   <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Nombre</th>
-                    <th colSpan="3">Acciones</th>
+                    <th scope="col">Direccion</th>
+                    <th scope="col">Ciudad</th>
+                    <th scope="col">Departamento</th>
+                    <th scope="col">Pais</th>
+                    <th colSpan="2">Acciones</th>
                   </tr>
                 </thead>
-                <tbody class="table-group-divider">
-                  <tr>
-                    <th scope="row">HNSB</th>
-                    <td>
-                      Hospital Nacional General "Enfermera Angélica Vidal de
-                      Najarro", San Bartolo
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary bg-indigo-500"
-                        data-bs-toggle="modal"
-                        data-bs-target="#infoPersonalDoctor"
-                      >
-                        Ver mas
-                      </button>
-                      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-                        <div
-                          class="modal fade"
-                          id="infoPersonalDoctor"
-                          data-bs-backdrop="static"
-                          data-bs-keyboard="false"
-                          tabindex="-1"
-                          aria-labelledby="staticBackdropLabel"
-                          aria-hidden="true"
-                        >
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h1
-                                  class="modal-title fs-5 font-bold text-indigo-700"
-                                  id="staticBackdropLabel"
-                                >
-                                  Informacion Paciente (Nombre)
-                                </h1>
-                                <button
-                                  type="button"
-                                  class="btn-close"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                ></button>
-                              </div>
-                              <div class="modal-body">
-                                <div className="py-2">
-                                  <p className="font-normal text-indigo-700 text-lg">
-                                    Direccion:
-                                  </p>
-                                  <p className="text-2xl">
-                                    Centro Urbano San Bartolo Septima Etapa,
-                                    Boulevard San Bartolo y Calle Meléndez,
-                                    Contiguo a Zona Franca, San Bartolo
-                                  </p>
-                                </div>{" "}
-                                <div className="py-2">
-                                  <p className="font-normal text-indigo-700 text-lg">
-                                    Ciudad:
-                                  </p>
-                                  <p className="text-2xl">Ilopango</p>
-                                </div>{" "}
-                                <div className="py-2">
-                                  <p className="font-normal text-indigo-700 text-lg">
-                                    Departamento:
-                                  </p>
-                                  <p className="text-2xl">San Salvador</p>
-                                </div>{" "}
-                                <div className="py-2">
-                                  <p className="font-normal text-indigo-700 text-lg">
-                                    Pais:
-                                  </p>
-                                  <p className="text-2xl">El Salvador</p>
-                                </div>{" "}
-                              </div>
-                              <div class="modal-footer">
-                                <button
-                                  type="button"
-                                  class="btn btn-primary bg-indigo-500"
-                                  data-bs-dismiss="modal"
-                                >
-                                  Cerrar
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary bg-indigo-500"
-                      >
-                        Editar
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary bg-indigo-500"
-                      >
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
+                {/* Cuerpo de la tabla que se genera por un map en un componente aparte */}
+                <tbody className="table-group-divider">
+                  {hospitals.map((hospital) => (
+                    <HospitalsResultsTable
+                      key={hospital.id}
+                      hospital={hospital}
+                      hospitals={hospitals}
+                    />
+                  ))}
                 </tbody>
+                {/* Fin Cuerpo de la tabla que se genera por un map en un componente aparte */}
               </table>
+              {/* Fin Tabla */}
             </div>
           </div>
+          {/* Fin Contendor de la tabla */}
+          {/* Fin Informacion que le aparece unicamente al rol de administrador */}
         </>
       ) : (
-        <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
-          <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
-            Hospitales:
-          </h1>
-          <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
-            <table class="table text-center align-middle">
-              <thead>
-                <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Acciones</th>
-                </tr>
-              </thead>
-              <tbody class="table-group-divider">
-                <tr>
-                  <th scope="row">HNSB</th>
-                  <td>
-                    Hospital Nacional General "Enfermera Angélica Vidal de
-                    Najarro", San Bartolo
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      class="btn btn-primary bg-indigo-500"
-                      data-bs-toggle="modal"
-                      data-bs-target="#infoPersonalDoctor"
-                    >
-                      Ver mas
-                    </button>
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-                      <div
-                        class="modal fade"
-                        id="infoPersonalDoctor"
-                        data-bs-backdrop="static"
-                        data-bs-keyboard="false"
-                        tabindex="-1"
-                        aria-labelledby="staticBackdropLabel"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h1
-                                class="modal-title fs-5 font-bold text-indigo-700"
-                                id="staticBackdropLabel"
-                              >
-                                Informacion Paciente (Nombre)
-                              </h1>
-                              <button
-                                type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              ></button>
-                            </div>
-                            <div class="modal-body">
-                              <div className="py-2">
-                                <p className="font-normal text-indigo-700 text-lg">
-                                  Direccion:
-                                </p>
-                                <p className="text-2xl">
-                                  Centro Urbano San Bartolo Septima Etapa,
-                                  Boulevard San Bartolo y Calle Meléndez,
-                                  Contiguo a Zona Franca, San Bartolo
-                                </p>
-                              </div>{" "}
-                              <div className="py-2">
-                                <p className="font-normal text-indigo-700 text-lg">
-                                  Ciudad:
-                                </p>
-                                <p className="text-2xl">Ilopango</p>
-                              </div>{" "}
-                              <div className="py-2">
-                                <p className="font-normal text-indigo-700 text-lg">
-                                  Departamento:
-                                </p>
-                                <p className="text-2xl">San Salvador</p>
-                              </div>{" "}
-                              <div className="py-2">
-                                <p className="font-normal text-indigo-700 text-lg">
-                                  Pais:
-                                </p>
-                                <p className="text-2xl">El Salvador</p>
-                              </div>{" "}
-                            </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn btn-primary bg-indigo-500"
-                                data-bs-dismiss="modal"
-                              >
-                                Cerrar
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        <>
+          {/* Informacion que le aparece a cualquiera que esta logeado */}
+          <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
+            <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
+              Hospitales:
+            </h1>
+            <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
+              {/* Tabla */}
+              <table className="table text-center align-middle">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Direccion</th>
+                    <th scope="col">Ciudad</th>
+                    <th scope="col">Departamento</th>
+                    <th scope="col">Pais</th>
+                  </tr>
+                </thead>
+                {/* Cuerpo de la tabla que se genera por un map en un componente aparte */}
+                <tbody className="table-group-divider">
+                  {hospitals.map((hospital) => (
+                    <HospitalsResultsTable
+                      key={hospital.id}
+                      hospital={hospital}
+                      hospitals={hospitals}
+                    />
+                  ))}
+                </tbody>
+                {/* Fin Cuerpo de la tabla que se genera por un map en un componente aparte */}
+              </table>
+              {/* Fin Tabla */}
+            </div>
           </div>
-        </div>
+          {/* Informacion que le aparece a cualquiera que esta logeado */}
+        </>
       )}
     </div>
   );

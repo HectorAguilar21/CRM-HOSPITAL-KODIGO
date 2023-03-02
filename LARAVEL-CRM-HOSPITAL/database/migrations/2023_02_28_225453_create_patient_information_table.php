@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('patient_information', function (Blueprint $table) {
             $table->id();
             $table->foreignId('type_id')
                 ->constrained('user_type_information', 'id')
@@ -20,26 +20,22 @@ return new class extends Migration
             $table->string('user_id');
             $table->string('name');
             $table->string('last_name');
-            $table->foreignId('speciality_id')
-                ->nullable()
-                ->constrained('medical_speciality_information', 'id')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
             $table->foreignId('hospital_id')
                 ->constrained('hospital_information', 'id')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->integer('number_phone')->nullable();
-            $table->string('date_of_birth')->nullable();
-            $table->string('gender')->nullable();
-            $table->string('address')->nullable();
-            $table->string('city')->nullable();
-            $table->string('department')->nullable();
-            $table->string('country')->nullable();
-            $table->string('user');
+            $table->integer('number_phone');
+            $table->integer('emergency_number_phone');
+            $table->string('date_of_birth');
+            $table->string('gender');
+            $table->string('address');
+            $table->string('city');
+            $table->string('department');
+            $table->string('country');
+            $table->string('user')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -50,6 +46,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('patient_information');
     }
 };

@@ -1,58 +1,115 @@
-import { createRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Alerta from "../../components/Alerta";
+import DoctorsResultsTable from "../../components/DoctorsResultsTable";
 import clienteAxios from "../../config/axios";
 
 export default function DoctorsRegisterPanel() {
-  const typeIdRef = createRef();
-  const userIdRef = createRef();
-  const nameRef = createRef();
-  const lastNameRef = createRef();
-  const specialityRef = createRef();
-  const hospitalRef = createRef();
-  const userRef = createRef();
-  const emailRef = createRef();
-  const passwordRef = createRef();
-  const confirmatonPasswordRef = createRef();
+  //Variable para obtener la ruta actual y realizar validaciones en las vistas
+  const location = useLocation();
 
-  const [errores, setErrores] = useState([]);
+  //States para recoger la informacion de los inputs
+  const [typeIdRef, setTypeIdRef] = useState("2");
+  const [userIdRef, setUserIdRef] = useState("");
+  const [nameRef, setNameRef] = useState("");
+  const [lastNameRef, setLastNameRef] = useState("");
+  const [specialityRef, setSpecialityRef] = useState("");
+  const [hospitalRef, setHospitalRef] = useState("");
+  const [userRef, setUserRef] = useState("");
+  const [emailRef, setEmailRef] = useState("");
+  const [passwordRef, setPasswordRef] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  //States para guardar los datos de "obtenerHospitales" y "obtenerEspecialidades" Axios
+  const [hospitals, setHospitals] = useState([]);
+  const [specialities, setSpecialities] = useState([]);
 
-    const datos = {
-      type_id: typeIdRef.current.value,
-      user_id: userIdRef.current.value,
-      name: nameRef.current.value,
-      last_name: lastNameRef.current.value,
-      speciality_id: specialityRef.current.value,
-      hospital_id: hospitalRef.current.value,
-      user: userRef.current.value,
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-      password_confirmation: confirmatonPasswordRef.current.value,
-    };
+  //States para guardar los datos de Doctores
+  const [doctors, setDoctors] = useState([]);
 
-    console.log(datos);
+  //Funcion para solicitar la info a la API
+  const obtenerHospitales = async () => {
     try {
-      const respuesta = await clienteAxios.post("/api/users", datos);
-      console.log(respuesta);
+      const { data } = await clienteAxios("/api/hospital_information");
+      setHospitals(data);
     } catch (error) {
-      setErrores(error.response.data.errors);
+      console.log(error);
     }
   };
 
+  //Funcion para solicitar la info a la API
+  const obtenerEspecialidades = async () => {
+    try {
+      const { data } = await clienteAxios(
+        "/api/medical_speciality_information"
+      );
+      setSpecialities(data);
+    } catch (error) {
+      console.log(Object.values(error.response.data.errors));
+    }
+  };
+
+  //Funcion para solicitar la info a la API
+  const obtenerDoctores = async () => {
+    try {
+      const { data } = await clienteAxios("/api/doctor_information");
+      setDoctors(data);
+    } catch (error) {
+      console.log(Object.values(error.response.data.errors));
+    }
+  };
+
+  //useEffect para ejecutar al menos una vez las solicitudes a la API, cada vez que se visita la pagina
+  useEffect(() => {
+    obtenerHospitales();
+    obtenerEspecialidades();
+    obtenerDoctores();
+  }, []);
+
+  //Funcion para enviar el Formulario a traves de un boton y no por el form directamente
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    //Se guardan los datos que se recogieron en los states, y se pasan a objetos
+    const datos = {
+      type_id: typeIdRef,
+      user_id: userIdRef,
+      name: nameRef,
+      last_name: lastNameRef,
+      speciality_id: specialityRef,
+      hospital_id: hospitalRef,
+      user: userRef,
+      email: emailRef,
+      password: passwordRef,
+    };
+
+    //Try Catch para realizar la peticion y recoger los errores si los hubiese
+    console.log(datos);
+    try {
+      const respuesta = await clienteAxios.post(
+        "/api/doctor_information",
+        datos
+      );
+      console.log(respuesta);
+    } catch (error) {
+      console.log(error.response.data.errors);
+    }
+  };
+
+  //Return del HTML a mostrar
   return (
     <div className="">
+      {/* Validacion con ternario para saber en que locacion estamos con useLocation y asi decidir que contenido se muestra */}
       {location.pathname === "/administrator/doctors_panel" ? (
         <>
+          {/* Informacion que le aparece unicamente al rol de administrador */}
+          {/* Contenedor de Form Registro Doctor */}
           <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
             <h1 className="text-4xl font-black text-center mb-10">
               Añade nuevo Doctor
             </h1>
+            {/* Form Registro Doctor */}
             <form className="grid grid-cols-2" onSubmit={handleSubmit}>
-              {errores
-                ? errores.map((error) => <Alerta key={error}>{error}</Alerta>)
-                : null}
+              {/* Input para seleccionar el Rol */}
               <div className="mb-4 mx-3">
                 <label htmlFor="type_id">Role:</label>
                 <input
@@ -61,11 +118,13 @@ export default function DoctorsRegisterPanel() {
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   name="type_id"
                   placeholder="Ingresa el Rol del Usuario"
-                  value="2"
-                  ref={typeIdRef}
+                  value={typeIdRef}
+                  onChange={(e) => setTypeIdRef(e.target.value)}
                   required
                 />
               </div>
+              {/* Fin Input para seleccionar el hospital */}
+              {/* Input para el Id del Doctor */}
               <div className="mb-4 mx-3">
                 <label htmlFor="user_id">Doctor ID:</label>
                 <input
@@ -74,10 +133,13 @@ export default function DoctorsRegisterPanel() {
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   name="user_id"
                   placeholder="Ingresa el ID del Doctor"
-                  ref={userIdRef}
+                  value={userIdRef}
+                  onChange={(e) => setUserIdRef(e.target.value)}
                   required
                 />
               </div>
+              {/* Fin Input para el Id del Doctor */}
+              {/* Input para el Nombre del Doctor */}
               <div className="mb-4 mx-3">
                 <label htmlFor="name">Nombres:</label>
                 <input
@@ -86,10 +148,13 @@ export default function DoctorsRegisterPanel() {
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   name="name"
                   placeholder="Ingresa los nombres del Doctor"
-                  ref={nameRef}
+                  value={nameRef}
+                  onChange={(e) => setNameRef(e.target.value)}
                   required
                 />
               </div>
+              {/* Fin Input para el Nombre del Doctor */}
+              {/* Input para el Apellido del Doctor */}
               <div className="mb-4 mx-3">
                 <label htmlFor="last_name">Apellidos:</label>
                 <input
@@ -98,91 +163,55 @@ export default function DoctorsRegisterPanel() {
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   name="last_name"
                   placeholder="Ingresa los apellidos del Doctor"
-                  ref={lastNameRef}
+                  value={lastNameRef}
+                  onChange={(e) => setLastNameRef(e.target.value)}
                   required
                 />
               </div>
+              {/* Fin Input para el Apellido del Doctor */}
+              {/* Input para seleccionar la especialidad */}
               <div className="mb-4 mx-3">
                 <label htmlFor="speciality_id">Especialidad ID:</label>
                 <select
                   id="speciality_id"
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-                  ref={specialityRef}
+                  value={specialityRef}
+                  onChange={(e) => setSpecialityRef(e.target.value)}
                   required
                 >
                   <option value="--Default--" selected>
                     --Seleccione una opcion--
                   </option>
-                  <option value="1" name="speciality_id">
-                    Oftalmologia
-                  </option>
-                  <option value="2" name="speciality_id">
-                    Neurologia
-                  </option>
-                  <option value="3" name="speciality_id">
-                    Pediatria
-                  </option>
-                  <option value="4" name="speciality_id">
-                    Cardiologia
-                  </option>
-                  <option value="5" name="speciality_id">
-                    Nefrologia
-                  </option>
-                  <option value="6" name="speciality_id">
-                    Endocrinologia
-                  </option>
-                  <option value="7" name="speciality_id">
-                    Ortopedia
-                  </option>
-                  <option value="8" name="speciality_id">
-                    Psiquiatria
-                  </option>
-                  <option value="9" name="speciality_id">
-                    Gastroenterologia
-                  </option>
-                  <option value="10" name="speciality_id">
-                    Urologia
-                  </option>
-                  <option value="11" name="speciality_id">
-                    Ginecologia
-                  </option>
-                  <option value="12" name="speciality_id">
-                    Nutricion
-                  </option>
+                  {specialities.map((speciality) => (
+                    <option key={speciality.id} value={speciality.id}>
+                      {speciality.speciality_name}
+                    </option>
+                  ))}
                 </select>
               </div>
+              {/* Fin Input para seleccionar la especialidad */}
+              {/* Input para seleccionar el hospital */}
               <div className="mb-4 mx-3">
                 <label htmlFor="hospital_id">Hospital ID:</label>
                 <select
                   id="hospital_id"
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-                  ref={hospitalRef}
+                  value={hospitalRef}
+                  onChange={(e) => setHospitalRef(e.target.value)}
                   required
                 >
                   <option value="--Default--" selected>
                     --Seleccione una opcion--
                   </option>
-                  <option value="1" name="hospital_id">
-                    Hospital Nacional "Dr. Juan José Fernández", Zacamil
-                  </option>
-                  <option value="2" name="hospital_id">
-                    Hospital Nacional Especializado de Niños "Benjamín Bloom
-                  </option>
-                  <option value="3" name="hospital_id">
-                    Hospital Nacional General "Enfermera Angélica Vidal de
-                    Najarro", San Bartolo
-                  </option>
-                  <option value="4" name="hospital_id">
-                    Hospital Nacional General "San Rafael", La Libertad
-                  </option>
-                  <option value="5" name="hospital_id">
-                    Hospital Nacional Regional "San Juan de Dios", Santa Ana
-                  </option>
-                  <option value="6" name="hospital_id">
-                    Hospital Nacional "Nuestra Señora de Fátima" de Cojutepeque.
-                  </option>
+                  {hospitals.map((hospital) => (
+                    <option key={hospital.id} value={hospital.id}>
+                      {hospital.hospital_name}
+                    </option>
+                  ))}
                 </select>
               </div>
+              {/* Fin Input para seleccionar el hospital */}
+              {/* Input para el Usuario del Doctor */}
               <div className="mb-4 mx-3">
                 <label htmlFor="user">Usuario:</label>
                 <input
@@ -191,10 +220,13 @@ export default function DoctorsRegisterPanel() {
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   name="user"
                   placeholder="Ingresa el usuario del Doctor"
-                  ref={userRef}
+                  value={userRef}
+                  onChange={(e) => setUserRef(e.target.value)}
                   required
                 />
               </div>
+              {/* Fin Input para el Usuario del Doctor */}
+              {/* Input para el Correo del Doctor */}
               <div className="mb-4 mx-3">
                 <label htmlFor="email">Email:</label>
                 <input
@@ -203,10 +235,13 @@ export default function DoctorsRegisterPanel() {
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   name="email"
                   placeholder="Ingresa el correo del Doctor"
-                  ref={emailRef}
+                  value={emailRef}
+                  onChange={(e) => setEmailRef(e.target.value)}
                   required
                 />
               </div>
+              {/* Fin Input para el Correo del Doctor */}
+              {/* Input para la Contraseña del Doctor */}
               <div className="mb-4 mx-3">
                 <label htmlFor="password">Password:</label>
                 <input
@@ -215,33 +250,28 @@ export default function DoctorsRegisterPanel() {
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   name="password"
                   placeholder="Ingresa la contraseña del Doctor"
-                  ref={passwordRef}
+                  value={passwordRef}
+                  onChange={(e) => setPasswordRef(e.target.value)}
                   required
                 />
               </div>
-              <div className="mb-4 mx-3">
-                <label htmlFor="password_confirmation">Repetir Password:</label>
-                <input
-                  type="password"
-                  id="password_confirmation"
-                  className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-                  name="password_confirmation"
-                  placeholder="Repite la contraseña del Doctor"
-                  ref={confirmatonPasswordRef}
-                />
-              </div>
+              {/* Fin Input para la Contraseña del Doctor */}
               <input
                 type="submit"
                 value="Crear Usuario"
                 className="button-login text-3xl text-center text-white mt-4 font-bold cursor-pointer"
               />
             </form>
+            {/* Fin Form Registro Doctores */}
           </div>
+          {/* Fin Contenedor de Form Registro Doctores */}
+          {/* Contendor de la tabla */}
           <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
             <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
               Doctores:
             </h1>
             <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
+              {/* Tabla */}
               <table class="table text-center align-middle">
                 <thead>
                   <tr>
@@ -249,191 +279,56 @@ export default function DoctorsRegisterPanel() {
                     <th scope="col">Nombre</th>
                     <th scope="col">Correo</th>
                     <th scope="col">Usuario</th>
-                    <th scope="col">Acciones</th>
+                    <th scope="col">Especialidad</th>
+                    <th scope="col">Hospital</th>
+                    <th colSpan="2">Acciones</th>
                   </tr>
                 </thead>
+                {/* Cuerpo de la tabla que se genera por un map en un componente aparte */}
                 <tbody class="table-group-divider">
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Doctor Name</td>
-                    <td>Doctor Correo</td>
-                    <td>Doctor Usuario</td>
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary bg-indigo-500"
-                        data-bs-toggle="modal"
-                        data-bs-target="#infoPersonalDoctor"
-                      >
-                        Ver mas
-                      </button>
-                      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-                        <div
-                          class="modal fade"
-                          id="infoPersonalDoctor"
-                          data-bs-backdrop="static"
-                          data-bs-keyboard="false"
-                          tabindex="-1"
-                          aria-labelledby="staticBackdropLabel"
-                          aria-hidden="true"
-                        >
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h1
-                                  class="modal-title fs-5 font-bold text-indigo-700"
-                                  id="staticBackdropLabel"
-                                >
-                                  Informacion Doctor (Nombre)
-                                </h1>
-                                <button
-                                  type="button"
-                                  class="btn-close"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                ></button>
-                              </div>
-                              <div class="modal-body">
-                                <div className="py-2">
-                                  <p className="font-normal text-indigo-700 text-lg">
-                                    Especialidad Medica:
-                                  </p>
-                                  <p className="text-2xl">Pediatria</p>
-                                </div>{" "}
-                                <div className="py-2">
-                                  <p className="font-normal text-indigo-700 text-lg">
-                                    Hospital:
-                                  </p>
-                                  <p className="text-2xl">Benjamin Bloom</p>
-                                </div>{" "}
-                              </div>
-                              <div class="modal-footer">
-                                <button
-                                  type="button"
-                                  class="btn btn-primary bg-indigo-500"
-                                  data-bs-dismiss="modal"
-                                >
-                                  Cerrar
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary bg-indigo-500"
-                      >
-                        Editar
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-primary bg-indigo-500"
-                      >
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
+                  {doctors.map((doctor) => (
+                    <DoctorsResultsTable key={doctor.id} doctor={doctor} />
+                  ))}
                 </tbody>
+                {/* Fin Cuerpo de la tabla que se genera por un map en un componente aparte */}
               </table>
+              {/* Fin Tabla */}
             </div>
           </div>
+          {/* Informacion que le aparece a cualquiera que esta logeado */}
         </>
       ) : (
-        <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
-          <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
-            Doctores:
-          </h1>
-          <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
-            <table class="table text-center align-middle">
-              <thead>
-                <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Correo</th>
-                  <th scope="col">Usuario</th>
-
-                  <th colSpan="3">Acciones</th>
-                </tr>
-              </thead>
-              <tbody class="table-group-divider">
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Doctor Name</td>
-                  <td>Doctor Correo</td>
-                  <td>Doctor Usuario</td>
-                  <td>
-                    <button
-                      type="button"
-                      class="btn btn-primary bg-indigo-500"
-                      data-bs-toggle="modal"
-                      data-bs-target="#infoPersonalDoctor"
-                    >
-                      Ver mas
-                    </button>
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-                      <div
-                        class="modal fade"
-                        id="infoPersonalDoctor"
-                        data-bs-backdrop="static"
-                        data-bs-keyboard="false"
-                        tabindex="-1"
-                        aria-labelledby="staticBackdropLabel"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h1
-                                class="modal-title fs-5 font-bold text-indigo-700"
-                                id="staticBackdropLabel"
-                              >
-                                Informacion Doctor (Nombre)
-                              </h1>
-                              <button
-                                type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              ></button>
-                            </div>
-                            <div class="modal-body">
-                              <div className="py-2">
-                                <p className="font-normal text-indigo-700 text-lg">
-                                  Especialidad Medica:
-                                </p>
-                                <p className="text-2xl">Pediatria</p>
-                              </div>{" "}
-                              <div className="py-2">
-                                <p className="font-normal text-indigo-700 text-lg">
-                                  Hospital:
-                                </p>
-                                <p className="text-2xl">Benjamin Bloom</p>
-                              </div>{" "}
-                            </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn btn-primary bg-indigo-500"
-                                data-bs-dismiss="modal"
-                              >
-                                Cerrar
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        <>
+          {/* Informacion que le aparece a cualquiera que esta logeado */}
+          <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
+            <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
+              Doctores:
+            </h1>
+            <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
+              {/* Tabla */}
+              <table class="table text-center align-middle">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Especialidad</th>
+                    <th scope="col">Hospital</th>
+                  </tr>
+                </thead>
+                {/* Cuerpo de la tabla que se genera por un map en un componente aparte */}
+                <tbody class="table-group-divider">
+                  {doctors.map((doctor) => (
+                    <DoctorsResultsTable key={doctor.id} doctor={doctor} />
+                  ))}
+                </tbody>
+                {/* Fin Cuerpo de la tabla que se genera por un map en un componente aparte */}
+              </table>
+              {/* Fin Tabla */}
+            </div>
           </div>
-        </div>
+          {/* Informacion que le aparece a cualquiera que esta logeado */}
+        </>
       )}
     </div>
   );
