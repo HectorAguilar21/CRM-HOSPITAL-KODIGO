@@ -33,10 +33,13 @@ class AdministratorInformationController extends Controller
     }
 
 
-    // public function show(AdministratorInformation $administratorInformation)
-    // {
-    //     //
-    // }
+    public function show(Request $request, $id)
+    {
+        // $administrator = AdministratorInformation::findOrFail($request->id);
+        $administrator = AdministratorInformation::with(['hospital'])->find($id);
+
+        return response()->json($administrator);
+    }
 
     public function update(
         Request $request,

@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function AdministratorPanelLayout() {
+  //Variable para obtener la ruta actual y realizar validaciones en las vistas
   const location = useLocation();
 
   return (
@@ -120,6 +121,16 @@ export default function AdministratorPanelLayout() {
             >
               Registro Hospital-Especialidad
             </Link>
+            {/* <Link
+              className={`${
+                location.pathname === "/administrator/appointment_comment"
+                  ? "text-black font-panel-sidebar option-selected"
+                  : "text-white font-panel-sidebar"
+              } text-2xl py-2 pl-4`}
+              to="/administrator/appointment_comment"
+            >
+              Panel de Comentarios
+            </Link> */}
           </div>
         </nav>
       </aside>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function SpecialitiesResultsTable(props) {
   return (
@@ -11,7 +12,7 @@ export default function SpecialitiesResultsTable(props) {
       <td>
         <button
           type="button"
-          className="btn btn-primary bg-indigo-500"
+          className="btn text-white bg-emerald-600 hover:bg-emerald-800"
           data-bs-toggle="modal"
           data-bs-target="#infoDoctores"
         >
@@ -77,7 +78,7 @@ export default function SpecialitiesResultsTable(props) {
       <td>
         <button
           type="button"
-          className="btn btn-primary bg-indigo-500"
+          className="btn text-white bg-emerald-600 hover:bg-emerald-800"
           data-bs-toggle="modal"
           data-bs-target="#infoHospitals"
         >
@@ -150,12 +151,19 @@ export default function SpecialitiesResultsTable(props) {
       {location.pathname === "/administrator/specialties_panel" && (
         <>
           <td>
-            <button type="button" className="btn btn-primary bg-indigo-500">
+            <Link
+              to={`/administrator/specialties_edit?id=${props.specialities.id}`}
+              type="button"
+              className="btn text-white bg-indigo-500 hover:bg-indigo-800"
+            >
               Editar
-            </button>
+            </Link>
           </td>
           <td>
-            <button type="button" className="btn btn-primary bg-indigo-500">
+            <button
+              type="button"
+              className="btn text-white bg-red-500 hover:bg-red-700"
+            >
               Eliminar
             </button>
           </td>

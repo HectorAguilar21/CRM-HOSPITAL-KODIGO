@@ -33,10 +33,12 @@ class SecretaryInformationController extends Controller
     }
 
 
-    // public function show(SecretaryInformation $secretaryInformation)
-    // {
-    //     //
-    // }
+    public function show(Request $request, $id)
+    {
+
+        $secretary = SecretaryInformation::with(['hospital'])->find($id);
+        return response()->json($secretary);
+    }
 
     public function update(
         Request $request,

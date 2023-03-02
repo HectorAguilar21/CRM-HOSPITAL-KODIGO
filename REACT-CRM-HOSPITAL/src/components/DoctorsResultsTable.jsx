@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function DoctorsResultsTable(props) {
   //Variable para obtener la ruta actual y realizar validaciones en las vistas
@@ -21,12 +21,19 @@ export default function DoctorsResultsTable(props) {
       {location.pathname === "/administrator/doctors_panel" && (
         <>
           <td>
-            <button type="button" class="btn btn-primary bg-indigo-500">
+            <Link
+              to={`/administrator/doctors_edit?id=${props.doctor.id}`}
+              type="button"
+              class="btn text-white bg-indigo-500 hover:bg-indigo-800"
+            >
               Editar
-            </button>
+            </Link>
           </td>
           <td>
-            <button type="button" class="btn btn-primary bg-indigo-500">
+            <button
+              type="button"
+              class="btn text-white bg-red-500 hover:bg-red-700"
+            >
               Eliminar
             </button>
           </td>

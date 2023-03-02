@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 class PatientInformationController extends Controller
 {
     //Recuperando informacion de PatientInformation
-    public function index()
+    public function index(Request $request)
     {
-        $patient = PatientInformation::all();
+        $patient = PatientInformation::with(['hospital'])->get();
         return response()->json($patient);
     }
 
@@ -40,10 +40,13 @@ class PatientInformationController extends Controller
     }
 
 
-    // public function show(PatientInformation $patientInformation)
-    // {
-    //     //
-    // }
+    public function show(Request $request, $id)
+    {
+
+        $patient = PatientInformation::with(['hospital'])->find($id);
+        return response()->json($patient);
+    }
+
 
     public function update(
         Request $request,

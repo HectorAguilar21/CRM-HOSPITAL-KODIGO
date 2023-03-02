@@ -4,8 +4,11 @@ import { useLocation } from "react-router-dom";
 
 export default function Login() {
   const location = useLocation();
+  console.log(location);
   const searchParams = new URLSearchParams(location.search);
+  console.log(searchParams);
   const userType = searchParams.get("type");
+  console.log(userType);
 
   // const userRef = createRef();
   // const passwordRef = createRef();

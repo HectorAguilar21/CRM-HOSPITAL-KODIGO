@@ -34,10 +34,14 @@ class DoctorInformationController extends Controller
     }
 
 
-    // public function show(DoctorInformation $doctorInformation)
-    // {
-    //     //
-    // }
+    public function show(Request $request, $id)
+    {
+        $doctor = DoctorInformation::with(['hospital', 'speciality'])->find($id);
+        return response()->json($doctor);
+        // $doctor = DoctorInformation::findOrFail($request->id);
+
+        // return response()->json($doctor);
+    }
 
     public function update(
         Request $request,

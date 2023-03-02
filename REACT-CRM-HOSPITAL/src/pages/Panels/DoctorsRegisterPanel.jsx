@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Alerta from "../../components/Alerta";
 import DoctorsResultsTable from "../../components/DoctorsResultsTable";
 import clienteAxios from "../../config/axios";
 

@@ -14,4 +14,9 @@ class CommentAppointmentInformation extends Model
         'comment_doctor_id',
         'comment_appointment',
     ];
+
+    public function doctor()
+    {
+        return $this->belongsTo(DoctorInformation::class, 'comment_doctor_id');
+    }
 }

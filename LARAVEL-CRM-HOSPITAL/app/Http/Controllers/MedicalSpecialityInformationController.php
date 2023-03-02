@@ -25,10 +25,11 @@ class MedicalSpecialityInformationController extends Controller
         return response()->json($specialities, 201);
     }
 
-    // public function show(string $id)
-    // {
-    //     //
-    // }
+    public function show(Request $request)
+    {
+        $specialities = MedicalSpecialityInformation::findOrFail($request->id);
+        return response()->json($specialities);
+    }
 
     //Actualizando los recursos de la tabla
     public function update(Request $request, string $id)

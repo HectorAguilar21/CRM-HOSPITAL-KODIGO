@@ -1,8 +1,14 @@
+import React from "react";
 import { useEffect, useState } from "react";
-import AppointmentsResultsTable from "../../components/AppointmentsResultsTable";
+import { Link, useLocation } from "react-router-dom";
 import clienteAxios from "../../config/axios";
 
-export default function AppointmentsRegisterPanel() {
+export default function AppointmentEdit() {
+  //Variable para obtener la ruta actual y realizar validaciones en las vistas
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const idAppointment = searchParams.get("id");
+
   //States para recoger la informacion de los inputs
   const [appointmentDoctorIdRef, setAppointmentDoctorIdRef] = useState("");
   const [appointmentSpecialityIdRef, setAppointmentSpecialityIdRef] =
@@ -21,7 +27,7 @@ export default function AppointmentsRegisterPanel() {
   const [status, setStatus] = useState([]);
 
   //States para guardar los datos de "obtenerCitas"
-  const [appointments, setAppointments] = useState([]);
+  const [appointment, setAppointment] = useState({});
 
   //Funcion para solicitar la info a la API
   const obtenerHospitales = async () => {
@@ -56,10 +62,13 @@ export default function AppointmentsRegisterPanel() {
   };
 
   //Funcion para solicitar la info a la API
-  const obtenerCitas = async () => {
+  const obtenerCita = async () => {
     try {
-      const { data } = await clienteAxios("/api/appointment_information");
-      setAppointments(data);
+      const { data } = await clienteAxios(
+        `/api/appointment_information/${idAppointment}`
+      );
+      console.log(data);
+      setAppointment(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
@@ -70,8 +79,19 @@ export default function AppointmentsRegisterPanel() {
     obtenerHospitales();
     obtenerEspecialidades();
     obtenerEstados();
-    obtenerCitas();
+    obtenerCita();
   }, []);
+
+  //Funcion para setear infor
+  const setInputs = () => {
+    setAppointmentDoctorIdRef(appointment.appointment_doctor_id);
+    setAppointmentSpecialityIdRef(appointment.appointment_speciality_id);
+    setAppointmentHospitalIdRef(appointment.appointment_hospital_id);
+    setAppointmentPatientIdRef(appointment.appointment_patient_id);
+    setAppointmentDateRef(appointment.appointment_date);
+    setAppointmentHourRef(appointment.appointment_hour);
+    setAppointmentDescriptionRef(appointment.appointment_description);
+  };
 
   //Funcion para enviar el Formulario a traves de un boton y no por el form directamente
   const handleSubmit = async (e) => {
@@ -92,8 +112,8 @@ export default function AppointmentsRegisterPanel() {
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
-      const respuesta = await clienteAxios.post(
-        "/api/appointment_information",
+      const respuesta = await clienteAxios.put(
+        `/api/appointment_information/${idAppointment}`,
         datosForm
       );
       console.log(respuesta);
@@ -107,9 +127,16 @@ export default function AppointmentsRegisterPanel() {
     <div className="">
       {/* Contenedor de Form Registro Citas */}
       <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
-        <h1 className="text-4xl font-black text-center mb-10">
-          Añade nueva Cita
-        </h1>
+        <h1 className="text-4xl font-black text-center mb-10">Actualizacion</h1>
+        <div className="flex justify-center mb-4">
+          <button
+            type="button"
+            class="btn text-white bg-sky-700 hover:bg-sky-800"
+            onClick={setInputs}
+          >
+            Cargar datos
+          </button>
+        </div>
         {/* Form Registro Cita */}
         <form className="grid grid-cols-2" onSubmit={handleSubmit}>
           {/* Input para escribir el Id del Doctor */}
@@ -121,8 +148,8 @@ export default function AppointmentsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="appointment_doctor_id"
               placeholder="Ingresa el ID del Doctor"
-              value={appointmentDoctorIdRef}
-              onChange={(e) => setAppointmentDoctorIdRef(e.target.value)}
+              defaultValue={appointmentDoctorIdRef}
+              // onChange={(e) => setAppointmentDoctorIdRef(e.target.value)}
               required
             />
           </div>
@@ -134,7 +161,7 @@ export default function AppointmentsRegisterPanel() {
               id="appointment_speciality_id"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               value={appointmentSpecialityIdRef}
-              onChange={(e) => setAppointmentSpecialityIdRef(e.target.value)}
+              // onChange={(e) => setAppointmentSpecialityIdRef(e.target.value)}
               required
             >
               <option value="--Default--" selected>
@@ -155,7 +182,7 @@ export default function AppointmentsRegisterPanel() {
               id="appointment_hospital_id"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               value={appointmentHospitalIdRef}
-              onChange={(e) => setAppointmentHospitalIdRef(e.target.value)}
+              // onChange={(e) => setAppointmentHospitalIdRef(e.target.value)}
               required
             >
               <option value="--Default--" selected>
@@ -178,8 +205,8 @@ export default function AppointmentsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="appointment_patient_id"
               placeholder="Ingresa el ID del paciente"
-              value={appointmentPatientIdRef}
-              onChange={(e) => setAppointmentPatientIdRef(e.target.value)}
+              defaultValue={appointmentPatientIdRef}
+              // onChange={(e) => setAppointmentPatientIdRef(e.target.value)}
               required
             />
           </div>
@@ -193,8 +220,8 @@ export default function AppointmentsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="appointment_date"
               placeholder="Ingresa los nombres del Administrador"
-              value={appointmentDateRef}
-              onChange={(e) => setAppointmentDateRef(e.target.value)}
+              defaultValue={appointmentDateRef}
+              // onChange={(e) => setAppointmentDateRef(e.target.value)}
               required
             />
           </div>
@@ -208,8 +235,8 @@ export default function AppointmentsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="appointment_hour"
               placeholder="Ingresa los nombres del Administrador"
-              value={appointmentHourRef}
-              onChange={(e) => setAppointmentHourRef(e.target.value)}
+              defaultValue={appointmentHourRef}
+              // onChange={(e) => setAppointmentHourRef(e.target.value)}
               required
             />
           </div>{" "}
@@ -224,19 +251,25 @@ export default function AppointmentsRegisterPanel() {
               placeholder="Ingresa Nombre de La cita"
               cols="30"
               rows="1"
-              value={appointmentDescriptionRef}
-              onChange={(e) => setAppointmentDescriptionRef(e.target.value)}
+              defaultValue={appointmentDescriptionRef}
+              // onChange={(e) => setAppointmentDescriptionRef(e.target.value)}
               required
             ></textarea>
           </div>{" "}
           {/* Fin Input para la Descripcion de la cita */}
           {/* Input para el estado de la cita */}
           <div className="mb-4 mx-3">
-            <label htmlFor="appointment_status">Estado:</label>
+            <label htmlFor="appointment_status">
+              Estado:
+              <span className="text-indigo-200">
+                {" "}
+                {appointment.appointment_status}
+              </span>
+            </label>
             <select
               id="appointment_status"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-              value={appointmentStatusRef}
+              defaultValue={appointmentStatusRef}
               onChange={(e) => setAppointmentStatusRef(e.target.value)}
               required
             >
@@ -248,7 +281,7 @@ export default function AppointmentsRegisterPanel() {
           {/* Fin Input para el estado de la cita */}
           <input
             type="submit"
-            value="Crear Cita"
+            value="Actualiza Cita"
             className="button-login text-3xl text-center text-white mt-4 font-bold cursor-pointer"
           />
         </form>
@@ -256,38 +289,6 @@ export default function AppointmentsRegisterPanel() {
       </div>
       {/* Fin Contenedor de Form Registro Citas */}
       {/* Contendor de la tabla */}
-      <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
-        <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
-          Registro de citas:
-        </h1>
-        <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
-          {/* Tabla */}
-          <table class="table text-center align-middle">
-            <thead>
-              <tr>
-                <th scope="col">Cita ID</th>
-                <th scope="col">Doctor</th>
-                <th scope="col">Especialidad</th>
-                <th scope="col">Hospital</th>
-                <th scope="col">Paciente</th>
-                <th colSpan="2">Estado</th>
-                <th colSpan="2">Acciones</th>
-              </tr>
-            </thead>
-            {/* Cuerpo de la tabla que se genera por un map en un componente aparte */}
-            <tbody class="table-group-divider">
-              {appointments.map((appointment) => (
-                <AppointmentsResultsTable
-                  key={appointment.id}
-                  appointment={appointment}
-                />
-              ))}
-            </tbody>
-            {/* Fin Cuerpo de la tabla que se genera por un map en un componente aparte */}
-          </table>
-          {/* Fin Tabla */}
-        </div>
-      </div>
     </div>
   );
 }

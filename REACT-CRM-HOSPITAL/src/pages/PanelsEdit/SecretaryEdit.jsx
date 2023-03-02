@@ -1,8 +1,14 @@
+import React from "react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import clienteAxios from "../../config/axios";
 
-export default function SecretaryRegisterPanel() {
+export default function SecretaryEdit() {
+  //Variable para obtener la ruta actual y realizar validaciones en las vistas
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const idSecretary = searchParams.get("id");
+
   //States para recoger la informacion de los inputs
   const [typeIdRef, setTypeIdRef] = useState("4");
   const [userIdRef, setUserIdRef] = useState("");
@@ -11,13 +17,12 @@ export default function SecretaryRegisterPanel() {
   const [hospitalRef, setHospitalIdRef] = useState("");
   const [userRef, setUserRef] = useState("");
   const [emailRef, setEmialRef] = useState("");
-  const [passwordRef, setPasswordRef] = useState("");
 
   //States para guardar los datos de "obtenerHospitales" axions
   const [hospitals, setHospitals] = useState([]);
 
-  //state para guardar los datos de "obtenerSecretarias"
-  const [secretaries, setSecretaries] = useState([]);
+  //state para guardar los datos de "obtenerSecretaria"
+  const [secretary, setSecretary] = useState({});
 
   //Funcion para solicitar la info a la API
   const obtenerHospitales = async () => {
@@ -30,10 +35,12 @@ export default function SecretaryRegisterPanel() {
   };
 
   //Funcion para solicitar la info a la API
-  const obtenerSecretarias = async () => {
+  const obtenerSecretaria = async () => {
     try {
-      const { data } = await clienteAxios("/api/secretary_information");
-      setSecretaries(data);
+      const { data } = await clienteAxios(
+        `/api/secretary_information/${idSecretary}`
+      );
+      setSecretary(data);
     } catch (error) {
       console.log(error);
     }
@@ -42,7 +49,7 @@ export default function SecretaryRegisterPanel() {
   //useEffect para ejecutar al menos una vez las solicitudes a la API, cada vez que se visita la pagina
   useEffect(() => {
     obtenerHospitales();
-    obtenerSecretarias();
+    obtenerSecretaria();
   }, []);
 
   //Funcion para enviar el Formulario a traves de un boton y no por el form directamente
@@ -58,14 +65,13 @@ export default function SecretaryRegisterPanel() {
       hospital_id: hospitalRef,
       user: userRef,
       email: emailRef,
-      password: passwordRef,
     };
     console.log(datos);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
-      const respuesta = await clienteAxios.post(
-        "/api/secretary_information",
+      const respuesta = await clienteAxios.put(
+        `/api/secretary_information/${idSecretary}`,
         datos
       );
       console.log(respuesta);
@@ -79,9 +85,7 @@ export default function SecretaryRegisterPanel() {
     <div className="">
       {/* Contenedor de Form Registro Secretarias */}
       <div className="bg-white shadow-xl rounded-md mt-10 px-5 py-10 mx-20">
-        <h1 className="text-4xl font-black text-center mb-10">
-          Añade nueva Secretaria
-        </h1>
+        <h1 className="text-4xl font-black text-center mb-10">Actualizacion</h1>
         {/* Form Registro Secretaria */}
         <form className="grid grid-cols-2" onSubmit={handleSubmit}>
           {/* Input para seleccionar el rol */}
@@ -101,7 +105,10 @@ export default function SecretaryRegisterPanel() {
           {/* Fin Input para seleccionar el hospital */}
           {/* Input para el Id de la Secretaria */}
           <div className="mb-4 mx-3">
-            <label htmlFor="user_id">Secretaria ID:</label>
+            <label htmlFor="user_id">
+              Secretaria ID:
+              <span className="text-indigo-200"> {secretary.user_id}</span>
+            </label>
             <input
               type="text"
               id="user_id"
@@ -116,7 +123,10 @@ export default function SecretaryRegisterPanel() {
           {/* Fin Input para el Id de la Secretaria */}
           {/* Input para el Nombre de la Secretaria */}
           <div className="mb-4 mx-3">
-            <label htmlFor="name">Nombres:</label>
+            <label htmlFor="name">
+              Nombres:
+              <span className="text-indigo-200"> {secretary.name}</span>
+            </label>
             <input
               type="text"
               id="name"
@@ -131,7 +141,10 @@ export default function SecretaryRegisterPanel() {
           {/* Fin Input para el Nombre de la Secretaria */}
           {/* Input para los Apellidos de la Secretaria */}
           <div className="mb-4 mx-3">
-            <label htmlFor="last_name">Apellidos:</label>
+            <label htmlFor="last_name">
+              Apellidos:
+              <span className="text-indigo-200"> {secretary.last_name}</span>
+            </label>
             <input
               type="text"
               id="last_name"
@@ -146,7 +159,10 @@ export default function SecretaryRegisterPanel() {
           {/* Fin Input para los Apellidos de la Secretaria */}
           {/* Input para seleccionar el hospital */}
           <div className="mb-4 mx-3">
-            <label htmlFor="hospital_id">Hospital donde laboral ID:</label>
+            <label htmlFor="hospital_id">
+              Hospital donde laboral ID:
+              <span className="text-indigo-200"> {secretary.hospital_id}</span>
+            </label>
             <select
               id="hospital_id"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
@@ -167,7 +183,10 @@ export default function SecretaryRegisterPanel() {
           {/* Fin Input para seleccionar el hospital */}
           {/* Input para el Usuario de la Secretaria */}
           <div className="mb-4 mx-3">
-            <label htmlFor="user">Usuario:</label>
+            <label htmlFor="user">
+              Usuario:
+              <span className="text-indigo-200"> {secretary.user}</span>
+            </label>
             <input
               type="text"
               id="user"
@@ -182,7 +201,10 @@ export default function SecretaryRegisterPanel() {
           {/* Fin Input para el Usuario de la Secretaria */}
           {/* Input para el correol de la Secretaria */}
           <div className="mb-4 mx-3">
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="email">
+              Email:
+              <span className="text-indigo-200"> {secretary.email}</span>
+            </label>
             <input
               type="email"
               id="email"
@@ -195,80 +217,15 @@ export default function SecretaryRegisterPanel() {
             />
           </div>
           {/* Fin Input para el correo de la Secretaria */}
-          {/* Input para la Contraseña de la Secretaria */}
-          <div className="mb-4 mx-3">
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-              name="password"
-              placeholder="Ingresa la contraseña de la Secretaria"
-              value={passwordRef}
-              onChange={(e) => setPasswordRef(e.target.value)}
-              required
-            />
-          </div>
-          {/* Fin Input para la Contraseña de la Secretaria */}
           <input
             type="submit"
-            value="Crear Usuario"
+            value="Actualizar Usuario"
             className="button-login text-3xl text-center text-white mt-4 font-bold cursor-pointer"
           />
         </form>
         {/* Fin Form Registro Secretarias */}
       </div>
       {/* Fin Contenedor de Form Registro Secretarias */}
-      {/* Contendor de la tabla */}
-      <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
-        <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
-          Secretarias:
-        </h1>
-        <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
-          {/* Tabla */}
-          <table class="table text-center align-middle">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Correo</th>
-                <th scope="col">Usuario</th>
-                <th scope="col">Hospital</th>
-                <th colSpan="2">Acciones</th>
-              </tr>
-            </thead>
-            <tbody class="table-group-divider">
-              {secretaries.map((secretary) => (
-                <tr>
-                  <th scope="row">{secretary.user_id}</th>
-                  <td>{`${secretary.name} ${secretary.last_name}`}</td>
-                  <td>{secretary.email}</td>
-                  <td>{secretary.user}</td>
-                  <td>{secretary.hospital.hospital_name}</td>
-                  <td>
-                    <Link
-                      to={`/administrator/secretaries_edit?id=${secretary.id}`}
-                      type="button"
-                      class="btn text-white bg-indigo-500 hover:bg-indigo-800"
-                    >
-                      Editar
-                    </Link>
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      class="btn text-white bg-red-500 hover:bg-red-700"
-                    >
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {/* Fin Tabla */}
-        </div>
-      </div>
     </div>
   );
 }

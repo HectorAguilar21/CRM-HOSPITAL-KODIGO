@@ -10,7 +10,8 @@ class CommentAppointmentInformationController extends Controller
     //Recuperando informacion de CommentAppointmentInformation
     public function index()
     {
-        $comment = CommentAppointmentInformation::all();
+        // $comment = CommentAppointmentInformation::all();
+        $comment = CommentAppointmentInformation::with(['doctor'])->get();
         return $comment;
     }
 
@@ -27,10 +28,14 @@ class CommentAppointmentInformationController extends Controller
     }
 
 
-    // public function show(CommentAppointmentInformation $commentAppointmentInformation)
-    // {
-    //     //
-    // }
+    public function show(Request $request, $id)
+    {
+        $doctor = CommentAppointmentInformation::with(['doctor'])->find($id);
+        return response()->json($doctor);
+        // $doctor = CommentAppointmentInformation::findOrFail($request->id);
+
+        // return response()->json($doctor);
+    }
 
     /**
      * Update the specified resource in storage.

@@ -1,9 +1,14 @@
+import React from "react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
 import clienteAxios from "../../config/axios";
 
-export default function AdministratorsRegisterPanel() {
+export default function AdministratorEdit() {
+  //Variable para obtener la ruta actual y realizar validaciones en las vistas
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const idAdministrator = searchParams.get("id");
+
   //States para recoger la informacion de los inputs
   const [typeIdRef, setTypeIdRef] = useState("1");
   const [userIdRef, setUserIdRef] = useState("");
@@ -17,8 +22,8 @@ export default function AdministratorsRegisterPanel() {
   //States para guardar los datos de "obtenerEspecialidades" Axios
   const [hospitals, setHospitals] = useState([]);
 
-  //States para guardar los datos de "obtenerAdministradores" Axios
-  const [administrators, setAdministrators] = useState([]);
+  //States para guardar los datos de "obtenerAdministrador" Axios
+  const [administrator, setAdministrator] = useState({});
 
   //Funcion para solicitar la info a la API
   const obtenerHospitales = async () => {
@@ -32,11 +37,13 @@ export default function AdministratorsRegisterPanel() {
   };
 
   //Funcion para solicitar la info a la API
-  const obtenerAdministradores = async () => {
+  const obtenerAdministrador = async () => {
     try {
-      const { data } = await clienteAxios("/api/administrator_information");
-      setAdministrators(data);
-      // console.log(data);
+      const { data } = await clienteAxios(
+        `/api/administrator_information/${idAdministrator}`
+      );
+      setAdministrator(data);
+      console.log(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
@@ -45,7 +52,7 @@ export default function AdministratorsRegisterPanel() {
   //useEffect para ejecutar al menos una vez la solicitud a la API, cada vez que se visita la pagina
   useEffect(() => {
     obtenerHospitales();
-    obtenerAdministradores();
+    obtenerAdministrador();
   }, []);
 
   //Funcion para enviar el Formulario a traves de un boton y no por el form directamente
@@ -66,8 +73,8 @@ export default function AdministratorsRegisterPanel() {
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
-      const respuesta = await clienteAxios.post(
-        "/api/administrator_information",
+      const respuesta = await clienteAxios.put(
+        `/api/administrator_information/${idAdministrator}`,
         datos
       );
       console.log(respuesta);
@@ -76,15 +83,12 @@ export default function AdministratorsRegisterPanel() {
     }
   };
 
-  //Return del HTML a mostrar
   return (
-    <div className="">
-      {/* Contenedor de Form Registro Administradores */}
+    <div>
+      {/* Contenedor de Form Edicion Administradores */}
       <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
-        <h1 className="text-4xl font-black text-center mb-10">
-          Añade nuevo Administrador
-        </h1>
-        {/* Form Registro Administradores */}
+        <h1 className="text-4xl font-black text-center mb-10">Actualizacion</h1>
+        {/* Form Edicion Administradores */}
         <form className="grid grid-cols-2" onSubmit={handleSubmit} noValidate>
           {/* Input para escribir el rol del Usuario */}
           <div className="mb-4 mx-3">
@@ -102,13 +106,16 @@ export default function AdministratorsRegisterPanel() {
           {/* Fin Input para escribir el rol del Usuario */}
           {/* Input para escribir el ID del usuario */}
           <div className="mb-4 mx-3">
-            <label htmlFor="user_id">Administrador ID:</label>
+            <label htmlFor="user_id">
+              Administrador ID:
+              <span className="text-indigo-200"> {administrator.user_id}</span>
+            </label>
             <input
               type="text"
               id="user_id"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="user_id"
-              placeholder="Ingresa el ID del Administrador"
+              placeholder="Actualiza el ID del Administrador"
               value={userIdRef}
               onChange={(e) => setUserIdRef(e.target.value)}
               required
@@ -117,13 +124,16 @@ export default function AdministratorsRegisterPanel() {
           {/* Fin Input para escribir el ID del usuario */}
           {/* Input para escribir los nombres del usuario */}
           <div className="mb-4 mx-3">
-            <label htmlFor="name">Nombres:</label>
+            <label htmlFor="name">
+              Nombres:
+              <span className="text-indigo-200"> {administrator.name}</span>
+            </label>
             <input
               type="text"
               id="name"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="name"
-              placeholder="Ingresa los nombres del Administrador"
+              placeholder="Actualiza los nombres del Administrador"
               value={nameRef}
               onChange={(e) => setNameRef(e.target.value)}
               required
@@ -132,13 +142,19 @@ export default function AdministratorsRegisterPanel() {
           {/* Fin Input para escribir los nombres del usuario */}
           {/* Input para escribir los apellidos del usuario */}
           <div className="mb-4 mx-3">
-            <label htmlFor="last_name">Apellidos:</label>
+            <label htmlFor="last_name">
+              Apellidos:
+              <span className="text-indigo-200">
+                {" "}
+                {administrator.last_name}
+              </span>
+            </label>
             <input
               type="text"
               id="last_name"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="last_name"
-              placeholder="Ingresa los apellidos del Administrador"
+              placeholder="Actualiza los apellidos del Administrador"
               value={lastNameRef}
               onChange={(e) => setLastNameRef(e.target.value)}
               required
@@ -147,7 +163,13 @@ export default function AdministratorsRegisterPanel() {
           {/* Fin Input para escribir los apellidos del usuario */}
           {/* Input para escribir el ID del hospital */}
           <div className="mb-4 mx-3">
-            <label htmlFor="hospital_id">Hospital ID:</label>
+            <label htmlFor="hospital_id">
+              Hospital ID:
+              <span className="text-indigo-200">
+                {" "}
+                {/* {administrator.hospital.hospital_name} */}
+              </span>
+            </label>
             <select
               id="hospital_id"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
@@ -156,7 +178,7 @@ export default function AdministratorsRegisterPanel() {
               required
             >
               <option value="--Default--" selected>
-                --Seleccione una opcion--
+                --Seleccione la opcion que se actualiza--
               </option>
               {hospitals.map((hospital) => (
                 <option key={hospital.id} value={hospital.id}>
@@ -168,13 +190,16 @@ export default function AdministratorsRegisterPanel() {
           {/* Fin Input para escribir el ID del hospital */}
           {/* Input para escribir el usuario */}
           <div className="mb-4 mx-3">
-            <label htmlFor="user">Usuario:</label>
+            <label htmlFor="user">
+              Usuario:
+              <span className="text-indigo-200"> {administrator.user}</span>
+            </label>
             <input
               type="text"
               id="user"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="user"
-              placeholder="Ingresa el usuario del Administrador"
+              placeholder="Actualiza el usuario del Administrador"
               value={userRef}
               onChange={(e) => setUserRef(e.target.value)}
               required
@@ -183,13 +208,16 @@ export default function AdministratorsRegisterPanel() {
           {/* Fin Input para escribir el usuario */}
           {/* Input para escribir el correo */}
           <div className="mb-4 mx-3">
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="email">
+              Email:
+              <span className="text-indigo-200"> {administrator.email}</span>
+            </label>
             <input
               type="email"
               id="email"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="email"
-              placeholder="Ingresa el correo del Administrador"
+              placeholder="Actualiza el correo del Administrador"
               value={emailRef}
               onChange={(e) => setEmailRef(e.target.value)}
               required
@@ -205,7 +233,7 @@ export default function AdministratorsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="password"
               placeholder="Ingresa la contraseña del Administrador"
-              value={passwordRef}
+              value={administrator.password}
               onChange={(e) => setPasswordRef(e.target.value)}
               required
             />
@@ -213,63 +241,13 @@ export default function AdministratorsRegisterPanel() {
           {/* FinInput para escribir la contraseña */}
           <input
             type="submit"
-            value="Crear Usuario"
+            value="Actualizar Usuario"
             className="button-login text-3xl text-center text-white mt-4 font-bold cursor-pointer"
           />
         </form>
-        {/* Fin Form Registro Administradores */}
+        {/* Fin Form Edicion Administradores */}
       </div>
-      {/* Fin Contenedor de Form Registro Administradores */}
-      {/* Contendor de la tabla */}
-      <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
-        <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
-          Administradores:
-        </h1>
-        <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
-          {/* Tabla */}
-          <table className="table text-center align-middle">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Correo</th>
-                <th scope="col">Usuario</th>
-                <th scope="col">Hospital</th>
-                <th colSpan="2">Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="table-group-divider">
-              {administrators.map((administrator) => (
-                <tr key={administrator.id}>
-                  <th scope="row">{administrator.user_id}</th>
-                  <td>{`${administrator.name} ${administrator.last_name}`}</td>
-                  <td>{administrator.email}</td>
-                  <td>{administrator.user}</td>
-                  <td>{administrator.hospital.hospital_name}</td>
-                  <td>
-                    <Link
-                      to={`/administrator/administrators_edit?id=${administrator.id}`}
-                      type="button"
-                      className="btn text-white bg-indigo-500 hover:bg-indigo-800"
-                    >
-                      Editar
-                    </Link>
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      className="btn text-white bg-red-500 hover:bg-red-700"
-                    >
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {/* Fin Tabla */}
-        </div>
-      </div>
+      {/* Fin Contenedor de Form Edicion Administradores */}
     </div>
   );
 }

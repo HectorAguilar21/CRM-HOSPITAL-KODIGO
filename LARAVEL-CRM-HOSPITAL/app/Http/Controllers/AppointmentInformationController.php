@@ -32,15 +32,18 @@ class AppointmentInformationController extends Controller
         return response()->json($appoiments);
     }
 
-    // public function show(AppointmentInformation $appointment)    // {
-    //     //
-    // }
+    public function show(Request $request, $id)
+    {
+
+        $appoiments = AppointmentInformation::with(['doctor', 'speciality', 'hospital', 'patient', 'status'])->find($id);
+        return response()->json($appoiments);
+    }
 
     public function update(Request $request, $id)
     {
         $appoiments = AppointmentInformation::findOrFail($request->id);
         $appoiments->appointment_doctor_id = $request->appointment_doctor_id;
-        $appoiments->appointment_specialty_id = $request->appointment_specialty_id;
+        $appoiments->appointment_speciality_id = $request->appointment_speciality_id;
         $appoiments->appointment_patient_id = $request->appointment_patient_id;
         $appoiments->appointment_hospital_id = $request->appointment_hospital_id;
         $appoiments->appointment_date = $request->appointment_date;

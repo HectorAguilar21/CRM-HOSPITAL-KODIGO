@@ -1,6 +1,36 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export default function AppointmentsResultsTable(props) {
+  //Variable para obtener la ruta actual y realizar validaciones en las vistas
+  const location = useLocation();
+
+  //Se define una variable Path para guardar el resultado del switch
+  let pathEditStatus;
+  let pathAppointmentsComments;
+  let pathAppointmentsCommentsAdd;
+
+  //Se realiza u switch para validar la ruta actual y asi elegir el path de redireccionamiento
+  switch (location.pathname) {
+    case "/administrator/appointment_panel":
+      pathEditStatus = "/administrator/appointments_editStatus";
+      pathAppointmentsComments = "/administrator/appointment_comment";
+      pathAppointmentsCommentsAdd = "/administrator/appointment_comment_add";
+      break;
+    case "/doctor/appointment_panel":
+      pathEditStatus = "/doctor/appointments_editStatus";
+      pathAppointmentsComments = "/doctor/appointment_comment";
+      pathAppointmentsCommentsAdd = "/doctor/appointment_comment_add";
+      break;
+    case "/secretary/appointment_panel":
+      pathEditStatus = "/secretary/appointments_editStatus";
+      pathAppointmentsComments = "/secretary/appointment_comment";
+      pathAppointmentsCommentsAdd = "/secretary/appointment_comment_add";
+      break;
+    default:
+      pathEditStatus = "http://localhost:5173";
+      break;
+  }
   return (
     <tr>
       {/* Informacion la tabla */}
@@ -11,176 +41,31 @@ export default function AppointmentsResultsTable(props) {
       <td>{props.appointment.patient.name}</td>
       <td>{props.appointment.status.status_type_name}</td>
       <td>
-        <button type="button" class="btn btn-primary bg-indigo-500">
+        <Link
+          to={`${pathEditStatus}?id=${props.appointment.id}`}
+          type="button"
+          class="btn text-white bg-indigo-500 hover:bg-indigo-800"
+        >
           Editar Estado
-        </button>
+        </Link>
       </td>
       <td>
-        <button
+        <Link
+          to={`${pathAppointmentsComments}?id=${props.appointment.id}`}
           type="button"
-          class="btn btn-primary bg-indigo-500"
-          data-bs-toggle="modal"
-          data-bs-target="#seeMore"
+          class="btn text-white bg-sky-700 hover:bg-sky-800"
         >
           Ver mas
-        </button>
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-          <div
-            class="modal fade"
-            id="seeMore"
-            data-bs-backdrop="static"
-            data-bs-keyboard="false"
-            tabindex="-1"
-            aria-labelledby="staticBackdropLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1
-                    class="modal-title fs-5 font-bold text-indigo-700"
-                    id="staticBackdropLabel"
-                  >
-                    Informcacion de la cita
-                  </h1>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <div className="py-2">
-                    <p className="font-normal text-indigo-700 text-lg">
-                      Hora en la que se completo la cita:
-                    </p>
-                    <p className="text-2xl">18:00</p>
-                  </div>{" "}
-                  <div className="py-2">
-                    <p className="font-normal text-indigo-700 text-lg">
-                      Comentario:
-                    </p>
-                    <p className="text-2xl">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Dicta voluptatem nobis aliquid quod harum voluptatibus,
-                      placeat quos suscipit maxime minus omnis repellendus vitae
-                      rerum doloremque, tenetur iste! Et, quisquam vel.
-                    </p>
-                  </div>{" "}
-                  <div className="py-2">
-                    <p className="font-normal text-indigo-700 text-lg">
-                      Doctor que hizo el comentario:
-                    </p>
-                    <p className="text-2xl">Hector Aguilar</p>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-primary bg-indigo-500"
-                    data-bs-dismiss="modal"
-                  >
-                    Cerrar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </Link>
       </td>
       <td>
-        {/* Informacion la tabla */}
-        {/* <button type="button" class="btn btn-primary bg-indigo-500">
-                    Eliminar
-                  </button> */}
-        <button
+        <Link
+          to={`${pathAppointmentsCommentsAdd}?id=${props.appointment.id}`}
           type="button"
-          class="btn btn-primary bg-indigo-500"
-          data-bs-toggle="modal"
-          data-bs-target="#addComment"
+          class="btn text-white bg-amber-500 hover:bg-amber-600"
         >
           Comentario
-        </button>
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-          <div
-            class="modal fade"
-            id="addComment"
-            data-bs-backdrop="static"
-            data-bs-keyboard="false"
-            tabindex="-1"
-            aria-labelledby="staticBackdropLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1
-                    class="modal-title fs-5 font-bold text-indigo-700"
-                    id="staticBackdropLabel"
-                  >
-                    Agregar Comentario
-                  </h1>
-                </div>
-                <div class="modal-body">
-                  <form className="" onSubmit={""}>
-                    <div className="mb-4 mx-3">
-                      <label htmlFor="comment_appointment_id">Cita ID</label>
-                      <input
-                        type="text"
-                        id="comment_appointment_id"
-                        className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-                        name="comment_appointment_id"
-                        placeholder="Ingresa el ID del Doctor"
-                        value={""}
-                        required
-                      />
-                    </div>
-                    <div className="mb-4 mx-3">
-                      <label htmlFor="comment_user_id">Usuario ID:</label>
-                      <input
-                        type="text"
-                        id="comment_user_id"
-                        className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-                        name="comment_user_id"
-                        placeholder="Ingresa el ID del paciente"
-                        value={""}
-                        required
-                      />
-                    </div>
-                    <div className="mb-4 mx-3">
-                      <label htmlFor="comment_appointment">Comentario:</label>
-                      <textarea
-                        className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-                        name="comment_appointment"
-                        id="comment_appointment"
-                        placeholder="Ingresa Nombre de La cita"
-                        cols="30"
-                        rows="4"
-                        value={""}
-                        required
-                      ></textarea>
-                    </div>{" "}
-                    <input
-                      type="submit"
-                      value="Crear Cita"
-                      className="btn btn-primary bg-indigo-500"
-                    />
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-primary bg-indigo-500"
-                    data-bs-dismiss="modal"
-                  >
-                    Cerrar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </Link>
       </td>
     </tr>
   );

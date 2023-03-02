@@ -1,8 +1,14 @@
+import React from "react";
 import { useEffect, useState } from "react";
-import PatientsResultsCard from "../../components/PatientsResultsCard";
+import { useLocation } from "react-router-dom";
 import clienteAxios from "../../config/axios";
 
-export default function PatientsRegisterPanel() {
+export default function PatientEdit() {
+  //Variable para obtener la ruta actual y realizar validaciones en las vistas
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const idPatient = searchParams.get("id");
+
   //States para guardar los datos recogidos de los inputs
   const [typeIdRef, setTypeIdRef] = useState("3");
   const [userIdRef, setUserIdRef] = useState("");
@@ -19,13 +25,12 @@ export default function PatientsRegisterPanel() {
   const [countryRef, setCountryRef] = useState("");
   const [userRef, setUserRef] = useState("");
   const [emailRef, setEmailRef] = useState("");
-  const [passwordRef, setPasswordRef] = useState("");
 
   //States para guardar los datos de "obtenerHospitales" Axios
   const [hospitals, setHospitals] = useState([]);
 
-  //States para guardar los datos de "obtenerPacientes" Axios
-  const [patients, setPatients] = useState([]);
+  //States para guardar los datos de "obtenerPaciente" Axios
+  const [patient, setPatient] = useState({});
 
   //Funcion para solicitar la info a la API
   const obtenerHospitales = async () => {
@@ -38,10 +43,13 @@ export default function PatientsRegisterPanel() {
   };
 
   //Funcion para solicitar la info a la API
-  const obtenerPacientes = async () => {
+  const obtenerPaciente = async () => {
     try {
-      const { data } = await clienteAxios("/api/patient_information");
-      setPatients(data);
+      const { data } = await clienteAxios(
+        `/api/patient_information/${idPatient}`
+      );
+      console.log(data);
+      setPatient(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
@@ -50,7 +58,7 @@ export default function PatientsRegisterPanel() {
   //useEffect para ejecutar al menos una vez la solicitud a la API, cada vez que se visita la pagina
   useEffect(() => {
     obtenerHospitales();
-    obtenerPacientes();
+    obtenerPaciente();
   }, []);
 
   //Funcion para enviar el Formulario a traves de un boton y no por el form directamente
@@ -74,14 +82,13 @@ export default function PatientsRegisterPanel() {
       country: countryRef,
       user: userRef,
       email: emailRef,
-      password: passwordRef,
     };
     console.log(datos);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
-      const respuesta = await clienteAxios.post(
-        "/api/patient_information",
+      const respuesta = await clienteAxios.put(
+        `/api/patient_information/${idPatient}`,
         datos
       );
       console.log(respuesta);
@@ -95,9 +102,7 @@ export default function PatientsRegisterPanel() {
     <div className="">
       {/* Contenedor de Form Registro Pacientes */}
       <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
-        <h1 className="text-4xl font-black text-center mb-10">
-          Añade nuevo Paciente
-        </h1>
+        <h1 className="text-4xl font-black text-center mb-10">Actualizacion</h1>
         {/* Form Registro Pacientes */}
         <form className="grid grid-cols-2" onSubmit={handleSubmit}>
           {/* Input para escribir el Rol */}
@@ -117,7 +122,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir el Rol */}
           {/* Input para escribir el Id del paciente */}
           <div className="mb-4 mx-3">
-            <label htmlFor="user_id">Paciente ID:</label>
+            <label htmlFor="user_id">
+              Paciente ID:
+              <span className="text-indigo-200"> {patient.user_id}</span>
+            </label>
             <input
               type="text"
               id="user_id"
@@ -132,7 +140,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir el Id del paciente */}
           {/* Input para escribir el Nombre del paciente */}
           <div className="mb-4 mx-3">
-            <label htmlFor="name">Nombres:</label>
+            <label htmlFor="name">
+              Nombres:
+              <span className="text-indigo-200"> {patient.name}</span>
+            </label>
             <input
               type="text"
               id="name"
@@ -147,7 +158,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir el Nombre del paciente */}
           {/* Input para escribir el Apellido del paciente */}
           <div className="mb-4 mx-3">
-            <label htmlFor="last_name">Apellidos:</label>
+            <label htmlFor="last_name">
+              Apellidos:
+              <span className="text-indigo-200"> {patient.last_name}</span>
+            </label>
             <input
               type="text"
               id="last_name"
@@ -162,7 +176,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir el Apellido del paciente */}
           {/* Input para escribir el Hospital de Registro */}
           <div className="mb-4 mx-3">
-            <label htmlFor="hospital_id">Hospital que se registro ID:</label>
+            <label htmlFor="hospital_id">
+              Hospital que se registro ID:
+              <span className="text-indigo-200"> {patient.hospital_id}</span>
+            </label>
             <select
               id="hospital_id"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
@@ -181,7 +198,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir el Hospital de Registro */}
           {/* Input para escribir el numero de telefono */}
           <div className="mb-4 mx-3">
-            <label htmlFor="number_phone">Numero de telefono:</label>
+            <label htmlFor="number_phone">
+              Numero de telefono:
+              <span className="text-indigo-200"> {patient.number_phone}</span>
+            </label>
             <input
               type="number"
               id="number_phone"
@@ -198,6 +218,10 @@ export default function PatientsRegisterPanel() {
           <div className="mb-4 mx-3">
             <label htmlFor="emergency_number_phone">
               Numero de emergencia:
+              <span className="text-indigo-200">
+                {" "}
+                {patient.emergency_number_phone}
+              </span>
             </label>
             <input
               type="number"
@@ -213,7 +237,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir el numero de emergencia */}
           {/* Input para escribir la fecha de nacimiento */}
           <div className="mb-4 mx-3">
-            <label htmlFor="date_of_birth">Fecha de Nacimiento:</label>
+            <label htmlFor="date_of_birth">
+              Fecha de Nacimiento:
+              <span className="text-indigo-200"> {patient.date_of_birth}</span>
+            </label>
             <input
               type="date"
               id="date_of_birth"
@@ -228,7 +255,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir la fecha de nacimiento */}
           {/* Input para escribir genero */}
           <div className="mb-4 mx-3">
-            <label htmlFor="gender">Genero:</label>
+            <label htmlFor="gender">
+              Genero:
+              <span className="text-indigo-200"> {patient.gender}</span>
+            </label>
             <select
               id="gender"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
@@ -242,7 +272,7 @@ export default function PatientsRegisterPanel() {
               <option value="Femenino" name="gender">
                 Femenino
               </option>
-              <option value="Femenino" name="gender">
+              <option value="Masculino" name="gender">
                 Masculino
               </option>
             </select>
@@ -250,7 +280,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir genero */}
           {/* Input para escribir la direccion de Residencia */}
           <div className="mb-4 mx-3">
-            <label htmlFor="address">Direccion Residencia:</label>
+            <label htmlFor="address">
+              Direccion Residencia:
+              <span className="text-indigo-200"> {patient.address}</span>
+            </label>
             <input
               type="text"
               id="address"
@@ -265,7 +298,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir la direccion de Residencia */}
           {/* Input para escribir la ciudad de Residencia */}
           <div className="mb-4 mx-3">
-            <label htmlFor="ciudad">ciudad:</label>
+            <label htmlFor="ciudad">
+              ciudad:
+              <span className="text-indigo-200"> {patient.city}</span>
+            </label>
             <input
               type="text"
               id="ciudad"
@@ -280,7 +316,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir la ciudad de Residencia */}
           {/* Input para escribir el departamento de Residencia */}
           <div className="mb-4 mx-3">
-            <label htmlFor="hospital_department">Departamento:</label>
+            <label htmlFor="hospital_department">
+              Departamento:
+              <span className="text-indigo-200"> {patient.department}</span>
+            </label>
             <select
               id="hospital_department"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
@@ -338,7 +377,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir el departamento de Residencia */}
           {/* Input para escribir el Pais de Residencia */}
           <div className="mb-4 mx-3">
-            <label htmlFor="hospital_country">Pais:</label>
+            <label htmlFor="hospital_country">
+              Pais:
+              <span className="text-indigo-200"> {patient.country}</span>
+            </label>
             <select
               id="hospital_country"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
@@ -357,7 +399,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir el Pais de Residencia */}
           {/* Input para escribir el Usuario*/}
           <div className="mb-4 mx-3">
-            <label htmlFor="user">Usuario:</label>
+            <label htmlFor="user">
+              Usuario:
+              <span className="text-indigo-200"> {patient.user}</span>
+            </label>
             <input
               type="text"
               id="user"
@@ -372,7 +417,10 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir el Usuario*/}
           {/* Input para escribir el Correo*/}
           <div className="mb-4 mx-3">
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="email">
+              Email:
+              <span className="text-indigo-200"> {patient.email}</span>
+            </label>
             <input
               type="email"
               id="email"
@@ -385,21 +433,6 @@ export default function PatientsRegisterPanel() {
             />
           </div>
           {/* Fin Input para escribir el Correo*/}
-          {/* Input para escribir la Contraseña*/}
-          <div className="mb-4 mx-3">
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              className="mt-2 w-full p-2 bg-slate-100 rounded-md"
-              name="password"
-              placeholder="Ingresa la contraseña del Paciente"
-              value={passwordRef}
-              onChange={(e) => setPasswordRef(e.target.value)}
-              required
-            />
-          </div>
-          {/* Fin Input para escribir la Contraseña*/}
           <input
             type="submit"
             value="Crear Usuario"
@@ -408,17 +441,6 @@ export default function PatientsRegisterPanel() {
         </form>
         {/* Fin Form Registro Pacientes */}
       </div>
-      {/* Fin Contenedor de Form Registro Pacientes */}
-      {/* Contendor de la Tarjeta del paciente */}
-      <div className=" bg-white rounded-2xl my-5 overflow-auto mt-10 mx-20">
-        <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
-          Pacientes:
-        </h1>
-        {patients.map((patient) => (
-          <PatientsResultsCard patient={patient} />
-        ))}
-      </div>
-      {/* Fin Contendor de la Tarjeta del paciente */}
     </div>
   );
 }

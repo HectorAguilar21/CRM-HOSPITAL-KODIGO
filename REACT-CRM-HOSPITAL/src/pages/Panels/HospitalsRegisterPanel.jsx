@@ -57,7 +57,7 @@ export default function HospitalsRegisterPanel() {
       );
       console.log(respuesta);
     } catch (error) {
-      setErrores(Object.values(error.response.data.errors));
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
