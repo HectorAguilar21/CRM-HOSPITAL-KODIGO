@@ -117,6 +117,22 @@ export default function AppointmentEdit() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setAppointmentDoctorIdRef("");
+    setAppointmentSpecialityIdRef("");
+    setAppointmentHospitalIdRef("");
+    setAppointmentPatientIdRef("");
+    setAppointmentDateRef("");
+    setAppointmentHourRef("");
+    setAppointmentDescriptionRef("");
+    setAppointmentStatusRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
   };
 
   //Return del HTML a mostrar

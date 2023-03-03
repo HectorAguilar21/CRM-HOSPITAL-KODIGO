@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import clienteAxios from "../../config/axios";
 
+import swal from "sweetalert";
+
 export default function AdministratorsRegisterPanel() {
   //States para recoger la informacion de los inputs
   const [typeIdRef, setTypeIdRef] = useState("1");
@@ -71,6 +73,24 @@ export default function AdministratorsRegisterPanel() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setUserIdRef("");
+    setNameRef("");
+    setLastNameRef("");
+    setHospitalIdRef("");
+    setUserRef("");
+    setEmailRef("");
+    setPasswordRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
+
+    obtenerHospitales();
+    obtenerAdministradores();
   };
 
   //Return del HTML a mostrar

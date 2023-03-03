@@ -51,6 +51,18 @@ export default function SpecialtiesRegisterPanel() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setSpecialityIdRef("");
+    setSpecialityNameRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
+
+    obtenerEspecialidades();
   };
 
   //Return del HTML a mostrar

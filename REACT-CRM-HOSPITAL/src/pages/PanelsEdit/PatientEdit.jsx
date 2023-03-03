@@ -92,6 +92,28 @@ export default function PatientEdit() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setUserIdRef("");
+    setNameRef("");
+    setLastNameRef("");
+    setHospitalRef("");
+    setNumberPhoneRef("");
+    setEmergencyNumberPhoneRef("");
+    setDateOfBirthRef("");
+    setGenderRef("");
+    setAddressRef("");
+    setCityRef("");
+    setDeparmentRef("");
+    setCountryRef("");
+    setUserRef("");
+    setEmailRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
   };
 
   //Return del HTML a mostrar

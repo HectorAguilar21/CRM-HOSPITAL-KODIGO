@@ -63,6 +63,19 @@ export default function HospitalEspecialidadRegisterPanel() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setHospitalIdRef("");
+    setSpecialityIdRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
+
+    obtenerHospitales();
+    obtenerEspecialidades();
   };
 
   //Return del HTML a mostrar

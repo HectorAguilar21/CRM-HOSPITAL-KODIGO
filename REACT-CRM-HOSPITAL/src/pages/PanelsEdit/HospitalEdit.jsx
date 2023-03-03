@@ -61,6 +61,20 @@ export default function HospitalEdit() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setHospitalIdRef("");
+    setHospitalNameRef("");
+    setHospitalAddressRef("");
+    setHospitalCityRef("");
+    setHospitalDepartmentRef("");
+    setHospitalCountryRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
   };
 
   return (

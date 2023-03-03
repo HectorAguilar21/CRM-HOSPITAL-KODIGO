@@ -86,6 +86,32 @@ export default function PatientsRegisterPanel() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setUserIdRef("");
+    setNameRef("");
+    setLastNameRef("");
+    setHospitalRef("");
+    setNumberPhoneRef("");
+    setEmergencyNumberPhoneRef("");
+    setDateOfBirthRef("");
+    setGenderRef("");
+    setAddressRef("");
+    setCityRef("");
+    setDeparmentRef("");
+    setCountryRef("");
+    setUserRef("");
+    setEmailRef("");
+    setPasswordRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
+
+    obtenerHospitales();
+    obtenerPacientes();
   };
 
   //Return del HTML a mostrar
@@ -108,7 +134,7 @@ export default function PatientsRegisterPanel() {
               name="type_id"
               placeholder="Ingresa el Rol del Usuario"
               value={typeIdRef}
-              onChange={(e) => setTypeIdRef(e.target.value)}
+              // onChange={(e) => setTypeIdRef(e.target.value)}
               required
             />
           </div>

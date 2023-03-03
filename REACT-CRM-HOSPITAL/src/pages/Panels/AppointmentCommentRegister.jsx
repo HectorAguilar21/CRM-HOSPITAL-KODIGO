@@ -59,6 +59,18 @@ export default function AppointmentCommentRegister() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setCommentDoctorIdRef("");
+    setCommentAppointmentRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
+
+    obtenerCita();
   };
 
   return (

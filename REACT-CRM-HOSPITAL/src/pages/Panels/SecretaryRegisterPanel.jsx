@@ -70,6 +70,24 @@ export default function SecretaryRegisterPanel() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setUserIdRef("");
+    setNameRef("");
+    setLastNameRef("");
+    setHospitalIdRef("");
+    setUserRef("");
+    setEmialRef("");
+    setPasswordRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
+
+    obtenerHospitales();
+    obtenerSecretarias();
   };
 
   //Return del HTML a mostrar

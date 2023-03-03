@@ -90,6 +90,26 @@ export default function DoctorsRegisterPanel() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setUserIdRef("");
+    setNameRef("");
+    setLastNameRef("");
+    setSpecialityRef("");
+    setHospitalRef("");
+    setUserRef("");
+    setEmailRef("");
+    setPasswordRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
+
+    obtenerHospitales();
+    obtenerEspecialidades();
+    obtenerDoctores();
   };
 
   //Return del HTML a mostrar
@@ -116,7 +136,7 @@ export default function DoctorsRegisterPanel() {
                   name="type_id"
                   placeholder="Ingresa el Rol del Usuario"
                   value={typeIdRef}
-                  onChange={(e) => setTypeIdRef(e.target.value)}
+                  // onChange={(e) => setTypeIdRef(e.target.value)}
                   required
                 />
               </div>

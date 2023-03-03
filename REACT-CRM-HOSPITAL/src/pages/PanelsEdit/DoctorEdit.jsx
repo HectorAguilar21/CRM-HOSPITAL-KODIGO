@@ -92,6 +92,21 @@ export default function DoctorEdit() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setUserIdRef("");
+    setNameRef("");
+    setLastNameRef("");
+    setSpecialityRef("");
+    setHospitalRef("");
+    setUserRef("");
+    setEmailRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
   };
 
   return (

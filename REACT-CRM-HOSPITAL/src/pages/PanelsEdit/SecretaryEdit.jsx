@@ -76,6 +76,20 @@ export default function SecretaryEdit() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setUserIdRef("");
+    setNameRef("");
+    setLastNameRef("");
+    setHospitalIdRef("");
+    setUserRef("");
+    setEmialRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
   };
 
   //Return del HTML a mostrar

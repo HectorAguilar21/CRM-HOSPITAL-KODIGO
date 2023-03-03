@@ -57,6 +57,22 @@ export default function HospitalsRegisterPanel() {
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
+
+    setHospitalIdRef("");
+    setHospitalNameRef("");
+    setHospitalAddressRef("");
+    setHospitalCityRef("");
+    setHospitalDepartmentRef("");
+    setHospitalCountryRef("");
+
+    swal({
+      title: "Realizado",
+      text: "Envio de formulario exitosamente",
+      icon: "success",
+      button: "Aceptar",
+    });
+
+    obtenerHospitales();
   };
 
   //Return del HTML a mostrar
