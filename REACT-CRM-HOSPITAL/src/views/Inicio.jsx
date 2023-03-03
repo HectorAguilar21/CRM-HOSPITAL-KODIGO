@@ -16,7 +16,7 @@ export default function Inicio() {
         </Link>
         <Link to="/secretary?type=secretary">
           <div className="container container-img secretarias p-4">
-            <h1 className="text-4xl">SECRETARIAS</h1>
+            <h1 className="text-4xl">SECRETARÍAS</h1>
             <img
               className="img"
               src="../img/mostrador.png"

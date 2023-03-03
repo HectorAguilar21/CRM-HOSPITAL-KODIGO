@@ -7,10 +7,26 @@ use Illuminate\Http\Request;
 
 class PatientInformationController extends Controller
 {
-    //Recuperando informacion de PatientInformation
+    //Recuperando informacion
     public function index(Request $request)
     {
         $patient = PatientInformation::with(['hospital'])->get();
+        return response()->json($patient);
+    }
+
+    //Recuperando la informacion de un id especifico atraves de la columna user_id
+    public function showPatient(Request $request, $user_id)
+    {
+        $patient = PatientInformation::with(['hospital'])
+            ->where('user_id', $user_id)
+            ->firstOrFail();
+        return response()->json($patient);
+    }
+
+    //Recuperando un recurso en especifico
+    public function show(Request $request, $id)
+    {
+        $patient = PatientInformation::with(['hospital'])->find($id);
         return response()->json($patient);
     }
 
@@ -39,23 +55,7 @@ class PatientInformationController extends Controller
         return response()->json($patient, 201);
     }
 
-    public function showPatient(Request $request, $user_id)
-    {
-        $patient = PatientInformation::with(['hospital'])
-            ->where('user_id', $user_id)
-            ->firstOrFail();
-
-        return response()->json($patient);
-    }
-
-    public function show(Request $request, $id)
-    {
-
-        $patient = PatientInformation::with(['hospital'])->find($id);
-        return response()->json($patient);
-    }
-
-
+    //actualizando los recursos de la tabla
     public function update(
         Request $request,
         string $id

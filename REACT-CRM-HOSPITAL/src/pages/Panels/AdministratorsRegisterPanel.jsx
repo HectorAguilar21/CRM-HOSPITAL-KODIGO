@@ -25,7 +25,6 @@ export default function AdministratorsRegisterPanel() {
     try {
       const { data } = await clienteAxios("/api/hospital_information");
       setHospitals(data);
-      // console.log(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
@@ -36,7 +35,6 @@ export default function AdministratorsRegisterPanel() {
     try {
       const { data } = await clienteAxios("/api/administrator_information");
       setAdministrators(data);
-      // console.log(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
@@ -70,7 +68,6 @@ export default function AdministratorsRegisterPanel() {
         "/api/administrator_information",
         datos
       );
-      console.log(respuesta);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
@@ -88,7 +85,7 @@ export default function AdministratorsRegisterPanel() {
         <form className="grid grid-cols-2" onSubmit={handleSubmit} noValidate>
           {/* Input para escribir el rol del Usuario */}
           <div className="mb-4 mx-3">
-            <label htmlFor="type_id">Role:</label>
+            <label htmlFor="type_id">Rol:</label>
             <input
               type="number"
               id="type_id"

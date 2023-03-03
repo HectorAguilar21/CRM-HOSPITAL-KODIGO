@@ -31,7 +31,7 @@ export default function DoctorsRegisterPanel() {
       const { data } = await clienteAxios("/api/hospital_information");
       setHospitals(data);
     } catch (error) {
-      console.log(error);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -82,15 +82,13 @@ export default function DoctorsRegisterPanel() {
     };
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
-    console.log(datos);
     try {
       const respuesta = await clienteAxios.post(
         "/api/doctor_information",
         datos
       );
-      console.log(respuesta);
     } catch (error) {
-      console.log(error.response.data.errors);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -110,7 +108,7 @@ export default function DoctorsRegisterPanel() {
             <form className="grid grid-cols-2" onSubmit={handleSubmit}>
               {/* Input para seleccionar el Rol */}
               <div className="mb-4 mx-3">
-                <label htmlFor="type_id">Role:</label>
+                <label htmlFor="type_id">Rol:</label>
                 <input
                   type="number"
                   id="type_id"

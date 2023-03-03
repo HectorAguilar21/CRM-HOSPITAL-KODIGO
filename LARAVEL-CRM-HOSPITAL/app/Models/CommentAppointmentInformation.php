@@ -15,6 +15,7 @@ class CommentAppointmentInformation extends Model
         'comment_appointment',
     ];
 
+    //Se recupera la informacion relacionada por llave foranea
     public function doctor()
     {
         return $this->belongsTo(DoctorInformation::class, 'comment_doctor_id');

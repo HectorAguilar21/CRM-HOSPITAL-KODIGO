@@ -3,27 +3,32 @@ import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 
 export default function AppointmentsPanel() {
+  //Variable para obtener la ruta actual y realizar validaciones en las vistas
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id");
   const user = searchParams.get("user");
+
+  //state para guardar los datos de 'obtenerCita'
   const [appointments, setAppointments] = useState([]);
 
+  //Funcion para obtener los datos de la API
   const obtenerCita = async () => {
     try {
       const { data } = await axios(
         `http://localhost:8000/api/appointment_information/patient/${id}`
       );
-      console.log(data);
       setAppointments(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
   };
 
+  //useEffect para ejecutar al menos una vez las solicitudes a la API, cada vez que se visita la pagina
   useEffect(() => {
     obtenerCita();
   }, []);
+
   return (
     <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto">
       <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">

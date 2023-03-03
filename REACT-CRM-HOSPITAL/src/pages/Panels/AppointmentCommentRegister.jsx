@@ -23,7 +23,6 @@ export default function AppointmentCommentRegister() {
       const { data } = await clienteAxios(
         `/api/appointment_information/${idAppointment}`
       );
-      console.log(data);
       setAppointment(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
@@ -35,6 +34,7 @@ export default function AppointmentCommentRegister() {
     obtenerCita();
   }, []);
 
+  //Funcion para colcar la informacion necesaria en el form al dar click en el boton de cargar datos
   const setInputs = () => {
     setCommentAppointmentIdRef(appointment.id);
   };
@@ -49,7 +49,6 @@ export default function AppointmentCommentRegister() {
       comment_doctor_id: commentDoctorIdRef,
       comment_appointment: commentAppointmentRef,
     };
-    console.log(datosForm);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
@@ -57,9 +56,8 @@ export default function AppointmentCommentRegister() {
         `/api/comment_appointment_information`,
         datosForm
       );
-      console.log(respuesta);
     } catch (error) {
-      console.log(Object.keys(error.response.data.errors));
+      console.log(Object.values(error.response.data.errors));
     }
   };
 

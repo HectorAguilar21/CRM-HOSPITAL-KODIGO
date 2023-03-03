@@ -119,10 +119,6 @@
 /* Fin Estilos para navbar panel */
 
 /* Estilos sidebar */
-/* 
-.sidebar {
-  width: 300px;
-} */
 
 .container-panel .font-panel {
   font-family: "OswaldFont", sans-serif;
@@ -135,12 +131,7 @@
 
 .side-navbar {
   background-color: #3d5a80;
-  /* height: 100vh; */
 }
-
-/* .side-navbar a {
-  color: white;
-} */
 
 .font-panel-sidebar {
   font-family: "Montserrat", sans-serif;

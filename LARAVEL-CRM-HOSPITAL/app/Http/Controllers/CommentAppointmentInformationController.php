@@ -7,12 +7,18 @@ use Illuminate\Http\Request;
 
 class CommentAppointmentInformationController extends Controller
 {
-    //Recuperando informacion de CommentAppointmentInformation
+    //Recuperando informacion 
     public function index()
     {
-        // $comment = CommentAppointmentInformation::all();
         $comment = CommentAppointmentInformation::with(['doctor'])->get();
         return $comment;
+    }
+
+    //Recuperando un recurso en especifico
+    public function show(Request $request, $id)
+    {
+        $doctor = CommentAppointmentInformation::with(['doctor'])->find($id);
+        return response()->json($doctor);
     }
 
     //Creando los recursos en la tabla
@@ -27,19 +33,7 @@ class CommentAppointmentInformationController extends Controller
         return $comment;
     }
 
-
-    public function show(Request $request, $id)
-    {
-        $doctor = CommentAppointmentInformation::with(['doctor'])->find($id);
-        return response()->json($doctor);
-        // $doctor = CommentAppointmentInformation::findOrFail($request->id);
-
-        // return response()->json($doctor);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
+    //Actualizando un recurso en especifico
     public function update(Request $request, CommentAppointmentInformation $commentAppointmentInformation)
     {
         $comment = CommentAppointmentInformation::findOrFail($request->id);
@@ -50,4 +44,6 @@ class CommentAppointmentInformationController extends Controller
         $comment->save();
         return $comment;
     }
+
+    //No hay metodo para eliminar porque el registro de todos los comentarios de los doctores siempre tienen que estar vigentes.
 }

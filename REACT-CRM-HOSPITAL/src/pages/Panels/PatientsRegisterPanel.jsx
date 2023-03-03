@@ -76,7 +76,6 @@ export default function PatientsRegisterPanel() {
       email: emailRef,
       password: passwordRef,
     };
-    console.log(datos);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
@@ -84,9 +83,8 @@ export default function PatientsRegisterPanel() {
         "/api/patient_information",
         datos
       );
-      console.log(respuesta);
     } catch (error) {
-      console.log(Object.keys(error.response.data.errors));
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -102,7 +100,7 @@ export default function PatientsRegisterPanel() {
         <form className="grid grid-cols-2" onSubmit={handleSubmit}>
           {/* Input para escribir el Rol */}
           <div className="mb-4 mx-3">
-            <label htmlFor="type_id">Role:</label>
+            <label htmlFor="type_id">Rol:</label>
             <input
               type="number"
               id="type_id"
@@ -181,13 +179,13 @@ export default function PatientsRegisterPanel() {
           {/* Fin Input para escribir el Hospital de Registro */}
           {/* Input para escribir el numero de telefono */}
           <div className="mb-4 mx-3">
-            <label htmlFor="number_phone">Numero de telefono:</label>
+            <label htmlFor="number_phone">Número de teléfono:</label>
             <input
               type="number"
               id="number_phone"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="number_phone"
-              placeholder="Ingresa el numero de telefono del paciente"
+              placeholder="Ingresa el número de teléfono del paciente"
               value={numberPhoneRef}
               onChange={(e) => setNumberPhoneRef(e.target.value)}
               required
@@ -197,14 +195,14 @@ export default function PatientsRegisterPanel() {
           {/* Input para escribir el numero de emergencia */}
           <div className="mb-4 mx-3">
             <label htmlFor="emergency_number_phone">
-              Numero de emergencia:
+              Contacto de emergencia:
             </label>
             <input
               type="number"
               id="emergency_number_phone"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="emergency_number_phone"
-              placeholder="Ingresa el numero de telefono del paciente"
+              placeholder="Ingresa el contacto de emergencia del paciente"
               value={emergencyNumberPhoneRef}
               onChange={(e) => setEmergencyNumberPhoneRef(e.target.value)}
               required
@@ -219,7 +217,7 @@ export default function PatientsRegisterPanel() {
               id="date_of_birth"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="date_of_birth"
-              placeholder="Ingresa la fecha de naciemiento del Paciente"
+              placeholder="Ingresa la fecha de nacimiento del Paciente"
               value={dateOfBirthRef}
               onChange={(e) => setDateOfBirthRef(e.target.value)}
               required
@@ -291,8 +289,8 @@ export default function PatientsRegisterPanel() {
               <option value="--Default--" selected>
                 --Seleccione una opcion--
               </option>
-              <option value="Ahuachapan" name="hospital_department">
-                Ahuachapan
+              <option value="Ahuachapán" name="hospital_department">
+                Ahuachapán
               </option>
               <option value="Cabañas" name="hospital_department">
                 Cabañas
@@ -300,14 +298,14 @@ export default function PatientsRegisterPanel() {
               <option value="Chalatenango" name="hospital_department">
                 Chalatenango
               </option>
-              <option value="Cuscatlan" name="hospital_department">
-                Cuscatlan
+              <option value="Cuscatlán" name="hospital_department">
+                Cuscatlán
               </option>
               <option value="La Libertad" name="hospital_department">
                 La Libertad
               </option>
-              <option value="Morazan" name="hospital_department">
-                Morazan
+              <option value="Morazán" name="hospital_department">
+                Morazán
               </option>
               <option value="La Paz" name="hospital_department">
                 La Paz
@@ -327,18 +325,18 @@ export default function PatientsRegisterPanel() {
               <option value="Sonsonate" name="hospital_department">
                 Sonsonate
               </option>
-              <option value="La Union" name="hospital_department">
-                La Union
+              <option value="La Unión" name="hospital_department">
+                La Unión
               </option>
-              <option value="Usulutan" name="hospital_department">
-                Usulutan
+              <option value="Usulután" name="hospital_department">
+                Usulután
               </option>
             </select>
           </div>
           {/* Fin Input para escribir el departamento de Residencia */}
           {/* Input para escribir el Pais de Residencia */}
           <div className="mb-4 mx-3">
-            <label htmlFor="hospital_country">Pais:</label>
+            <label htmlFor="hospital_country">País:</label>
             <select
               id="hospital_country"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"

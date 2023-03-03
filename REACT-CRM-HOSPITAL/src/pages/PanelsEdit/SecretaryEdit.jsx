@@ -30,7 +30,7 @@ export default function SecretaryEdit() {
       const { data } = await clienteAxios("/api/hospital_information");
       setHospitals(data);
     } catch (error) {
-      console.log(error);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -42,7 +42,7 @@ export default function SecretaryEdit() {
       );
       setSecretary(data);
     } catch (error) {
-      console.log(error);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -66,7 +66,6 @@ export default function SecretaryEdit() {
       user: userRef,
       email: emailRef,
     };
-    console.log(datos);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
@@ -74,9 +73,8 @@ export default function SecretaryEdit() {
         `/api/secretary_information/${idSecretary}`,
         datos
       );
-      console.log(respuesta);
     } catch (error) {
-      console.log(Object.keys(error.response.data.errors));
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -85,12 +83,14 @@ export default function SecretaryEdit() {
     <div className="">
       {/* Contenedor de Form Registro Secretarias */}
       <div className="bg-white shadow-xl rounded-md mt-10 px-5 py-10 mx-20">
-        <h1 className="text-4xl font-black text-center mb-10">Actualizacion</h1>
+        <h1 className="text-4xl font-black text-center mb-10">
+          Actualización de Secretaría
+        </h1>
         {/* Form Registro Secretaria */}
         <form className="grid grid-cols-2" onSubmit={handleSubmit}>
           {/* Input para seleccionar el rol */}
           <div className="mb-4 mx-3">
-            <label htmlFor="type_id">Role:</label>
+            <label htmlFor="type_id">Rol:</label>
             <input
               type="number"
               id="type_id"
@@ -114,14 +114,14 @@ export default function SecretaryEdit() {
               id="user_id"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="user_id"
-              placeholder="Ingresa el ID de la Secretaria"
+              placeholder="Ingresa el ID de la Secretaría"
               value={userIdRef}
               onChange={(e) => setUserIdRef(e.target.value)}
               required
             />
           </div>
-          {/* Fin Input para el Id de la Secretaria */}
-          {/* Input para el Nombre de la Secretaria */}
+          {/* Fin Input para el Id de la Secretaría */}
+          {/* Input para el Nombre de la Secretaría */}
           <div className="mb-4 mx-3">
             <label htmlFor="name">
               Nombres:
@@ -132,14 +132,14 @@ export default function SecretaryEdit() {
               id="name"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="name"
-              placeholder="Ingresa los nombres de la Secretaria"
+              placeholder="Ingresa los nombres de la Secretaría"
               value={nameRef}
               onChange={(e) => setNameRef(e.target.value)}
               required
             />
           </div>
-          {/* Fin Input para el Nombre de la Secretaria */}
-          {/* Input para los Apellidos de la Secretaria */}
+          {/* Fin Input para el Nombre de la Secretaría */}
+          {/* Input para los Apellidos de la Secretaría */}
           <div className="mb-4 mx-3">
             <label htmlFor="last_name">
               Apellidos:
@@ -150,13 +150,13 @@ export default function SecretaryEdit() {
               id="last_name"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="last_name"
-              placeholder="Ingresa los apellidos de la Secretaria"
+              placeholder="Ingresa los apellidos de la Secretaría"
               value={lastNameRef}
               onChange={(e) => setLastNameRef(e.target.value)}
               required
             />
           </div>
-          {/* Fin Input para los Apellidos de la Secretaria */}
+          {/* Fin Input para los Apellidos de la Secretaría */}
           {/* Input para seleccionar el hospital */}
           <div className="mb-4 mx-3">
             <label htmlFor="hospital_id">
@@ -181,7 +181,7 @@ export default function SecretaryEdit() {
             </select>
           </div>
           {/* Fin Input para seleccionar el hospital */}
-          {/* Input para el Usuario de la Secretaria */}
+          {/* Input para el Usuario de la Secretaría */}
           <div className="mb-4 mx-3">
             <label htmlFor="user">
               Usuario:
@@ -192,14 +192,14 @@ export default function SecretaryEdit() {
               id="user"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="user"
-              placeholder="Ingresa el usuario de la Secretaria"
+              placeholder="Ingresa el usuario de la Secretaría"
               value={userRef}
               onChange={(e) => setUserRef(e.target.value)}
               required
             />
           </div>
-          {/* Fin Input para el Usuario de la Secretaria */}
-          {/* Input para el correol de la Secretaria */}
+          {/* Fin Input para el Usuario de la Secretaría */}
+          {/* Input para el correol de la Secretaría */}
           <div className="mb-4 mx-3">
             <label htmlFor="email">
               Email:
@@ -210,7 +210,7 @@ export default function SecretaryEdit() {
               id="email"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="email"
-              placeholder="Ingresa el correo de la Secretaria"
+              placeholder="Ingresa el correo de la Secretaría"
               value={emailRef}
               onChange={(e) => setEmialRef(e.target.value)}
               required

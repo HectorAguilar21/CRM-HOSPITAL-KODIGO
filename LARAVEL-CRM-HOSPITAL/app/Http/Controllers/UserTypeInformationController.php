@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class UserTypeInformationController extends Controller
 {
-    //Recuperando informacion de UserTypeInformation
+    //Recuperando informacion
     public function index()
     {
         $user_type = UserTypeInformation::all();

@@ -3,42 +3,45 @@ import { Link } from "react-router-dom";
 import clienteAxios from "../config/axios";
 
 export default function SpecialitiesResultsTable(props) {
+  //states para guardar los datos de "obtenerDoctores"
   const [doctors, setDoctors] = useState([]);
 
+  //State para guardar los datos de "obtenerHospitales"
   const [hospitalsSpecialities, setHospitalsSpecialities] = useState([]);
 
+  //Funcion para obtener los datos de la API
   const obtenerDoctores = async () => {
     try {
       const { data } = await clienteAxios("/api/doctor_information");
-      console.log(data);
       setDoctors(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
   };
 
+  //Funcion para obtener los datos de la API
   const obtenerHospitales = async () => {
     try {
       const { data } = await clienteAxios("/api/hospital_specialities");
-      console.log(data);
       setHospitalsSpecialities(data);
     } catch (error) {
-      console.log(error);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
+  //useEffect para ejecutar al menos una vez la solicitud a la API, cada vez que se visita la pagina
   useEffect(() => {
     obtenerHospitales();
     obtenerDoctores();
   }, []);
 
+  //HTML a renderizar
   return (
     <tr>
-      {/* ID y Nombre en la tabla */}
+      {/* Informaciion en la tabla */}
       <th scope="row">{props.specialities.speciality_id}</th>
       <td>{props.specialities.speciality_name}</td>
-      {/* Fin ID y Nombre en la tabla */}
-      {/* Boton para Listado de Doctores */}
+      {/* Listado de Doctores */}
       <td>
         <ul>
           {doctors.map(
@@ -50,8 +53,8 @@ export default function SpecialitiesResultsTable(props) {
           )}
         </ul>
       </td>
-      {/* Fin Boton para Listado de Doctores */}
-      {/* Boton para Listado de Hospitales */}
+      {/* Fin Listado de Doctores */}
+      {/* Listado de Hospitales */}
       <td>
         <ul>
           {hospitalsSpecialities.map(
@@ -64,7 +67,8 @@ export default function SpecialitiesResultsTable(props) {
           )}
         </ul>
       </td>
-      {/* Fin Boton para Listado de Hospitales */}
+      {/* Fin Listado de Hospitales */}
+      {/* Fin Informaciion en la tabla */}
       {/* Botones para Acciones de tabla (Editar y Eliminar) */}
       {/* Validacion con ternario para saber en que locacion estamos con useLocation y asi decidir que contenido se muestra */}
       {location.pathname === "/administrator/specialties_panel" && (

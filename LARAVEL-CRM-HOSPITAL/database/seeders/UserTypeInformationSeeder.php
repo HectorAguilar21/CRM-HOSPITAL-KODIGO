@@ -9,6 +9,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserTypeInformationSeeder extends Seeder
 {
+    //Informacion definida por defecto a la BD
     //Cargando la base de datos de los tipos de usuarios a la tabla user_type_information
     public function run(): void
     {

@@ -3,30 +3,32 @@ import React, { useEffect, useState } from "react";
 import { Outlet, useLocation, Link } from "react-router-dom";
 
 export default function InicioLayout() {
+  //Variable para obtener la ruta actual y realizar validaciones en las vistas
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const user = searchParams.get("user");
 
+  //State para guardar los datos de 'obtenerPaciente'
   const [patient, setPatient] = useState({});
 
+  //Funcion para obtener los datos de la API
   const obtenerPaciente = async () => {
     try {
       const { data } = await axios(
         `http://localhost:8000/api/patients/user/${user}`
       );
-      console.log(data);
       setPatient(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
   };
 
+  //useEffect para ejecutar al menos una vez la solicitud a la API, cada vez que se visita la pagina
   useEffect(() => {
     obtenerPaciente();
   }, []);
 
-  console.log(user);
-
+  //Return del HTML a mostrar
   return (
     <div className="md:flex md:min-h-screen">
       <aside className="side-navbar w-2/6">

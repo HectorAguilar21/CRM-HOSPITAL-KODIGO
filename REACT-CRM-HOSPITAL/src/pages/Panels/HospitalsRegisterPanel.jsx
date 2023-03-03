@@ -47,7 +47,6 @@ export default function HospitalsRegisterPanel() {
       hospital_department: hospitalDepartmentRef,
       hospital_country: hospitalCountryRef,
     };
-    console.log(datos);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
@@ -55,7 +54,6 @@ export default function HospitalsRegisterPanel() {
         "/api/hospital_information",
         datos
       );
-      console.log(respuesta);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
@@ -113,7 +111,7 @@ export default function HospitalsRegisterPanel() {
                   id="hospital_address"
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   name="hospital_address"
-                  placeholder="Ingresa la direccion del hospital, sin ciudad, ni departamento, ni pais"
+                  placeholder="Ingresa la direccion del hospital, sin ciudad, ni departamento, ni país"
                   value={hospitalAddressRef}
                   onChange={(e) => setHospitalAddressRef(e.target.value)}
                   required
@@ -148,8 +146,8 @@ export default function HospitalsRegisterPanel() {
                   <option value="--Default--" selected>
                     --Seleccione una opcion--
                   </option>
-                  <option value="Ahuachapan" name="hospital_department">
-                    Ahuachapan
+                  <option value="Ahuachapán" name="hospital_department">
+                    Ahuachapán
                   </option>
                   <option value="Cabañas" name="hospital_department">
                     Cabañas
@@ -157,14 +155,14 @@ export default function HospitalsRegisterPanel() {
                   <option value="Chalatenango" name="hospital_department">
                     Chalatenango
                   </option>
-                  <option value="Cuscatlan" name="hospital_department">
-                    Cuscatlan
+                  <option value="Cuscatlán" name="hospital_department">
+                    Cuscatlán
                   </option>
                   <option value="La Libertad" name="hospital_department">
                     La Libertad
                   </option>
-                  <option value="Morazan" name="hospital_department">
-                    Morazan
+                  <option value="Morazán" name="hospital_department">
+                    Morazán
                   </option>
                   <option value="La Paz" name="hospital_department">
                     La Paz
@@ -184,18 +182,18 @@ export default function HospitalsRegisterPanel() {
                   <option value="Sonsonate" name="hospital_department">
                     Sonsonate
                   </option>
-                  <option value="La Union" name="hospital_department">
-                    La Union
+                  <option value="La Unión" name="hospital_department">
+                    La Unión
                   </option>
-                  <option value="Usulutan" name="hospital_department">
-                    Usulutan
+                  <option value="Usulután" name="hospital_department">
+                    Usulután
                   </option>
                 </select>
               </div>
               {/* Fin Input para escribir el departamento del hospital */}
               {/* Input para escribir el pais del hospital */}
               <div className="mb-4 mx-3">
-                <label htmlFor="hospital_country">Pais:</label>
+                <label htmlFor="hospital_country">País:</label>
                 <select
                   id="hospital_country"
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
@@ -236,7 +234,7 @@ export default function HospitalsRegisterPanel() {
                     <th scope="col">Direccion</th>
                     <th scope="col">Ciudad</th>
                     <th scope="col">Departamento</th>
-                    <th scope="col">Pais</th>
+                    <th scope="col">País</th>
                     <th colSpan="2">Acciones</th>
                   </tr>
                 </thead>
@@ -275,7 +273,7 @@ export default function HospitalsRegisterPanel() {
                     <th scope="col">Direccion</th>
                     <th scope="col">Ciudad</th>
                     <th scope="col">Departamento</th>
-                    <th scope="col">Pais</th>
+                    <th scope="col">País</th>
                   </tr>
                 </thead>
                 {/* Cuerpo de la tabla que se genera por un map en un componente aparte */}

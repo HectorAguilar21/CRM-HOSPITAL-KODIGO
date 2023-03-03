@@ -23,7 +23,6 @@ export default function SpecialityEdit() {
       const { data } = await clienteAxios(
         `/api/medical_speciality_information/${idSpeciality}`
       );
-      console.log(data);
       setSpeciality(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
@@ -44,7 +43,6 @@ export default function SpecialityEdit() {
       speciality_id: specialityIdRef,
       speciality_name: specialityNameRef,
     };
-    console.log(datos);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
@@ -52,7 +50,6 @@ export default function SpecialityEdit() {
         `/api/medical_speciality_information/${idSpeciality}`,
         datos
       );
-      console.log(respuesta);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
@@ -61,7 +58,7 @@ export default function SpecialityEdit() {
   return (
     <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
       <h1 className="text-4xl font-black text-center mb-10">
-        Registra una nueva Especialidad
+        Actualización de Especialidad
       </h1>
       {/* Form Registro Especialidad */}
       <form className="grid grid-cols-2" onSubmit={handleSubmit}>

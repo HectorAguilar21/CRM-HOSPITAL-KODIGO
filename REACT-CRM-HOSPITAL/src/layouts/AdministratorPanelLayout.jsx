@@ -6,9 +6,12 @@ export default function AdministratorPanelLayout() {
   //Variable para obtener la ruta actual y realizar validaciones en las vistas
   const location = useLocation();
 
+  // HTML a renderizar
   return (
     <div className="md:flex md:min-h-screen">
+      {/* SideBar */}
       <aside className="side-navbar md:w-1/5">
+        {/* Imagen Link y texto inferior */}
         <div className="container container-panel">
           <Link
             className="navbar-brand flex justify-center py-3"
@@ -27,7 +30,9 @@ export default function AdministratorPanelLayout() {
             PANEL ADMINISTRATIVO
           </h1>
         </div>
+        {/* Fin Imagen Link y texto inferior */}
         <hr />
+        {/* Botones con enlace a los diferentes Paneles */}
         <nav className="side-navbar-options pt-4">
           <div className="grid grid-cols-1">
             <Link
@@ -78,7 +83,7 @@ export default function AdministratorPanelLayout() {
               } text-2xl py-2 pl-4`}
               to="/administrator/secretary_panel"
             >
-              Secretarias
+              Secretarías
             </Link>
             <Link
               className={`${
@@ -121,22 +126,16 @@ export default function AdministratorPanelLayout() {
             >
               Registro Hospital-Especialidad
             </Link>
-            {/* <Link
-              className={`${
-                location.pathname === "/administrator/appointment_comment"
-                  ? "text-black font-panel-sidebar option-selected"
-                  : "text-white font-panel-sidebar"
-              } text-2xl py-2 pl-4`}
-              to="/administrator/appointment_comment"
-            >
-              Panel de Comentarios
-            </Link> */}
           </div>
         </nav>
+        {/* Fin Botones con enlace a los diferentes Paneles */}
       </aside>
+      {/* Fin SideBar */}
+      {/* Informacion que se renderiza segun el panel seleccionado y enviado al router */}
       <main className="mx-auto w-full max-h-screen overflow-auto">
         <Outlet />
       </main>
+      {/* Fin Informacion que se renderiza segun el panel seleccionado y enviado al router */}
     </div>
   );
 }

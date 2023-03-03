@@ -20,22 +20,31 @@ class AppointmentInformation extends Model
         'appointment_status'
     ];
 
+    //Se recupera la informacion relacionada por llave foranea
     public function doctor()
     {
         return $this->belongsTo(DoctorInformation::class, 'appointment_doctor_id');
     }
+
+    //Se recupera la informacion relacionada por llave foranea
     public function speciality()
     {
         return $this->belongsTo(MedicalSpecialityInformation::class, 'appointment_speciality_id');
     }
+
+    //Se recupera la informacion relacionada por llave foranea
     public function hospital()
     {
         return $this->belongsTo(HospitalInformation::class, 'appointment_hospital_id');
     }
+
+    //Se recupera la informacion relacionada por llave foranea
     public function patient()
     {
         return $this->belongsTo(PatientInformation::class, 'appointment_patient_id');
     }
+
+    //Se recupera la informacion relacionada por llave foranea
     public function status()
     {
         return $this->belongsTo(StatusTypeInformation::class, 'appointment_status');

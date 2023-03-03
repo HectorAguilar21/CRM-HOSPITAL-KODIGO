@@ -40,13 +40,14 @@ export default function AppointmentsResultsTable(props) {
       <td>{props.appointment.hospital.hospital_name}</td>
       <td>{props.appointment.patient.name}</td>
       <td>{props.appointment.status.status_type_name}</td>
+      {/* Botones en cada fila de la tabla */}
       <td>
         <Link
           to={`${pathEditStatus}?id=${props.appointment.id}`}
           type="button"
           class="btn text-white bg-indigo-500 hover:bg-indigo-800"
         >
-          Editar Estado
+          Editar estado
         </Link>
       </td>
       <td>
@@ -55,7 +56,7 @@ export default function AppointmentsResultsTable(props) {
           type="button"
           class="btn text-white bg-sky-700 hover:bg-sky-800"
         >
-          Ver mas
+          Ver más
         </Link>
       </td>
       <td>
@@ -67,6 +68,8 @@ export default function AppointmentsResultsTable(props) {
           Comentario
         </Link>
       </td>
+      {/* Fin Botones en cada fila de la tabla */}
+      {/* Fin Informacion la tabla */}
     </tr>
   );
 }

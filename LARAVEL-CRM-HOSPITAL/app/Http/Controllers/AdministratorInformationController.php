@@ -7,11 +7,17 @@ use Illuminate\Http\Request;
 
 class AdministratorInformationController extends Controller
 {
-    //Recuperando informacion de AdministratorInformation
+    //Recuperando informacion
     public function index(Request $request)
     {
-        // $administrator = AdministratorInformation::all();
         $administrator = AdministratorInformation::with(['hospital'])->get();
+        return response()->json($administrator);
+    }
+
+    //Mostrando un recurso en especifico
+    public function show(Request $request, $id)
+    {
+        $administrator = AdministratorInformation::with(['hospital'])->find($id);
         return response()->json($administrator);
     }
 
@@ -32,15 +38,7 @@ class AdministratorInformationController extends Controller
         return response()->json($administrator, 201);
     }
 
-
-    public function show(Request $request, $id)
-    {
-        // $administrator = AdministratorInformation::findOrFail($request->id);
-        $administrator = AdministratorInformation::with(['hospital'])->find($id);
-
-        return response()->json($administrator);
-    }
-
+    //Actualizando los recursos de la tabla
     public function update(
         Request $request,
         string $id

@@ -7,10 +7,18 @@ use Illuminate\Http\Request;
 
 class HospitalInformationController extends Controller
 {
-    //Recuperando informacion de HospitalInformation
+    //Recuperando informacion
     public function index()
     {
         $hospital = HospitalInformation::all();
+        return response()->json($hospital);
+    }
+
+    //Recuperando un recurso en especifico
+    public function show(Request $request)
+    {
+        $hospital = HospitalInformation::findOrFail($request->id);
+
         return response()->json($hospital);
     }
 
@@ -27,13 +35,6 @@ class HospitalInformationController extends Controller
 
         $hospital->save();
         return response()->json($hospital, 201);
-    }
-
-    public function show(Request $request)
-    {
-        $hospital = HospitalInformation::findOrFail($request->id);
-
-        return response()->json($hospital);
     }
 
     //Actualizando los recursos de la tabla

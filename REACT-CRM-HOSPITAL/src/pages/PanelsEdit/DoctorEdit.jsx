@@ -32,7 +32,7 @@ export default function DoctorEdit() {
       const { data } = await clienteAxios("/api/hospital_information");
       setHospitals(data);
     } catch (error) {
-      console.log(error);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -54,7 +54,6 @@ export default function DoctorEdit() {
       const { data } = await clienteAxios(
         `/api/doctor_information/${idDoctor}`
       );
-      console.log(data);
       setDoctor(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
@@ -85,27 +84,27 @@ export default function DoctorEdit() {
     };
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
-    console.log(datos);
     try {
       const respuesta = await clienteAxios.put(
         `/api/doctor_information/${idDoctor}`,
         datos
       );
-      console.log(respuesta);
     } catch (error) {
-      console.log(error.response.data.errors);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
   return (
     <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
       {/* Contenedor de Form Registro Doctor */}
-      <h1 className="text-4xl font-black text-center mb-10">Actualizion</h1>
+      <h1 className="text-4xl font-black text-center mb-10">
+        Actualización de Doctor
+      </h1>
       {/* Form Registro Doctor */}
       <form className="grid grid-cols-2" onSubmit={handleSubmit}>
         {/* Input para seleccionar el Rol */}
         <div className="mb-4 mx-3">
-          <label htmlFor="type_id">Role:</label>
+          <label htmlFor="type_id">Rol:</label>
           <input
             type="number"
             id="type_id"

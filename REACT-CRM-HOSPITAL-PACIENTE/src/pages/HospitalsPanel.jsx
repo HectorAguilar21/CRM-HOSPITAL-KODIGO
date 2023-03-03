@@ -6,16 +6,6 @@ export default function HospitalsPanel() {
   //States para guardar los datos de "obtenerHospitales" Axios
   const [hospitals, setHospitals] = useState([]);
 
-  // Funcion para solicitar la info a la API
-  // const obtenerHospitales = async () => {
-  //   try {
-  //     const { data } = await clienteAxios("/api/hospital_information");
-  //     setHospitals(data);
-  //   } catch (error) {
-  //     console.log(Object.values(error.response.data.errors));
-  //   }
-  // };
-
   //Funcion para solicitar la info a la API
   const obtenerHospitales = async () => {
     try {
@@ -32,6 +22,7 @@ export default function HospitalsPanel() {
   useEffect(() => {
     obtenerHospitales();
   }, []);
+
   return (
     <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto">
       <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
@@ -46,7 +37,7 @@ export default function HospitalsPanel() {
               <th scope="col">Direccion</th>
               <th scope="col">Ciudad</th>
               <th scope="col">Departamento</th>
-              <th scope="col">Pais</th>
+              <th scope="col">País</th>
             </tr>
           </thead>
           <tbody className="table-group-divider">

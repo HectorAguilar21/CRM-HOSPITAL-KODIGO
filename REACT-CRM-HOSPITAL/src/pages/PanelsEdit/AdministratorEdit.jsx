@@ -30,7 +30,6 @@ export default function AdministratorEdit() {
     try {
       const { data } = await clienteAxios("/api/hospital_information");
       setHospitals(data);
-      // console.log(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
@@ -43,7 +42,6 @@ export default function AdministratorEdit() {
         `/api/administrator_information/${idAdministrator}`
       );
       setAdministrator(data);
-      console.log(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
@@ -77,7 +75,6 @@ export default function AdministratorEdit() {
         `/api/administrator_information/${idAdministrator}`,
         datos
       );
-      console.log(respuesta);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
@@ -87,12 +84,14 @@ export default function AdministratorEdit() {
     <div>
       {/* Contenedor de Form Edicion Administradores */}
       <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
-        <h1 className="text-4xl font-black text-center mb-10">Actualizacion</h1>
+        <h1 className="text-4xl font-black text-center mb-10">
+          Actualización de Usuario Administrador
+        </h1>
         {/* Form Edicion Administradores */}
         <form className="grid grid-cols-2" onSubmit={handleSubmit} noValidate>
           {/* Input para escribir el rol del Usuario */}
           <div className="mb-4 mx-3">
-            <label htmlFor="type_id">Role:</label>
+            <label htmlFor="type_id">Rol:</label>
             <input
               type="number"
               id="type_id"
@@ -178,7 +177,7 @@ export default function AdministratorEdit() {
               required
             >
               <option value="--Default--" selected>
-                --Seleccione la opcion que se actualiza--
+                --Seleccione la opción que se actualiza--
               </option>
               {hospitals.map((hospital) => (
                 <option key={hospital.id} value={hospital.id}>

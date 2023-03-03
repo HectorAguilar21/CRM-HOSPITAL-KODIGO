@@ -11,11 +11,6 @@ class DoctorInformation extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'type_id',
         'user_id',
@@ -28,30 +23,22 @@ class DoctorInformation extends Model
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
+    //Se recupera la informacion relacionada por llave foranea
     public function hospital()
     {
         return $this->belongsTo(HospitalInformation::class);
     }
 
+    //Se recupera la informacion relacionada por llave foranea
     public function speciality()
     {
         return $this->belongsTo(MedicalSpecialityInformation::class);

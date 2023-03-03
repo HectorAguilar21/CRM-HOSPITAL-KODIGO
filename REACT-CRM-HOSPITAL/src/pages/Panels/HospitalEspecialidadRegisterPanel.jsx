@@ -22,7 +22,7 @@ export default function HospitalEspecialidadRegisterPanel() {
       const { data } = await clienteAxios("/api/hospital_information");
       setHospitals(data);
     } catch (error) {
-      console.log(error);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -53,7 +53,6 @@ export default function HospitalEspecialidadRegisterPanel() {
       hospital_information_id: hospitalIdRef,
       medical_speciality_information_id: specialityIdRef,
     };
-    console.log(datos);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
@@ -61,7 +60,6 @@ export default function HospitalEspecialidadRegisterPanel() {
         "/api/hospital_specialities",
         datos
       );
-      console.log(respuesta);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
@@ -77,7 +75,7 @@ export default function HospitalEspecialidadRegisterPanel() {
           {/* Contenedor de Form Registro Especialidad */}
           <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
             <h1 className="text-4xl font-black text-center mb-10">
-              Registra una nueva Relacion Especialidad
+              Registra una nueva Relación Hospital-Especialidad
             </h1>
             {/* Form Registro Especialidad */}
             <form className="grid grid-cols-2" onSubmit={handleSubmit}>
@@ -125,7 +123,7 @@ export default function HospitalEspecialidadRegisterPanel() {
               {/* Fin Input para seleccionar la especialidad */}
               <input
                 type="submit"
-                value="Agregar Relacion"
+                value="Agregar Relación"
                 className="button-login text-3xl text-center text-white mt-4 font-bold cursor-pointer uppercase"
               />
             </form>

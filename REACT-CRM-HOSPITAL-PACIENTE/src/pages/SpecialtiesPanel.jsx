@@ -5,8 +5,10 @@ export default function SpecialtiesPanel() {
   //States para guardar los datos de "obtenerEspecialidades" Axios
   const [specialities, setSpecialities] = useState([]);
 
+  //States para guardar los datos de "obtenerDoctores" Axios
   const [doctors, setDoctors] = useState([]);
 
+  //States para guardar los datos de "obtenerHospitales" Axios
   const [hospitalsSpecialities, setHospitalsSpecialities] = useState([]);
 
   //Funcion para solicitar la info a la API
@@ -26,7 +28,6 @@ export default function SpecialtiesPanel() {
       const { data } = await axios(
         "http://localhost:8000/api/doctor_information"
       );
-      console.log(data);
       setDoctors(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
@@ -38,10 +39,9 @@ export default function SpecialtiesPanel() {
       const { data } = await axios(
         "http://localhost:8000/api/hospital_specialities"
       );
-      console.log(data);
       setHospitalsSpecialities(data);
     } catch (error) {
-      console.log(error);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 

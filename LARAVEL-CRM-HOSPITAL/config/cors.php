@@ -29,6 +29,7 @@ return [
 
     'max_age' => 0,
 
+    //Se activa cors para permitir peticiones externas al servidor
     'supports_credentials' => true,
 
 ];

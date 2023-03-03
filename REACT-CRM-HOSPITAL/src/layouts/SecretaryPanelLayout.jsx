@@ -4,11 +4,15 @@ import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function SecretaryPanelLayout() {
+  //Variable para obtener la ruta actual y realizar validaciones en las vistas
   const location = useLocation();
 
+  // HTML a renderizar
   return (
     <div className="md:flex md:min-h-screen">
+      {/* SideBar */}
       <aside className="side-navbar md:w-1/5">
+        {/* Imagen Link y texto inferior */}
         <div className="container container-panel">
           <Link
             className="navbar-brand flex justify-center py-3"
@@ -24,10 +28,12 @@ export default function SecretaryPanelLayout() {
             HOSPITAL NACIONAL
           </h2>
           <h1 className="font-panel text-4xl text-center text-white py-2">
-            PANEL DE SECRETARIA
+            PANEL DE SECRETARÍA
           </h1>
         </div>
+        {/* Fin Imagen Link y texto inferior */}
         <hr />
+        {/* Botones con enlace a los diferentes Paneles */}
         <nav className="side-navbar-options pt-4">
           <div className="grid grid-cols-1 pb-96">
             <Link
@@ -92,10 +98,14 @@ export default function SecretaryPanelLayout() {
             </Link>
           </div>
         </nav>
+        {/* Fin Botones con enlace a los diferentes Paneles */}
       </aside>
+      {/* Fin SideBar */}
+      {/* Informacion que se renderiza segun el panel seleccionado y enviado al router */}
       <main className="mx-auto w-full max-h-screen overflow-auto">
         <Outlet />
       </main>
+      {/* Fin Informacion que se renderiza segun el panel seleccionado y enviado al router */}
     </div>
   );
 }

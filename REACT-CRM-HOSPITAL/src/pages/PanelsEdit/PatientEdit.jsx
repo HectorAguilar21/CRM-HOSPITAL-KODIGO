@@ -48,7 +48,6 @@ export default function PatientEdit() {
       const { data } = await clienteAxios(
         `/api/patient_information/${idPatient}`
       );
-      console.log(data);
       setPatient(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
@@ -83,7 +82,6 @@ export default function PatientEdit() {
       user: userRef,
       email: emailRef,
     };
-    console.log(datos);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
@@ -91,9 +89,8 @@ export default function PatientEdit() {
         `/api/patient_information/${idPatient}`,
         datos
       );
-      console.log(respuesta);
     } catch (error) {
-      console.log(Object.keys(error.response.data.errors));
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -102,12 +99,14 @@ export default function PatientEdit() {
     <div className="">
       {/* Contenedor de Form Registro Pacientes */}
       <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
-        <h1 className="text-4xl font-black text-center mb-10">Actualizacion</h1>
+        <h1 className="text-4xl font-black text-center mb-10">
+          Actualización de Paciente
+        </h1>
         {/* Form Registro Pacientes */}
         <form className="grid grid-cols-2" onSubmit={handleSubmit}>
           {/* Input para escribir el Rol */}
           <div className="mb-4 mx-3">
-            <label htmlFor="type_id">Role:</label>
+            <label htmlFor="type_id">Rol:</label>
             <input
               type="number"
               id="type_id"
@@ -199,7 +198,7 @@ export default function PatientEdit() {
           {/* Input para escribir el numero de telefono */}
           <div className="mb-4 mx-3">
             <label htmlFor="number_phone">
-              Numero de telefono:
+              Número de teléfono:
               <span className="text-indigo-200"> {patient.number_phone}</span>
             </label>
             <input
@@ -207,7 +206,7 @@ export default function PatientEdit() {
               id="number_phone"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="number_phone"
-              placeholder="Ingresa el numero de telefono del paciente"
+              placeholder="Ingresa el número de teléfono del paciente"
               value={numberPhoneRef}
               onChange={(e) => setNumberPhoneRef(e.target.value)}
               required
@@ -217,7 +216,7 @@ export default function PatientEdit() {
           {/* Input para escribir el numero de emergencia */}
           <div className="mb-4 mx-3">
             <label htmlFor="emergency_number_phone">
-              Numero de emergencia:
+              Contacto de emergencia:
               <span className="text-indigo-200">
                 {" "}
                 {patient.emergency_number_phone}
@@ -228,7 +227,7 @@ export default function PatientEdit() {
               id="emergency_number_phone"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="emergency_number_phone"
-              placeholder="Ingresa el numero de telefono del paciente"
+              placeholder="Ingresa el contacto de emergencia del paciente"
               value={emergencyNumberPhoneRef}
               onChange={(e) => setEmergencyNumberPhoneRef(e.target.value)}
               required
@@ -246,7 +245,7 @@ export default function PatientEdit() {
               id="date_of_birth"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="date_of_birth"
-              placeholder="Ingresa la fecha de naciemiento del Paciente"
+              placeholder="Ingresa la fecha de nacimiento del Paciente"
               value={dateOfBirthRef}
               onChange={(e) => setDateOfBirthRef(e.target.value)}
               required
@@ -289,7 +288,7 @@ export default function PatientEdit() {
               id="address"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="address"
-              placeholder="Ingresa la dirección de residencia del Paciente, sin ciudad, sin departamento, ni pais"
+              placeholder="Ingresa la dirección de residencia del Paciente, sin ciudad, sin departamento, ni país"
               value={addressRef}
               onChange={(e) => setAddressRef(e.target.value)}
               required
@@ -330,8 +329,8 @@ export default function PatientEdit() {
               <option value="--Default--" selected>
                 --Seleccione una opcion--
               </option>
-              <option value="Ahuachapan" name="hospital_department">
-                Ahuachapan
+              <option value="Ahuachapán" name="hospital_department">
+                Ahuachapán
               </option>
               <option value="Cabañas" name="hospital_department">
                 Cabañas
@@ -339,14 +338,14 @@ export default function PatientEdit() {
               <option value="Chalatenango" name="hospital_department">
                 Chalatenango
               </option>
-              <option value="Cuscatlan" name="hospital_department">
-                Cuscatlan
+              <option value="Cuscatlán" name="hospital_department">
+                Cuscatlán
               </option>
               <option value="La Libertad" name="hospital_department">
                 La Libertad
               </option>
-              <option value="Morazan" name="hospital_department">
-                Morazan
+              <option value="Morazán" name="hospital_department">
+                Morazán
               </option>
               <option value="La Paz" name="hospital_department">
                 La Paz
@@ -366,11 +365,11 @@ export default function PatientEdit() {
               <option value="Sonsonate" name="hospital_department">
                 Sonsonate
               </option>
-              <option value="La Union" name="hospital_department">
-                La Union
+              <option value="La Unión" name="hospital_department">
+                La Unión
               </option>
-              <option value="Usulutan" name="hospital_department">
-                Usulutan
+              <option value="Usulután" name="hospital_department">
+                Usulután
               </option>
             </select>
           </div>
@@ -378,7 +377,7 @@ export default function PatientEdit() {
           {/* Input para escribir el Pais de Residencia */}
           <div className="mb-4 mx-3">
             <label htmlFor="hospital_country">
-              Pais:
+              País:
               <span className="text-indigo-200"> {patient.country}</span>
             </label>
             <select

@@ -9,12 +9,6 @@ class HospitalInformation extends Model
 {
     use HasFactory;
 
-    // //Cambiando la primary key por defecto asia 'hospital_id'
-    // protected $primaryKey = 'hospital_id';
-    // public $incrementing = false;
-    // protected $keyType = 'string';
-
-    //Configurando los datos a modificar en la tabla
     protected $fillable = [
         'hospital_id',
         'hospital_name',
@@ -24,6 +18,7 @@ class HospitalInformation extends Model
         'hospital_country'
     ];
 
+    //Se recupera la informacion relacionada por llave foranea
     public function specialities()
     {
         return $this->belongsToMany(MedicalSpecialityInformation::class, 'hospital_specialities', 'hospital_information_id', 'medical_speciality_information_id');

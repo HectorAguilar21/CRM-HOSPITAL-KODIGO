@@ -36,7 +36,7 @@ export default function Login() {
                 value="INICIAR  SESION"
                 className="button-login flex items-center justify-center text-3xl text-center text-white mt-4 font-bold cursor-pointer"
               >
-                INICIAR SESION
+                INICIAR SESIÓN
               </Link>
             </div>
           </div>

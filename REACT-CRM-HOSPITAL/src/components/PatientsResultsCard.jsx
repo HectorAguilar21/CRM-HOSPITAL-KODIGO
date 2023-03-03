@@ -25,6 +25,7 @@ export default function PatientsResultsCard(props) {
   }
   return (
     <div className=" flex p-5 m-5 bg-cyan-100 rounded-2xl">
+      {/* Informacion en las tarjetas */}
       <div className="w-4/5 float-left font-medium text-lg">
         <div className="text-indigo-600">
           ID:{" "}
@@ -49,7 +50,7 @@ export default function PatientsResultsCard(props) {
           </span>
         </div>
         <div className="text-indigo-600">
-          Numero de telefono:{" "}
+          Número de teléfono:{" "}
           <span className="text-black text-xl">
             {props.patient.number_phone}
           </span>
@@ -73,10 +74,12 @@ export default function PatientsResultsCard(props) {
           <span className="text-black text-xl">{props.patient.department}</span>
         </div>
         <div className="text-indigo-600">
-          Pais de residencia:{" "}
+          País de residencia:{" "}
           <span className="text-black text-xl">{props.patient.country}</span>
         </div>
       </div>
+      {/* Fin Informacion en las tarjetas */}
+      {/* Botones en las tarjetas */}
       <div className="w-1/5 border-l-2">
         <div className="m-2 h-full flex justify-center items-center">
           <div>
@@ -96,6 +99,7 @@ export default function PatientsResultsCard(props) {
           </div>
         </div>
       </div>
+      {/* Fin Botones en las tarjetas */}
     </div>
   );
 }

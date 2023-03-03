@@ -9,9 +9,9 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class StatusTypeInformationSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
+    //Informacion definida por defecto a la BD
+    //Cargando la base de datos de los tipos de estados a la tabla status_type_information
     public function run(): void
     {
         DB::table('status_type_information')->insert([

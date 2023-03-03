@@ -25,7 +25,7 @@ export default function SecretaryRegisterPanel() {
       const { data } = await clienteAxios("/api/hospital_information");
       setHospitals(data);
     } catch (error) {
-      console.log(error);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -35,7 +35,7 @@ export default function SecretaryRegisterPanel() {
       const { data } = await clienteAxios("/api/secretary_information");
       setSecretaries(data);
     } catch (error) {
-      console.log(error);
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -60,7 +60,6 @@ export default function SecretaryRegisterPanel() {
       email: emailRef,
       password: passwordRef,
     };
-    console.log(datos);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
@@ -68,9 +67,8 @@ export default function SecretaryRegisterPanel() {
         "/api/secretary_information",
         datos
       );
-      console.log(respuesta);
     } catch (error) {
-      console.log(Object.keys(error.response.data.errors));
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -80,13 +78,13 @@ export default function SecretaryRegisterPanel() {
       {/* Contenedor de Form Registro Secretarias */}
       <div className="bg-white shadow-xl rounded-md mt-10 px-5 py-10 mx-20">
         <h1 className="text-4xl font-black text-center mb-10">
-          Añade nueva Secretaria
+          Añade nueva Secretaría
         </h1>
         {/* Form Registro Secretaria */}
         <form className="grid grid-cols-2" onSubmit={handleSubmit}>
           {/* Input para seleccionar el rol */}
           <div className="mb-4 mx-3">
-            <label htmlFor="type_id">Role:</label>
+            <label htmlFor="type_id">Rol:</label>
             <input
               type="number"
               id="type_id"
@@ -101,13 +99,13 @@ export default function SecretaryRegisterPanel() {
           {/* Fin Input para seleccionar el hospital */}
           {/* Input para el Id de la Secretaria */}
           <div className="mb-4 mx-3">
-            <label htmlFor="user_id">Secretaria ID:</label>
+            <label htmlFor="user_id">Secretaría ID:</label>
             <input
               type="text"
               id="user_id"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="user_id"
-              placeholder="Ingresa el ID de la Secretaria"
+              placeholder="Ingresa el ID de la Secretaría"
               value={userIdRef}
               onChange={(e) => setUserIdRef(e.target.value)}
               required
@@ -122,7 +120,7 @@ export default function SecretaryRegisterPanel() {
               id="name"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="name"
-              placeholder="Ingresa los nombres de la Secretaria"
+              placeholder="Ingresa los nombres de la Secretaría"
               value={nameRef}
               onChange={(e) => setNameRef(e.target.value)}
               required
@@ -137,7 +135,7 @@ export default function SecretaryRegisterPanel() {
               id="last_name"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="last_name"
-              placeholder="Ingresa los apellidos de la Secretaria"
+              placeholder="Ingresa los apellidos de la Secretaría"
               value={lastNameRef}
               onChange={(e) => setLastNameRef(e.target.value)}
               required
@@ -173,7 +171,7 @@ export default function SecretaryRegisterPanel() {
               id="user"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="user"
-              placeholder="Ingresa el usuario de la Secretaria"
+              placeholder="Ingresa el usuario de la Secretaría"
               value={userRef}
               onChange={(e) => setUserRef(e.target.value)}
               required
@@ -188,7 +186,7 @@ export default function SecretaryRegisterPanel() {
               id="email"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="email"
-              placeholder="Ingresa el correo de la Secretaria"
+              placeholder="Ingresa el correo de la Secretaría"
               value={emailRef}
               onChange={(e) => setEmialRef(e.target.value)}
               required
@@ -203,7 +201,7 @@ export default function SecretaryRegisterPanel() {
               id="password"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="password"
-              placeholder="Ingresa la contraseña de la Secretaria"
+              placeholder="Ingresa la contraseña de la Secretaría"
               value={passwordRef}
               onChange={(e) => setPasswordRef(e.target.value)}
               required
@@ -222,7 +220,7 @@ export default function SecretaryRegisterPanel() {
       {/* Contendor de la tabla */}
       <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto mt-10 mx-20">
         <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
-          Secretarias:
+          Secretarías:
         </h1>
         <div className="flex align-items-center p-5 bg-white rounded-2xl container info-container">
           {/* Tabla */}

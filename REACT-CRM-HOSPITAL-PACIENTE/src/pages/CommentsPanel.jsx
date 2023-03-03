@@ -23,7 +23,6 @@ export default function CommentsPanel() {
       const { data } = await axios(
         `http://localhost:8000/api/comment_appointment_information`
       );
-      console.log(data);
       setComments(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
@@ -36,7 +35,6 @@ export default function CommentsPanel() {
       const { data } = await axios(
         `http://localhost:8000/api/comment_appointment_information/${idComment}`
       );
-      // console.log(data);
       setComment(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));

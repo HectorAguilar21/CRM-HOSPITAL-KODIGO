@@ -9,7 +9,6 @@ export default function CommentsPanel() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const idComment = searchParams.get("id");
-  console.log(idComment);
 
   //States para guardar los datos de "obtenerComentarios" Axios
   const [coments, setComments] = useState([]);
@@ -23,7 +22,6 @@ export default function CommentsPanel() {
       const { data } = await clienteAxios(
         `/api/comment_appointment_information`
       );
-      console.log(data);
       setComments(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
@@ -36,7 +34,6 @@ export default function CommentsPanel() {
       const { data } = await clienteAxios(
         `/api/comment_appointment_information/${idComment}`
       );
-      // console.log(data);
       setComment(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));

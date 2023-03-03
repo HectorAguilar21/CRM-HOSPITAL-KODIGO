@@ -7,11 +7,17 @@ use Illuminate\Http\Request;
 
 class DoctorInformationController extends Controller
 {
-    //Recuperando informacion de DoctorInformation
+    //Recuperando informacion
     public function index()
     {
-        // $doctor = DoctorInformation::all();
         $doctor = DoctorInformation::with(['hospital', 'speciality'])->get();
+        return response()->json($doctor);
+    }
+
+    //Recuperando un recurso en especifico
+    public function show(Request $request, $id)
+    {
+        $doctor = DoctorInformation::with(['hospital', 'speciality'])->find($id);
         return response()->json($doctor);
     }
 
@@ -33,16 +39,7 @@ class DoctorInformationController extends Controller
         return response()->json($doctor, 201);
     }
 
-
-    public function show(Request $request, $id)
-    {
-        $doctor = DoctorInformation::with(['hospital', 'speciality'])->find($id);
-        return response()->json($doctor);
-        // $doctor = DoctorInformation::findOrFail($request->id);
-
-        // return response()->json($doctor);
-    }
-
+    //Actualizando los recursos en la tabla
     public function update(
         Request $request,
         string $id

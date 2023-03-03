@@ -1,5 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
+
 import Welcome from "./components/Welcome";
+
 import AuthLayout from "./layouts/AuthLayout";
 import Layout from "./layouts/Layout";
 import AdministratorPanelLayout from "./layouts/AdministratorPanelLayout";
@@ -15,11 +17,13 @@ import AppointmentsPanel from "./pages/Panels/AppointmentsPanel";
 import HospitalRegisterPanel from "./pages/Panels/HospitalsRegisterPanel";
 import SpecialtiesRegisterPanel from "./pages/Panels/SpecialtiesRegisterPanel";
 import AppointmentCommentRegister from "./pages/Panels/AppointmentCommentRegister";
+import HospitalEspecialidadRegisterPanel from "./pages/Panels/HospitalEspecialidadRegisterPanel";
+import CommentsPanel from "./pages/Panels/CommentsPanel";
 
 import Inicio from "./views/Inicio";
 import Login from "./views/Login";
 import AuthInicio from "./views/AuthInicio";
-import HospitalEspecialidadRegisterPanel from "./pages/Panels/HospitalEspecialidadRegisterPanel";
+
 import AdministratorEdit from "./pages/PanelsEdit/AdministratorEdit";
 import DoctorEdit from "./pages/PanelsEdit/DoctorEdit";
 import PatientEdit from "./pages/PanelsEdit/PatientEdit";
@@ -27,7 +31,6 @@ import SecretaryEdit from "./pages/PanelsEdit/SecretaryEdit";
 import AppointmentEdit from "./pages/PanelsEdit/AppointmentEdit";
 import HospitalEdit from "./pages/PanelsEdit/HospitalEdit";
 import SpecialityEdit from "./pages/PanelsEdit/SpecialityEdit";
-import CommentsPanel from "./pages/Panels/CommentsPanel";
 
 const router = createBrowserRouter([
   //endpoint para la pagina principal con botones para inicio sesion segun el rol
@@ -180,6 +183,7 @@ const router = createBrowserRouter([
         path: "/doctor/specialties_panel",
         element: <SpecialtiesRegisterPanel />,
       },
+      //enpoint para edits
       {
         path: "/doctor/patients_edit",
         element: <PatientEdit />,
@@ -232,6 +236,7 @@ const router = createBrowserRouter([
         path: "/secretary/specialties_panel",
         element: <SpecialtiesRegisterPanel />,
       },
+      //enpoint para edits
       {
         path: "/secretary/patients_edit",
         element: <PatientEdit />,

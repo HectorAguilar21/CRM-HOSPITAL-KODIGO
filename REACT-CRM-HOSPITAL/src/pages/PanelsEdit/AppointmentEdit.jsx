@@ -67,7 +67,6 @@ export default function AppointmentEdit() {
       const { data } = await clienteAxios(
         `/api/appointment_information/${idAppointment}`
       );
-      console.log(data);
       setAppointment(data);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
@@ -108,7 +107,6 @@ export default function AppointmentEdit() {
       appointment_description: appointmentDescriptionRef,
       appointment_status: appointmentStatusRef,
     };
-    console.log(datosForm);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
@@ -116,9 +114,8 @@ export default function AppointmentEdit() {
         `/api/appointment_information/${idAppointment}`,
         datosForm
       );
-      console.log(respuesta);
     } catch (error) {
-      console.log(Object.keys(error.response.data.errors));
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -127,7 +124,9 @@ export default function AppointmentEdit() {
     <div className="">
       {/* Contenedor de Form Registro Citas */}
       <div className="bg-white shadow-xl rounded-md mt-10 mx-20 px-5 py-10">
-        <h1 className="text-4xl font-black text-center mb-10">Actualizacion</h1>
+        <h1 className="text-4xl font-black text-center mb-10">
+          Actualización de Citas
+        </h1>
         <div className="flex justify-center mb-4">
           <button
             type="button"
@@ -219,7 +218,7 @@ export default function AppointmentEdit() {
               id="appointment_date"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="appointment_date"
-              placeholder="Ingresa los nombres del Administrador"
+              placeholder="Ingresa la fecha de la cita"
               defaultValue={appointmentDateRef}
               // onChange={(e) => setAppointmentDateRef(e.target.value)}
               required
@@ -234,7 +233,7 @@ export default function AppointmentEdit() {
               id="appointment_hour"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="appointment_hour"
-              placeholder="Ingresa los nombres del Administrador"
+              placeholder="Ingresa la hora de la cita"
               defaultValue={appointmentHourRef}
               // onChange={(e) => setAppointmentHourRef(e.target.value)}
               required
@@ -248,7 +247,7 @@ export default function AppointmentEdit() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="appointment_description"
               id="appointment_description"
-              placeholder="Ingresa Nombre de La cita"
+              placeholder="Ingresa una breve descripción de la cita"
               cols="30"
               rows="1"
               defaultValue={appointmentDescriptionRef}

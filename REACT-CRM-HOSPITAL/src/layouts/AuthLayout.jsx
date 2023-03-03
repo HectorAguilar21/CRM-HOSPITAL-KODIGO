@@ -3,19 +3,24 @@ import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function AuthLayout() {
+  //Variable para obtener la ruta actual y realizar validaciones en las vistas
   const location = useLocation();
+
+  //Variable para obtener el tipo de usuario y realizar validaciones en las vistas
   const searchParams = new URLSearchParams(location.search);
   const userType = searchParams.get("type");
 
+  //Variables para almacenar el resultado del switch
   let title;
   let image;
 
+  //switch para seleccionar segun el parametro que se le pase del tipo de usuario
   switch (userType) {
     case "admin":
       title = "ACCESO PARA ADMINISTRADORES";
       break;
     case "secretary":
-      title = "ACCESO PARA SECRETARIAS";
+      title = "ACCESO PARA SECRETARÍAS";
       break;
     case "doctor":
       title = "ACCESO PARA DOCTORES";
@@ -29,6 +34,7 @@ export default function AuthLayout() {
       break;
   }
 
+  // HTML a rendereziar
   return (
     <div>
       <nav className="navbar">

@@ -7,11 +7,17 @@ use Illuminate\Http\Request;
 
 class SecretaryInformationController extends Controller
 {
-    //Recuperando informacion de SecretaryInformation
+    //Recuperando informacion 
     public function index()
     {
-        // $secretary = SecretaryInformation::all();
         $secretary = SecretaryInformation::with(['hospital'])->get();
+        return response()->json($secretary);
+    }
+
+    //Recuperando un recurso en especifico
+    public function show(Request $request, $id)
+    {
+        $secretary = SecretaryInformation::with(['hospital'])->find($id);
         return response()->json($secretary);
     }
 
@@ -32,14 +38,7 @@ class SecretaryInformationController extends Controller
         return response()->json($secretary, 201);
     }
 
-
-    public function show(Request $request, $id)
-    {
-
-        $secretary = SecretaryInformation::with(['hospital'])->find($id);
-        return response()->json($secretary);
-    }
-
+    //Actualizando los recursos en la tabla
     public function update(
         Request $request,
         $id

@@ -88,7 +88,6 @@ export default function AppointmentsRegisterPanel() {
       appointment_description: appointmentDescriptionRef,
       appointment_status: appointmentStatusRef,
     };
-    console.log(datosForm);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
@@ -96,9 +95,8 @@ export default function AppointmentsRegisterPanel() {
         "/api/appointment_information",
         datosForm
       );
-      console.log(respuesta);
     } catch (error) {
-      console.log(Object.keys(error.response.data.errors));
+      console.log(Object.values(error.response.data.errors));
     }
   };
 
@@ -192,7 +190,7 @@ export default function AppointmentsRegisterPanel() {
               id="appointment_date"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="appointment_date"
-              placeholder="Ingresa los nombres del Administrador"
+              placeholder="Ingresa la fecha de la cita"
               value={appointmentDateRef}
               onChange={(e) => setAppointmentDateRef(e.target.value)}
               required
@@ -207,7 +205,7 @@ export default function AppointmentsRegisterPanel() {
               id="appointment_hour"
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="appointment_hour"
-              placeholder="Ingresa los nombres del Administrador"
+              placeholder="Ingresa la hora de la cita"
               value={appointmentHourRef}
               onChange={(e) => setAppointmentHourRef(e.target.value)}
               required
@@ -221,7 +219,7 @@ export default function AppointmentsRegisterPanel() {
               className="mt-2 w-full p-2 bg-slate-100 rounded-md"
               name="appointment_description"
               id="appointment_description"
-              placeholder="Ingresa Nombre de La cita"
+              placeholder="Ingresa una breve descripción de la cita"
               cols="30"
               rows="1"
               value={appointmentDescriptionRef}

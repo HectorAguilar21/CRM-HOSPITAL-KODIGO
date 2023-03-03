@@ -10,12 +10,14 @@ use App\Models\MedicalSpecialityInformation;
 class HospitalSpecialitiesController extends Controller
 {
 
+    //Recuperando la informacion
     public function index()
     {
         $hospital = HospitalSpecialities::with(['hospital', 'speciality'])->get();
         return response()->json($hospital);
     }
 
+    //Creando los recursos en la tabla
     public function store(Request $request)
     {
         $hospital_speciality = new HospitalSpecialities;
@@ -25,11 +27,5 @@ class HospitalSpecialitiesController extends Controller
         return response()->json($hospital_speciality, 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(HospitalSpecialities $hospitalSpecialities)
-    {
-        //
-    }
+    //Se eliminan los demas metodos porque solo es una tabla pivote
 }

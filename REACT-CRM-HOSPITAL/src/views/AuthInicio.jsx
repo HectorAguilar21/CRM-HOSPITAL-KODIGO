@@ -7,7 +7,7 @@ export default function AuthInicio() {
       <div className="container-form">
         <div className="mb-3">
           <h1 className="text-center text-4xl">
-            Ups, Regresa a la pagina principal y elige tu Rol.
+            Ups, regresa a la página principal y elige tu rol.
           </h1>
         </div>
         <div className="flex justify-center content-center">
@@ -15,7 +15,7 @@ export default function AuthInicio() {
             className="button-login text-3xl text-white mt-4 font-bold cursor-pointer uppercase flex justify-center align-items-center"
             to="/"
           >
-            Inicar Sesion
+            Iniciar sesión
           </Link>
         </div>
       </div>

@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    //Recuperando el seed y enviandolo a la BD
+    //Recuperando los seed y enviandolo a la BD
     public function run(): void
     {
         $this->call(UserTypeInformationSeeder::class);

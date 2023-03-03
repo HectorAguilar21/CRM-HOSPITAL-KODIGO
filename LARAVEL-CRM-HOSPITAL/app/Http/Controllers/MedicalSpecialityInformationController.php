@@ -7,10 +7,17 @@ use Illuminate\Http\Request;
 
 class MedicalSpecialityInformationController extends Controller
 {
-    //Recuperando informacion de MedicalSpecialityInformation
+    //Recuperando informacion
     public function index()
     {
         $specialities = MedicalSpecialityInformation::all();
+        return response()->json($specialities);
+    }
+
+    //Recuperando un recurso en especifico
+    public function show(Request $request)
+    {
+        $specialities = MedicalSpecialityInformation::findOrFail($request->id);
         return response()->json($specialities);
     }
 
@@ -23,12 +30,6 @@ class MedicalSpecialityInformationController extends Controller
 
         $specialities->save();
         return response()->json($specialities, 201);
-    }
-
-    public function show(Request $request)
-    {
-        $specialities = MedicalSpecialityInformation::findOrFail($request->id);
-        return response()->json($specialities);
     }
 
     //Actualizando los recursos de la tabla

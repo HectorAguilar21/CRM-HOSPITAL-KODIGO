@@ -7,20 +7,34 @@ use Illuminate\Http\Request;
 
 class AppointmentInformationController extends Controller
 {
-    //Recuperando informacion de AppointmentInformation
+    //Recuperando informacion
     public function index()
     {
-        // $appoiments = AppointmentInformation::all();
         $appoiments = AppointmentInformation::with(['doctor', 'speciality', 'hospital', 'patient', 'status'])->get();
         return response()->json($appoiments);
     }
 
+    //Recuperando un recurso en especifico
+    public function show(Request $request, $id)
+    {
+        $appoiments = AppointmentInformation::with(['doctor', 'speciality', 'hospital', 'patient', 'status'])->find($id);
+        return response()->json($appoiments);
+    }
+
+    //Recuperando la informacion de citas que correspondan a un id especifico
     public function indexByPatientId($appointment_patient_id)
     {
         $appointments = AppointmentInformation::with(['doctor', 'speciality', 'hospital', 'patient', 'status'])
             ->where('appointment_patient_id', $appointment_patient_id)
             ->get();
         return response()->json($appointments);
+    }
+
+    //Recuperando el primer resultado que corresponda a un id especifico
+    public function showAppointment(Request $request, $appointment_patient_id)
+    {
+        $appoiments = AppointmentInformation::with(['doctor', 'speciality', 'hospital', 'patient', 'status'])->find($appointment_patient_id);
+        return response()->json($appoiments);
     }
 
     //Creando los recursos en la tabla
@@ -40,20 +54,7 @@ class AppointmentInformationController extends Controller
         return response()->json($appoiments);
     }
 
-    public function show(Request $request, $id)
-    {
-
-        $appoiments = AppointmentInformation::with(['doctor', 'speciality', 'hospital', 'patient', 'status'])->find($id);
-        return response()->json($appoiments);
-    }
-
-    public function showAppointment(Request $request, $appointment_patient_id)
-    {
-
-        $appoiments = AppointmentInformation::with(['doctor', 'speciality', 'hospital', 'patient', 'status'])->find($appointment_patient_id);
-        return response()->json($appoiments);
-    }
-
+    //Actualizando los recursos
     public function update(Request $request, $id)
     {
         $appoiments = AppointmentInformation::findOrFail($request->id);
@@ -71,7 +72,6 @@ class AppointmentInformationController extends Controller
     }
 
     //Eliminando los recursos de la tabla
-
     public function destroy($id)
     {
         AppointmentInformation::destroy($id);

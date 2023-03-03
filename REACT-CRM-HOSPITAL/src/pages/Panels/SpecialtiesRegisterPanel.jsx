@@ -41,7 +41,6 @@ export default function SpecialtiesRegisterPanel() {
       speciality_id: specialityIdRef,
       speciality_name: specialityNameRef,
     };
-    console.log(datos);
 
     //Try Catch para realizar la peticion y recoger los errores si los hubiese
     try {
@@ -49,7 +48,6 @@ export default function SpecialtiesRegisterPanel() {
         "/api/medical_speciality_information",
         datos
       );
-      console.log(respuesta);
     } catch (error) {
       console.log(Object.values(error.response.data.errors));
     }
