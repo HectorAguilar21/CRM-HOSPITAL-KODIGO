@@ -56,19 +56,24 @@ export default function AppointmentCommentRegister() {
         `/api/comment_appointment_information`,
         datosForm
       );
+      swal({
+        title: "Realizado",
+        text: "Envio de formulario exitosamente",
+        icon: "success",
+        button: "Aceptar",
+      });
     } catch (error) {
+      swal({
+        title: "Error",
+        text: "Error en el envio del formulario",
+        icon: "error",
+        button: "Aceptar",
+      });
       console.log(Object.values(error.response.data.errors));
     }
 
     setCommentDoctorIdRef("");
     setCommentAppointmentRef("");
-
-    swal({
-      title: "Realizado",
-      text: "Envio de formulario exitosamente",
-      icon: "success",
-      button: "Aceptar",
-    });
 
     obtenerCita();
   };
@@ -87,7 +92,7 @@ export default function AppointmentCommentRegister() {
           Cargar datos
         </button>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         <div className="mb-4 mx-3">
           <label htmlFor="comment_appointment_id">Cita ID</label>
           <input

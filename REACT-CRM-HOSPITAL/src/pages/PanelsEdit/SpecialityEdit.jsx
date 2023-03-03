@@ -50,19 +50,24 @@ export default function SpecialityEdit() {
         `/api/medical_speciality_information/${idSpeciality}`,
         datos
       );
+      swal({
+        title: "Realizado",
+        text: "Envio de formulario exitosamente",
+        icon: "success",
+        button: "Aceptar",
+      });
     } catch (error) {
+      swal({
+        title: "Error",
+        text: "Error en el envio del formulario",
+        icon: "error",
+        button: "Aceptar",
+      });
       console.log(Object.values(error.response.data.errors));
     }
 
     setSpecialityIdRef("");
     setSpecialityNameRef("");
-
-    swal({
-      title: "Realizado",
-      text: "Envio de formulario exitosamente",
-      icon: "success",
-      button: "Aceptar",
-    });
   };
 
   return (
@@ -71,7 +76,7 @@ export default function SpecialityEdit() {
         Actualización de Especialidad
       </h1>
       {/* Form Registro Especialidad */}
-      <form className="grid grid-cols-2" onSubmit={handleSubmit}>
+      <form className="grid grid-cols-2" onSubmit={handleSubmit} noValidate>
         {/* Input para escribir el ID de especialidad */}
         <div className="mb-4 mx-3 mt-">
           <label htmlFor="speciality_id">

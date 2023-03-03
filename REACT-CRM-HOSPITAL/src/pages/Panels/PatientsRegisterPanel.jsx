@@ -83,7 +83,19 @@ export default function PatientsRegisterPanel() {
         "/api/patient_information",
         datos
       );
+      swal({
+        title: "Realizado",
+        text: "Envio de formulario exitosamente",
+        icon: "success",
+        button: "Aceptar",
+      });
     } catch (error) {
+      swal({
+        title: "Error",
+        text: "Error en el envio del formulario",
+        icon: "error",
+        button: "Aceptar",
+      });
       console.log(Object.values(error.response.data.errors));
     }
 
@@ -103,13 +115,6 @@ export default function PatientsRegisterPanel() {
     setEmailRef("");
     setPasswordRef("");
 
-    swal({
-      title: "Realizado",
-      text: "Envio de formulario exitosamente",
-      icon: "success",
-      button: "Aceptar",
-    });
-
     obtenerHospitales();
     obtenerPacientes();
   };
@@ -123,7 +128,7 @@ export default function PatientsRegisterPanel() {
           Añade nuevo Paciente
         </h1>
         {/* Form Registro Pacientes */}
-        <form className="grid grid-cols-2" onSubmit={handleSubmit}>
+        <form className="grid grid-cols-2" onSubmit={handleSubmit} noValidate>
           {/* Input para escribir el Rol */}
           <div className="mb-4 mx-3">
             <label htmlFor="type_id">Rol:</label>

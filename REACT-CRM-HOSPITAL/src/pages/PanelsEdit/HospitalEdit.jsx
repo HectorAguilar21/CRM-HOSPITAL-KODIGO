@@ -58,7 +58,19 @@ export default function HospitalEdit() {
         `/api/hospital_information/${idHospital}`,
         datos
       );
+      swal({
+        title: "Realizado",
+        text: "Envio de formulario exitosamente",
+        icon: "success",
+        button: "Aceptar",
+      });
     } catch (error) {
+      swal({
+        title: "Error",
+        text: "Error en el envio del formulario",
+        icon: "error",
+        button: "Aceptar",
+      });
       console.log(Object.values(error.response.data.errors));
     }
 
@@ -68,13 +80,6 @@ export default function HospitalEdit() {
     setHospitalCityRef("");
     setHospitalDepartmentRef("");
     setHospitalCountryRef("");
-
-    swal({
-      title: "Realizado",
-      text: "Envio de formulario exitosamente",
-      icon: "success",
-      button: "Aceptar",
-    });
   };
 
   return (
@@ -83,7 +88,7 @@ export default function HospitalEdit() {
         Actualización de Hospital
       </h1>
       {/* Form Registro Hospitales */}
-      <form className="grid grid-cols-2" onSubmit={handleSubmit}>
+      <form className="grid grid-cols-2" onSubmit={handleSubmit} noValidate>
         {/* Input para escribir el ID del hospital */}
         <div className="mb-4 mx-3 mt-">
           <label htmlFor="hospital_id">

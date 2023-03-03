@@ -73,7 +73,19 @@ export default function SecretaryEdit() {
         `/api/secretary_information/${idSecretary}`,
         datos
       );
+      swal({
+        title: "Realizado",
+        text: "Envio de formulario exitosamente",
+        icon: "success",
+        button: "Aceptar",
+      });
     } catch (error) {
+      swal({
+        title: "Error",
+        text: "Error en el envio del formulario",
+        icon: "error",
+        button: "Aceptar",
+      });
       console.log(Object.values(error.response.data.errors));
     }
 
@@ -83,13 +95,6 @@ export default function SecretaryEdit() {
     setHospitalIdRef("");
     setUserRef("");
     setEmialRef("");
-
-    swal({
-      title: "Realizado",
-      text: "Envio de formulario exitosamente",
-      icon: "success",
-      button: "Aceptar",
-    });
   };
 
   //Return del HTML a mostrar
@@ -101,7 +106,7 @@ export default function SecretaryEdit() {
           Actualización de Secretaría
         </h1>
         {/* Form Registro Secretaria */}
-        <form className="grid grid-cols-2" onSubmit={handleSubmit}>
+        <form className="grid grid-cols-2" onSubmit={handleSubmit} noValidate>
           {/* Input para seleccionar el rol */}
           <div className="mb-4 mx-3">
             <label htmlFor="type_id">Rol:</label>

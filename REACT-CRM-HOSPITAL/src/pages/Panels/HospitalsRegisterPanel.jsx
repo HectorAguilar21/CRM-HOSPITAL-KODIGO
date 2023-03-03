@@ -54,7 +54,19 @@ export default function HospitalsRegisterPanel() {
         "/api/hospital_information",
         datos
       );
+      swal({
+        title: "Realizado",
+        text: "Envio de formulario exitosamente",
+        icon: "success",
+        button: "Aceptar",
+      });
     } catch (error) {
+      swal({
+        title: "Error",
+        text: "Error en el envio del formulario",
+        icon: "error",
+        button: "Aceptar",
+      });
       console.log(Object.values(error.response.data.errors));
     }
 
@@ -64,13 +76,6 @@ export default function HospitalsRegisterPanel() {
     setHospitalCityRef("");
     setHospitalDepartmentRef("");
     setHospitalCountryRef("");
-
-    swal({
-      title: "Realizado",
-      text: "Envio de formulario exitosamente",
-      icon: "success",
-      button: "Aceptar",
-    });
 
     obtenerHospitales();
   };
@@ -88,7 +93,11 @@ export default function HospitalsRegisterPanel() {
               Registra un nuevo Hospital
             </h1>
             {/* Form Registro Hospitales */}
-            <form className="grid grid-cols-2" onSubmit={handleSubmit}>
+            <form
+              className="grid grid-cols-2"
+              onSubmit={handleSubmit}
+              noValidate
+            >
               {/* Input para escribir el ID del hospital */}
               <div className="mb-4 mx-3 mt-">
                 <label htmlFor="hospital_id">Hospital ID:</label>

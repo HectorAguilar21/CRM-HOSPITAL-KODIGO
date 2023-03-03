@@ -60,19 +60,24 @@ export default function HospitalEspecialidadRegisterPanel() {
         "/api/hospital_specialities",
         datos
       );
+      swal({
+        title: "Realizado",
+        text: "Envio de formulario exitosamente",
+        icon: "success",
+        button: "Aceptar",
+      });
     } catch (error) {
+      swal({
+        title: "Error",
+        text: "Error en el envio del formulario",
+        icon: "error",
+        button: "Aceptar",
+      });
       console.log(Object.values(error.response.data.errors));
     }
 
     setHospitalIdRef("");
     setSpecialityIdRef("");
-
-    swal({
-      title: "Realizado",
-      text: "Envio de formulario exitosamente",
-      icon: "success",
-      button: "Aceptar",
-    });
 
     obtenerHospitales();
     obtenerEspecialidades();
@@ -91,7 +96,11 @@ export default function HospitalEspecialidadRegisterPanel() {
               Registra una nueva Relación Hospital-Especialidad
             </h1>
             {/* Form Registro Especialidad */}
-            <form className="grid grid-cols-2" onSubmit={handleSubmit}>
+            <form
+              className="grid grid-cols-2"
+              onSubmit={handleSubmit}
+              noValidate
+            >
               {/* Input para seleccionar el hospital */}
               <div className="mb-4 mx-3">
                 <label htmlFor="hospital_speciality_id">Hospital:</label>

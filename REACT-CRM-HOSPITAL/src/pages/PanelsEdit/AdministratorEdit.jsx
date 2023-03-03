@@ -75,7 +75,19 @@ export default function AdministratorEdit() {
         `/api/administrator_information/${idAdministrator}`,
         datos
       );
+      swal({
+        title: "Realizado",
+        text: "Envio de formulario exitosamente",
+        icon: "success",
+        button: "Aceptar",
+      });
     } catch (error) {
+      swal({
+        title: "Error",
+        text: "Error en el envio del formulario",
+        icon: "error",
+        button: "Aceptar",
+      });
       console.log(Object.values(error.response.data.errors));
     }
 
@@ -86,13 +98,6 @@ export default function AdministratorEdit() {
     setUserRef("");
     setEmailRef("");
     setPasswordRef("");
-
-    swal({
-      title: "Realizado",
-      text: "Envio de formulario exitosamente",
-      icon: "success",
-      button: "Aceptar",
-    });
   };
 
   return (

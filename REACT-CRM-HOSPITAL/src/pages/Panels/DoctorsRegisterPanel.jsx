@@ -87,7 +87,19 @@ export default function DoctorsRegisterPanel() {
         "/api/doctor_information",
         datos
       );
+      swal({
+        title: "Realizado",
+        text: "Envio de formulario exitosamente",
+        icon: "success",
+        button: "Aceptar",
+      });
     } catch (error) {
+      swal({
+        title: "Error",
+        text: "Error en el envio del formulario",
+        icon: "error",
+        button: "Aceptar",
+      });
       console.log(Object.values(error.response.data.errors));
     }
 
@@ -99,13 +111,6 @@ export default function DoctorsRegisterPanel() {
     setUserRef("");
     setEmailRef("");
     setPasswordRef("");
-
-    swal({
-      title: "Realizado",
-      text: "Envio de formulario exitosamente",
-      icon: "success",
-      button: "Aceptar",
-    });
 
     obtenerHospitales();
     obtenerEspecialidades();
@@ -125,7 +130,11 @@ export default function DoctorsRegisterPanel() {
               Añade nuevo Doctor
             </h1>
             {/* Form Registro Doctor */}
-            <form className="grid grid-cols-2" onSubmit={handleSubmit}>
+            <form
+              className="grid grid-cols-2"
+              onSubmit={handleSubmit}
+              noValidate
+            >
               {/* Input para seleccionar el Rol */}
               <div className="mb-4 mx-3">
                 <label htmlFor="type_id">Rol:</label>

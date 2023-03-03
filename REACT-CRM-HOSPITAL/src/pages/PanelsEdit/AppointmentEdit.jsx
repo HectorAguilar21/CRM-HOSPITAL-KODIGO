@@ -114,7 +114,19 @@ export default function AppointmentEdit() {
         `/api/appointment_information/${idAppointment}`,
         datosForm
       );
+      swal({
+        title: "Realizado",
+        text: "Envio de formulario exitosamente",
+        icon: "success",
+        button: "Aceptar",
+      });
     } catch (error) {
+      swal({
+        title: "Error",
+        text: "Error en el envio del formulario",
+        icon: "error",
+        button: "Aceptar",
+      });
       console.log(Object.values(error.response.data.errors));
     }
 
@@ -126,13 +138,6 @@ export default function AppointmentEdit() {
     setAppointmentHourRef("");
     setAppointmentDescriptionRef("");
     setAppointmentStatusRef("");
-
-    swal({
-      title: "Realizado",
-      text: "Envio de formulario exitosamente",
-      icon: "success",
-      button: "Aceptar",
-    });
   };
 
   //Return del HTML a mostrar
@@ -153,7 +158,7 @@ export default function AppointmentEdit() {
           </button>
         </div>
         {/* Form Registro Cita */}
-        <form className="grid grid-cols-2" onSubmit={handleSubmit}>
+        <form className="grid grid-cols-2" onSubmit={handleSubmit} noValidate>
           {/* Input para escribir el Id del Doctor */}
           <div className="mb-4 mx-3">
             <label htmlFor="appointment_doctor_id">Doctor ID</label>

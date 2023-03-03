@@ -70,7 +70,19 @@ export default function AdministratorsRegisterPanel() {
         "/api/administrator_information",
         datos
       );
+      swal({
+        title: "Realizado",
+        text: "Envio de formulario exitosamente",
+        icon: "success",
+        button: "Aceptar",
+      });
     } catch (error) {
+      swal({
+        title: "Error",
+        text: "Error en el envio del formulario",
+        icon: "error",
+        button: "Aceptar",
+      });
       console.log(Object.values(error.response.data.errors));
     }
 
@@ -81,13 +93,6 @@ export default function AdministratorsRegisterPanel() {
     setUserRef("");
     setEmailRef("");
     setPasswordRef("");
-
-    swal({
-      title: "Realizado",
-      text: "Envio de formulario exitosamente",
-      icon: "success",
-      button: "Aceptar",
-    });
 
     obtenerHospitales();
     obtenerAdministradores();

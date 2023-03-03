@@ -67,7 +67,19 @@ export default function SecretaryRegisterPanel() {
         "/api/secretary_information",
         datos
       );
+      swal({
+        title: "Realizado",
+        text: "Envio de formulario exitosamente",
+        icon: "success",
+        button: "Aceptar",
+      });
     } catch (error) {
+      swal({
+        title: "Error",
+        text: "Error en el envio del formulario",
+        icon: "error",
+        button: "Aceptar",
+      });
       console.log(Object.values(error.response.data.errors));
     }
 
@@ -78,13 +90,6 @@ export default function SecretaryRegisterPanel() {
     setUserRef("");
     setEmialRef("");
     setPasswordRef("");
-
-    swal({
-      title: "Realizado",
-      text: "Envio de formulario exitosamente",
-      icon: "success",
-      button: "Aceptar",
-    });
 
     obtenerHospitales();
     obtenerSecretarias();
