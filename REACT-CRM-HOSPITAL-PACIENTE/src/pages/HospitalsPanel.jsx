@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import clienteAxios from "../config/axios";
 
 export default function HospitalsPanel() {
   //States para guardar los datos de "obtenerHospitales" Axios
