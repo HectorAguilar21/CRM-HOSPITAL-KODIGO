@@ -1,7 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import clienteAxios from "../config/axios";
 
 export default function SpecialitiesResultsTable(props) {
+  const [doctors, setDoctors] = useState([]);
+
+  const [hospitalsSpecialities, setHospitalsSpecialities] = useState([]);
+
+  const obtenerDoctores = async () => {
+    try {
+      const { data } = await clienteAxios("/api/doctor_information");
+      console.log(data);
+      setDoctors(data);
+    } catch (error) {
+      console.log(Object.values(error.response.data.errors));
+    }
+  };
+
+  const obtenerHospitales = async () => {
+    try {
+      const { data } = await clienteAxios("/api/hospital_specialities");
+      console.log(data);
+      setHospitalsSpecialities(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    obtenerHospitales();
+    obtenerDoctores();
+  }, []);
+
   return (
     <tr>
       {/* ID y Nombre en la tabla */}
@@ -10,140 +40,29 @@ export default function SpecialitiesResultsTable(props) {
       {/* Fin ID y Nombre en la tabla */}
       {/* Boton para Listado de Doctores */}
       <td>
-        <button
-          type="button"
-          className="btn text-white bg-emerald-600 hover:bg-emerald-800"
-          data-bs-toggle="modal"
-          data-bs-target="#infoDoctores"
-        >
-          Listado Doctores
-        </button>
-        {/* Modal Listado de Doctores */}
-        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-          <div
-            className="modal fade"
-            id="infoDoctores"
-            data-bs-backdrop="static"
-            data-bs-keyboard="false"
-            tabIndex="-1"
-            aria-labelledby="infoDoctores"
-            aria-hidden="true"
-          >
-            {/* Contenido en modal */}
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h1
-                    className="modal-title fs-5 font-bold text-indigo-700"
-                    id="infoDoctores"
-                  >
-                    Doctores Disponibles
-                  </h1>
-                </div>
-                <div className="modal-body">
-                  <div className="py-2">
-                    <p className="font-normal text-indigo-700 text-lg">
-                      Doctores disponibles para esta especialidad
-                    </p>
-                    {/* Lista desordenada para lista doctores en modal */}
-                    <p className="text-2xl py-3">
-                      <ul>
-                        <li>Doctor uno</li>
-                        <li>Doctor dos</li>
-                      </ul>
-                    </p>
-                    {/* Fin Lista desordenada para lista doctores en modal */}
-                  </div>
-                </div>
-                {/* Boton para cerrar modal */}
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-primary bg-indigo-500"
-                    data-bs-dismiss="modal"
-                  >
-                    Cerrar
-                  </button>
-                </div>
-                {/* Fin Boton para cerrar modal */}
-              </div>
-            </div>
-            {/* Fin Contenido en modal */}
-          </div>
-        </div>
-        {/* Fin Modal Listado de Doctores */}
+        <ul>
+          {doctors.map(
+            (doctor) =>
+              props.specialities.id !== null &&
+              doctor.speciality_id == props.specialities.id && (
+                <li>{`♦ ${doctor.name} ${doctor.last_name}`}</li>
+              )
+          )}
+        </ul>
       </td>
       {/* Fin Boton para Listado de Doctores */}
       {/* Boton para Listado de Hospitales */}
       <td>
-        <button
-          type="button"
-          className="btn text-white bg-emerald-600 hover:bg-emerald-800"
-          data-bs-toggle="modal"
-          data-bs-target="#infoHospitals"
-        >
-          Listado Hospitales
-        </button>
-        {/* Modal Listado de hospitales */}
-        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-          <div
-            className="modal fade"
-            id="infoHospitals"
-            data-bs-backdrop="static"
-            data-bs-keyboard="false"
-            tabIndex="-1"
-            aria-labelledby="infoHospitals"
-            aria-hidden="true"
-          >
-            {/* Contenido en modal */}
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h1
-                    className="modal-title fs-5 font-bold text-indigo-700"
-                    id="infoHospitals"
-                  >
-                    Hospitales Disponibles
-                  </h1>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div className="modal-body">
-                  <div className="py-2">
-                    <p className="font-normal text-indigo-700 text-lg">
-                      Hospitales que tienen la especialidad disponible:
-                    </p>
-                    {/* Lista desordenada para lista hospitales en modal */}
-                    <p className="text-2xl py-3">
-                      <ul>
-                        <li>Hospital uno</li>
-                        <li>Hospital dos</li>
-                      </ul>
-                    </p>
-                    {/* Fin Lista desordenada para lista hospitales en modal */}
-                  </div>
-                </div>
-                {/* Boton para cerrar modal */}
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-primary bg-indigo-500"
-                    data-bs-dismiss="modal"
-                  >
-                    Cerrar
-                  </button>
-                </div>
-                {/* Fin Boton para cerrar modal */}
-              </div>
-            </div>
-            {/* Fin Contenido en modal */}
-          </div>
-        </div>
-        {/* Fin Modal Listado de hospitales */}
+        <ul>
+          {hospitalsSpecialities.map(
+            (hospitalSpeciality) =>
+              props.specialities.id !== null &&
+              hospitalSpeciality.medical_speciality_information_id ==
+                props.specialities.id && (
+                <li>{`♦ ${hospitalSpeciality.hospital.hospital_name}`}</li>
+              )
+          )}
+        </ul>
       </td>
       {/* Fin Boton para Listado de Hospitales */}
       {/* Botones para Acciones de tabla (Editar y Eliminar) */}

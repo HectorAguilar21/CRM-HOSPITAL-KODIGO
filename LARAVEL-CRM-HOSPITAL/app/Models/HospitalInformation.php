@@ -24,8 +24,8 @@ class HospitalInformation extends Model
         'hospital_country'
     ];
 
-    public function medicalSpecialities()
+    public function specialities()
     {
-        return $this->belongsToMany(MedicalSpecialityInformation::class, 'hospital_speciality', 'hospital_id', 'speciality_id');
+        return $this->belongsToMany(MedicalSpecialityInformation::class, 'hospital_specialities', 'hospital_information_id', 'medical_speciality_information_id');
     }
 }

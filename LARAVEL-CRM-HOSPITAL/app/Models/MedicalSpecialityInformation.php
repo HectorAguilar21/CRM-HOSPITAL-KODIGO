@@ -22,6 +22,6 @@ class MedicalSpecialityInformation extends Model
 
     public function hospitals()
     {
-        return $this->belongsToMany(HospitalInformation::class, 'hospital_speciality', 'speciality_id', 'hospital_id');
+        return $this->belongsToMany(HospitalInformation::class, 'hospital_specialities', 'medical_speciality_information_id', 'hospital_information_id');
     }
 }

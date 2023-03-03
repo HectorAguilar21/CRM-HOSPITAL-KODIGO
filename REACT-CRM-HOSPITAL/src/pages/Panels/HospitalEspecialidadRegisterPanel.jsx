@@ -50,8 +50,8 @@ export default function HospitalEspecialidadRegisterPanel() {
 
     //Se guardan los datos que se recogieron en los states, y se pasan a objetos
     const datos = {
-      hospital_id: hospitalIdRef,
-      speciality_id: specialityIdRef,
+      hospital_information_id: hospitalIdRef,
+      medical_speciality_information_id: specialityIdRef,
     };
     console.log(datos);
 
@@ -83,9 +83,9 @@ export default function HospitalEspecialidadRegisterPanel() {
             <form className="grid grid-cols-2" onSubmit={handleSubmit}>
               {/* Input para seleccionar el hospital */}
               <div className="mb-4 mx-3">
-                <label htmlFor="hospital_id">Hospital:</label>
+                <label htmlFor="hospital_speciality_id">Hospital:</label>
                 <select
-                  id="hospital_id"
+                  id="hospital_speciality_id"
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   value={hospitalIdRef}
                   onChange={(e) => setHospitalIdRef(e.target.value)}
@@ -104,9 +104,9 @@ export default function HospitalEspecialidadRegisterPanel() {
               {/* Fin Input para seleccionar el hospital */}
               {/* Input para seleccionar la especialidad */}
               <div className="mb-4 mx-3">
-                <label htmlFor="speciality_id">Especialidad:</label>
+                <label htmlFor="speciality_speciality_id">Especialidad:</label>
                 <select
-                  id="speciality_id"
+                  id="speciality_speciality_id"
                   className="mt-2 w-full p-2 bg-slate-100 rounded-md"
                   value={specialityIdRef}
                   onChange={(e) => setSpecialityIdRef(e.target.value)}

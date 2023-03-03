@@ -15,6 +15,14 @@ class AppointmentInformationController extends Controller
         return response()->json($appoiments);
     }
 
+    public function indexByPatientId($appointment_patient_id)
+    {
+        $appointments = AppointmentInformation::with(['doctor', 'speciality', 'hospital', 'patient', 'status'])
+            ->where('appointment_patient_id', $appointment_patient_id)
+            ->get();
+        return response()->json($appointments);
+    }
+
     //Creando los recursos en la tabla
     public function store(Request $request)
     {
@@ -36,6 +44,13 @@ class AppointmentInformationController extends Controller
     {
 
         $appoiments = AppointmentInformation::with(['doctor', 'speciality', 'hospital', 'patient', 'status'])->find($id);
+        return response()->json($appoiments);
+    }
+
+    public function showAppointment(Request $request, $appointment_patient_id)
+    {
+
+        $appoiments = AppointmentInformation::with(['doctor', 'speciality', 'hospital', 'patient', 'status'])->find($appointment_patient_id);
         return response()->json($appoiments);
     }
 

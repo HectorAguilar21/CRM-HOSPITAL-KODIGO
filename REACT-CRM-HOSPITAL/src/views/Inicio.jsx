@@ -4,7 +4,7 @@ export default function Inicio() {
   return (
     <div>
       <div className="container-cards grid grid-cols-2 gap-9 mx-52 m-8 font-bold">
-        <Link to="/auth/login?type=admin">
+        <Link to="/administrator?type=admin">
           <div className="container container-img admins p-4">
             <h1 className="text-4xl">ADMINISTRADORES</h1>
             <img
@@ -14,7 +14,7 @@ export default function Inicio() {
             />
           </div>
         </Link>
-        <Link to="/auth/login?type=secretary">
+        <Link to="/secretary?type=secretary">
           <div className="container container-img secretarias p-4">
             <h1 className="text-4xl">SECRETARIAS</h1>
             <img
@@ -26,7 +26,7 @@ export default function Inicio() {
         </Link>
       </div>
       <div className="container-cards gap-9 font-bold">
-        <Link to="/auth/login?type=doctor">
+        <Link to="/doctor?type=doctor">
           <div className="container container-img doctors p-4">
             <h1 className="text-4xl">DOCTORES</h1>
             <img

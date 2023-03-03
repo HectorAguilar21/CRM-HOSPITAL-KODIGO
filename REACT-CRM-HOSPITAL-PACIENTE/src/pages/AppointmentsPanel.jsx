@@ -1,6 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 
 export default function AppointmentsPanel() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const id = searchParams.get("id");
+  const user = searchParams.get("user");
+  const [appointments, setAppointments] = useState([]);
+
+  const obtenerCita = async () => {
+    try {
+      const { data } = await axios(
+        `http://localhost:8000/api/appointment_information/patient/${id}`
+      );
+      console.log(data);
+      setAppointments(data);
+    } catch (error) {
+      console.log(Object.values(error.response.data.errors));
+    }
+  };
+
+  useEffect(() => {
+    obtenerCita();
+  }, []);
   return (
     <div className=" bg-white rounded-2xl my-5 container-info-citas overflow-auto">
       <h1 className="text-center font-bold text-3xl text-indigo-700 pt-5">
@@ -21,157 +44,26 @@ export default function AppointmentsPanel() {
             </tr>
           </thead>
           <tbody class="table-group-divider">
-            <tr>
-              <th scope="row">1</th>
-              <td>Doctor Name</td>
-              <td>Doctor Speciality</td>
-              <td>
-                <a
-                  className="text-blue-700 hover:underline hover:text-indigo-500"
-                  href=""
-                  data-bs-toggle="modal"
-                  data-bs-target="#infoHospital"
-                >
-                  Zacamil
-                </a>
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-                  <div
-                    class="modal fade"
-                    id="infoHospital"
-                    data-bs-backdrop="static"
-                    data-bs-keyboard="false"
-                    tabindex="-1"
-                    aria-labelledby="staticBackdropLabel"
-                    aria-hidden="true"
+            {appointments.map((appointment) => (
+              <tr>
+                <th scope="row">{appointment.id}</th>
+                <td>{`${appointment.doctor.name} ${appointment.doctor.last_name}`}</td>
+                <td>{appointment.speciality.speciality_name}</td>
+                <td>{appointment.hospital.hospital_name}</td>
+                <td>{appointment.appointment_date}</td>
+                <td>{appointment.appointment_hour}</td>
+                <td>{appointment.status.status_type_name}</td>
+                <td>
+                  <Link
+                    to={`/comments_panel?user=${user}&id=${appointment.id}`}
+                    type="button"
+                    class="btn text-white bg-amber-500 hover:bg-amber-600"
                   >
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h1
-                            class="modal-title fs-5 font-bold text-indigo-700"
-                            id="staticBackdropLabel"
-                          >
-                            Informacion Hospital
-                          </h1>
-                        </div>
-                        <div class="modal-body">
-                          <div className="py-2">
-                            <p className="font-normal text-indigo-700 text-lg">
-                              Codigo Hospital:
-                            </p>
-                            <p className="text-2xl">HNZ</p>
-                          </div>
-                          <div className="py-2">
-                            <p className="font-normal text-indigo-700 text-lg">
-                              Nombre Hospital:
-                            </p>
-                            <p className="text-2xl">
-                              Hospital Nacional Zacamil
-                            </p>
-                          </div>
-                          <div className="py-2">
-                            <p className="font-normal text-indigo-700 text-lg">
-                              Direccion:
-                            </p>
-                            <p className="text-2xl">
-                              Lorem, ipsum dolor sit amet consectetur
-                              adipisicing elit. Eaque qui eligendi minus.
-                            </p>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-primary bg-indigo-500"
-                            data-bs-dismiss="modal"
-                          >
-                            Cerrar
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td>fecha</td>
-              <td>@mdo</td>
-              <td>kldm</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-primary bg-indigo-500"
-                  data-bs-toggle="modal"
-                  data-bs-target="#seeMore"
-                >
-                  Ver mas
-                </button>
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-                  <div
-                    class="modal fade"
-                    id="seeMore"
-                    data-bs-backdrop="static"
-                    data-bs-keyboard="false"
-                    tabindex="-1"
-                    aria-labelledby="staticBackdropLabel"
-                    aria-hidden="true"
-                  >
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h1
-                            class="modal-title fs-5 font-bold text-indigo-700"
-                            id="staticBackdropLabel"
-                          >
-                            Informacion de la cita
-                          </h1>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div class="modal-body">
-                          <div className="py-2">
-                            <p className="font-normal text-indigo-700 text-lg">
-                              Hora en la que se completo la cita:
-                            </p>
-                            <p className="text-2xl">18:00</p>
-                          </div>{" "}
-                          <div className="py-2">
-                            <p className="font-normal text-indigo-700 text-lg">
-                              Comentario:
-                            </p>
-                            <p className="text-2xl">
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Dicta voluptatem nobis aliquid quod harum
-                              voluptatibus, placeat quos suscipit maxime minus
-                              omnis repellendus vitae rerum doloremque, tenetur
-                              iste! Et, quisquam vel.
-                            </p>
-                          </div>{" "}
-                          <div className="py-2">
-                            <p className="font-normal text-indigo-700 text-lg">
-                              Doctor que hizo el comentario:
-                            </p>
-                            <p className="text-2xl">Hector Aguilar</p>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-primary bg-indigo-500"
-                            data-bs-dismiss="modal"
-                          >
-                            Cerrar
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
+                    Comentario
+                  </Link>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

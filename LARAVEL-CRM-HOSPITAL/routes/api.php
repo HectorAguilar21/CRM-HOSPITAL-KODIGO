@@ -7,6 +7,7 @@ use App\Http\Controllers\DoctorInformationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HospitalInformationController;
+use App\Http\Controllers\HospitalSpecialitiesController;
 use App\Http\Controllers\MedicalSpecialityInformationController;
 use App\Http\Controllers\HospitalSpecialityController;
 use App\Http\Controllers\PatientInformationController;
@@ -34,11 +35,8 @@ Route::put('/medical_speciality_information/{id}', [MedicalSpecialityInformation
 Route::delete('/medical_speciality_information/{id}', [MedicalSpecialityInformationController::class, 'destroy']);
 
 //Rutas para Hospital-Specialties
-Route::get('/hospital_specialities', [HospitalSpecialityController::class, 'index']);
-Route::get('/hospital_specialities_by_hospital', [HospitalSpecialityController::class, 'indexByHospital']);
-Route::get('/hospital_specialities_by_speciality', [HospitalSpecialityController::class, 'indexBySpeciality']);
-Route::get('/hospital_specialities/{hospitalId}/{specialityId}', [HospitalSpecialityController::class, 'show']);
-Route::post('/hospital_specialities', [HospitalSpecialityController::class, 'store']);
+Route::get('/hospital_specialities', [HospitalSpecialitiesController::class, 'index']);
+Route::post('/hospital_specialities', [HospitalSpecialitiesController::class, 'store']);
 
 //Ruta para User Type
 Route::get('/user_type_information', [UserTypeInformationController::class, 'index']);
@@ -60,6 +58,7 @@ Route::delete('/doctor_information/{id}', [DoctorInformationController::class, '
 //Rutas para Patient Information
 Route::get('/patient_information', [PatientInformationController::class, 'index']);
 Route::get('/patient_information/{id}', [PatientInformationController::class, 'show']);
+Route::get('/patients/user/{user_id}', [PatientInformationController::class, 'showPatient']);
 Route::post('/patient_information', [PatientInformationController::class, 'store']);
 Route::put('/patient_information/{id}', [PatientInformationController::class, 'update']);
 Route::delete('/patient_information/{id}', [PatientInformationController::class, 'destroy']);
@@ -76,7 +75,9 @@ Route::get('/status_type_information', [StatusTypeInformationController::class, 
 
 //Ruta para Appointment Information
 Route::get('/appointment_information', [AppointmentInformationController::class, 'index']);
+Route::get('/appointment_information/patient/{appointment_patient_id}', [AppointmentInformationController::class, 'indexByPatientId']);
 Route::get('/appointment_information/{id}', [AppointmentInformationController::class, 'show']);
+Route::get('/appointment_information/user/{id}', [AppointmentInformationController::class, 'showAppointment']);
 Route::post('/appointment_information', [AppointmentInformationController::class, 'store']);
 Route::put('/appointment_information/{id}', [AppointmentInformationController::class, 'update']);
 Route::delete('/appointment_information/{id}', [AppointmentInformationController::class, 'destroy']);

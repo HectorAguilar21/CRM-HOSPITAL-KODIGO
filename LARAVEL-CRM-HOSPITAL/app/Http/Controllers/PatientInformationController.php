@@ -39,6 +39,14 @@ class PatientInformationController extends Controller
         return response()->json($patient, 201);
     }
 
+    public function showPatient(Request $request, $user_id)
+    {
+        $patient = PatientInformation::with(['hospital'])
+            ->where('user_id', $user_id)
+            ->firstOrFail();
+
+        return response()->json($patient);
+    }
 
     public function show(Request $request, $id)
     {

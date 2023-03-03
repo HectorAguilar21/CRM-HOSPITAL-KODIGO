@@ -1,6 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 export default function GeneralPanel() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const user = searchParams.get("user");
+
+  const [patient, setPatient] = useState({});
+
+  const obtenerPaciente = async () => {
+    try {
+      const { data } = await axios(
+        `http://localhost:8000/api/patients/user/${user}`
+      );
+      console.log(data);
+      setPatient(data);
+    } catch (error) {
+      console.log(Object.values(error.response.data.errors));
+    }
+  };
+
+  useEffect(() => {
+    obtenerPaciente();
+  }, []);
   return (
     <div>
       <div className="flex align-items-center bg-white rounded-2xl mt-5 container">
@@ -12,59 +35,57 @@ export default function GeneralPanel() {
             <p className="font-normal text-indigo-700 text-lg">
               Nombre Completo:
             </p>
-            <p className="text-2xl">Hector Alejandro Aguilar Ramos</p>
+            <p className="text-2xl">{`${patient.name} ${patient.last_name}`}</p>
           </div>{" "}
           <hr />
           <div className="py-2">
             <p className="font-normal text-indigo-700 text-lg">
               ID de Usuario:
             </p>
-            <p className="text-2xl">05578144-9</p>
+            <p className="text-2xl">{patient.user_id}</p>
           </div>{" "}
           <hr />
           <div className="py-2">
             <p className="font-normal text-indigo-700 text-lg">
               Numero de Telefono:
             </p>
-            <p className="text-2xl">76360002</p>
+            <p className="text-2xl">{patient.number_phone}</p>
           </div>{" "}
           <hr />
           <div className="py-2">
             <p className="font-normal text-indigo-700 text-lg">
               Contacto de Emergencia:
             </p>
-            <p className="text-2xl">70046179</p>
+            <p className="text-2xl">{patient.emergency_number_phone}</p>
           </div>{" "}
           <hr />
           <div className="py-2">
             <p className="font-normal text-indigo-700 text-lg">
               Fecha de Naciemiento:
             </p>
-            <p className="text-2xl">1997-08-23</p>
+            <p className="text-2xl">{patient.date_of_birth}</p>
           </div>{" "}
           <hr />
           <div className="py-2">
             <p className="font-normal text-indigo-700 text-lg">
               Direccion de residencia:
             </p>
-            <p className="text-2xl">
-              calle principal a Radio Vea, pasaje 1 Poligono A casa #2
-            </p>
+            <p className="text-2xl">{patient.address}</p>
           </div>{" "}
           <hr />
           <div className="py-2">
             <p className="font-normal text-indigo-700 text-lg">Ciudad:</p>
-            <p className="text-2xl">San Martin</p>
+            <p className="text-2xl">{patient.city}</p>
           </div>{" "}
           <hr />
           <div className="py-2">
             <p className="font-normal text-indigo-700 text-lg">Departamento:</p>
-            <p className="text-2xl">San Salvador</p>
+            <p className="text-2xl">{patient.department}</p>
           </div>{" "}
           <hr />
           <div className="py-2">
             <p className="font-normal text-indigo-700 text-lg">Pais:</p>
-            <p className="text-2xl">El Salvador</p>
+            <p className="text-2xl">{patient.country}</p>
           </div>
         </div>
       </div>

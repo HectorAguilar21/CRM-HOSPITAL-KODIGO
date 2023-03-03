@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import AuthLayout from "./layouts/AuthLayout";
 import Layout from "./layouts/Layout";
 import AppointmentsPanel from "./pages/AppointmentsPanel";
+import CommentsPanel from "./pages/CommentsPanel";
 import GeneralPanel from "./pages/GeneralPanel";
 import HospitalsPanel from "./pages/HospitalsPanel";
 import SpecialtiesPanel from "./pages/SpecialtiesPanel";
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/specialties_panel",
         element: <SpecialtiesPanel />,
+      },
+      {
+        path: "/comments_panel",
+        element: <CommentsPanel />,
       },
     ],
   },

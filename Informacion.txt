@@ -1,3 +1,5 @@
+?user=0555248465&id=1
+
 Especialidades:
 
 DB::table('medical_specialties')->insert([

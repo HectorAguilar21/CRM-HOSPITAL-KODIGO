@@ -1,14 +1,40 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Outlet, useLocation, Link } from "react-router-dom";
 
 export default function InicioLayout() {
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const user = searchParams.get("user");
+
+  const [patient, setPatient] = useState({});
+
+  const obtenerPaciente = async () => {
+    try {
+      const { data } = await axios(
+        `http://localhost:8000/api/patients/user/${user}`
+      );
+      console.log(data);
+      setPatient(data);
+    } catch (error) {
+      console.log(Object.values(error.response.data.errors));
+    }
+  };
+
+  useEffect(() => {
+    obtenerPaciente();
+  }, []);
+
+  console.log(user);
 
   return (
     <div className="md:flex md:min-h-screen">
       <aside className="side-navbar w-2/6">
         <div className="container container-panel">
-          <Link className="navbar-brand flex justify-center py-3" to="/">
+          <Link
+            className="navbar-brand flex justify-center py-3"
+            to={`/?user=${user}&id=${patient.id}`}
+          >
             <img
               src="../img/caduceo.png"
               alt="Logo"
@@ -31,7 +57,7 @@ export default function InicioLayout() {
                   ? "text-black font-panel-sidebar option-selected"
                   : "text-white font-panel-sidebar"
               } text-2xl py-2 pl-4`}
-              to="/general_panel"
+              to={`/general_panel/?user=${user}&id=${patient.id}`}
             >
               Panel General
             </Link>
@@ -41,7 +67,7 @@ export default function InicioLayout() {
                   ? "text-black font-panel-sidebar option-selected"
                   : "text-white font-panel-sidebar"
               } text-2xl py-2 pl-4`}
-              to="/appointments_panel"
+              to={`/appointments_panel/?user=${user}&id=${patient.id}`}
             >
               Panel Citas
             </Link>
@@ -51,7 +77,7 @@ export default function InicioLayout() {
                   ? "text-black font-panel-sidebar option-selected"
                   : "text-white font-panel-sidebar"
               } text-2xl py-2 pl-4`}
-              to="/hospitals_panel"
+              to={`/hospitals_panel/?user=${user}&id=${patient.id}`}
             >
               Panel Hospitales
             </Link>
@@ -61,7 +87,7 @@ export default function InicioLayout() {
                   ? "text-black font-panel-sidebar option-selected"
                   : "text-white font-panel-sidebar"
               } text-2xl py-2 pl-4`}
-              to="/specialties_panel"
+              to={`/specialties_panel/?user=${user}&id=${patient.id}`}
             >
               Panel Especialidades
             </Link>
